@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "LLM Prompt Manager",
+  "version": "2.9",
+  "description": "Quickly access your saved LLM prompts via right-click menu",
+  "permissions": [
+    "contextMenus",
+    "storage",
+    "scripting",
+    "activeTab",
+    "downloads",
+    "notifications"
+  ],
+  "commands": {
+    "save-selection": {
+      "suggested_key": {
+        "default": "Alt+Shift+S",
+        "mac": "Command+Shift+S"
+      },
+      "description": "Save selected text to LLM Prompt Manager"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
