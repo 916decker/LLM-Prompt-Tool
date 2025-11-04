@@ -253,6 +253,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
       // Popup can't be opened programmatically in some contexts
       chrome.notifications.create({
         type: 'basic',
+        iconUrl: 'icon.svg',
         title: 'Open Extension',
         message: 'Click the extension icon to manage your prompts'
       }, (notificationId) => {
@@ -282,6 +283,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
         // Fallback: Show notification asking user to click extension icon
         chrome.notifications.create({
           type: 'basic',
+          iconUrl: 'icon.svg',
           title: '✏️ Text Captured!',
           message: 'Click the extension icon to edit and save. Text is already filled in!'
         }, (notificationId) => {
@@ -317,6 +319,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 
         chrome.notifications.create({
           type: 'basic',
+          iconUrl: 'icon.svg',
           title: '✅ Prompt Saved!',
           message: `"${newPrompt.name}" (${charCount} chars)\nSaved to ${folder ? folder.name : 'Default'}`
         }, (notificationId) => {
@@ -331,6 +334,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
       console.warn('[SAVE] No text selected or text is empty');
       chrome.notifications.create({
         type: 'basic',
+        iconUrl: 'icon.svg',
         title: '⚠️ No Text Selected',
         message: 'Please highlight some text before saving to LLM Prompt Manager'
       }, (notificationId) => {
@@ -397,6 +401,7 @@ chrome.commands.onCommand.addListener(async (command) => {
 
           chrome.notifications.create({
             type: 'basic',
+            iconUrl: 'icon.svg',
             title: `⚡ Prompt Saved! (${shortcut})`,
             message: `"${newPrompt.name}" (${charCount} chars)\nFrom: ${tab.title}`
           }, (notificationId) => {
@@ -414,6 +419,7 @@ chrome.commands.onCommand.addListener(async (command) => {
 
         chrome.notifications.create({
           type: 'basic',
+          iconUrl: 'icon.svg',
           title: 'No Text Selected',
           message: `Please select some text before using ${shortcut}`
         }, (notificationId) => {

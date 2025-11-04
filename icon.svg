@@ -1,0 +1,16 @@
+<svg width="128" height="128" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="128" height="128" rx="20" fill="#4A90E2"/>
+
+  <!-- Document icon -->
+  <rect x="30" y="25" width="68" height="78" rx="4" fill="white"/>
+
+  <!-- Lines representing text -->
+  <rect x="40" y="38" width="48" height="4" rx="2" fill="#4A90E2"/>
+  <rect x="40" y="50" width="48" height="4" rx="2" fill="#4A90E2"/>
+  <rect x="40" y="62" width="35" height="4" rx="2" fill="#4A90E2"/>
+
+  <!-- Sparkle/prompt indicator -->
+  <circle cx="85" cy="85" r="20" fill="#FFD700"/>
+  <path d="M 85 70 L 87 82 L 100 85 L 87 88 L 85 100 L 83 88 L 70 85 L 83 82 Z" fill="white"/>
+</svg>
