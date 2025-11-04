@@ -237,6 +237,8 @@ Usage:
 3. Final prompt automatically generated and copied!
 ```
 
+**📚 Want to master variables?** Check out the [Complete Variable Guide](VARIABLE_GUIDE.md) with 10 real-world examples!
+
 ---
 
 ## 🔧 Advanced Features
@@ -313,6 +315,7 @@ Usage:
 ### Quick Links
 
 - 📖 [Complete User Guide](USER_GUIDE.md) - 700+ lines of comprehensive documentation
+- 🔤 [Variable Substitution Guide](VARIABLE_GUIDE.md) - Complete guide to dynamic templates
 - 🎯 [Installation Guide](#-installation)
 - 💡 [Usage Examples](#-usage)
 - 🐛 [Troubleshooting](#-troubleshooting)
