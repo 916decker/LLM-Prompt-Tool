@@ -179,6 +179,101 @@ body {
   font-size: 0.95rem;
 }
 
+/* Workflow Selector */
+.nb-workflow-panel {
+  margin-bottom: var(--nb-spacing-xl);
+}
+
+.nb-workflow-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--nb-spacing-md);
+  margin-top: var(--nb-spacing-md);
+}
+
+.nb-workflow-card {
+  background: var(--nb-bg-secondary);
+  border: 2px solid var(--nb-border);
+  border-radius: var(--nb-radius-md);
+  padding: var(--nb-spacing-lg);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.nb-workflow-card:hover {
+  border-color: var(--nb-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--nb-shadow);
+}
+
+.nb-workflow-card:focus {
+  outline: 2px solid var(--nb-primary);
+  outline-offset: 2px;
+}
+
+.nb-workflow-card.selected {
+  border-color: var(--nb-primary);
+  background: var(--nb-bg-primary);
+  box-shadow: 0 0 0 3px rgba(255, 217, 61, 0.2);
+}
+
+.nb-workflow-card.selected::before {
+  content: '✓';
+  position: absolute;
+  top: var(--nb-spacing-sm);
+  right: var(--nb-spacing-sm);
+  width: 24px;
+  height: 24px;
+  background: var(--nb-primary);
+  color: var(--nb-text-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.nb-workflow-icon {
+  font-size: 2.5rem;
+  margin-bottom: var(--nb-spacing-sm);
+}
+
+.nb-workflow-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: var(--nb-spacing-xs);
+  color: var(--nb-text-primary);
+}
+
+.nb-workflow-card p {
+  color: var(--nb-text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: var(--nb-spacing-sm);
+}
+
+.nb-workflow-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-top: var(--nb-spacing-sm);
+}
+
+.nb-workflow-features li {
+  color: var(--nb-text-secondary);
+  font-size: 0.85rem;
+  padding: 4px 0;
+  padding-left: 20px;
+  position: relative;
+}
+
+.nb-workflow-features li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--nb-primary);
+}
+
 /* Form Elements */
 .nb-label {
   display: block;

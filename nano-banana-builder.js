@@ -1,6 +1,12 @@
 /**
  * Google Nano Banana Prompt Builder - Ultimate Edition
- * The world's most advanced prompt engineering system for Nano Banana AI
+ * The world's most advanced prompt engineering system for Gemini 2.5 Flash Image (Nano Banana)
+ *
+ * GEMINI 2.5 FLASH IMAGE WORKFLOWS:
+ * 1. Text → Image: Generate images from text descriptions
+ * 2. Image Editing: Remove/add/replace objects in existing images
+ * 3. Multi-Image Fusion: Blend multiple images, style transfer, character consistency
+ * 4. Conversational Refinement: Iterative multi-turn editing
  */
 
 // ============================================================================
@@ -14,6 +20,7 @@ const NanoBananaBuilder = {
     currentLesson: 'intro',
     selectedTemplate: null,
     selectedTechniques: [],
+    selectedWorkflow: 'text-to-image', // NEW: Workflow selection
     variables: [],
     promptText: '',
     validationResults: [],
@@ -29,33 +36,83 @@ const NanoBananaBuilder = {
   },
 
   // ============================================================================
+  // WORKFLOW DEFINITIONS FOR GEMINI 2.5 FLASH IMAGE
+  // ============================================================================
+
+  workflows: {
+    'text-to-image': {
+      id: 'text-to-image',
+      name: 'Text → Image Generation',
+      icon: '🎨',
+      description: 'Generate images from scratch using detailed text descriptions',
+      capabilities: ['Photography prompts', 'Illustrated scenes', 'Product visualization', 'Character design', 'Technical renderings'],
+      examplePrompt: 'A professional photograph of a golden retriever playing in a sunlit meadow, shot with a Canon EOS R5, 85mm f/1.4 lens, shallow depth of field, golden hour lighting, warm color palette'
+    },
+    'image-editing': {
+      id: 'image-editing',
+      name: 'Image Editing',
+      icon: '✂️',
+      description: 'Remove, add, or replace objects in existing images',
+      capabilities: ['Remove unwanted objects', 'Add new elements', 'Replace backgrounds', 'Color grading', 'Object manipulation'],
+      examplePrompt: 'Remove the car from the background and replace it with blooming cherry blossom trees. Maintain natural lighting and perspective.'
+    },
+    'multi-image-fusion': {
+      id: 'multi-image-fusion',
+      name: 'Multi-Image Fusion',
+      icon: '🔄',
+      description: 'Blend multiple images, apply style transfer, ensure character consistency',
+      capabilities: ['Character + scene blending', 'Style transfer from reference', 'Consistent characters across scenes', 'Image compositing', 'Artistic style application'],
+      examplePrompt: 'Place the character from Image A into the scene from Image B, maintaining consistent lighting and applying the artistic style from Image C'
+    },
+    'conversational': {
+      id: 'conversational',
+      name: 'Conversational Refinement',
+      icon: '💬',
+      description: 'Iterative multi-turn editing for progressive refinement',
+      capabilities: ['Sequential edits', 'Iterative improvements', 'Progressive detailing', 'Multi-step transformations', 'Guided refinement'],
+      examplePrompt: 'Turn 1: Make the lighting more dramatic. Turn 2: Add a fog effect in the background. Turn 3: Increase color saturation by 20%.'
+    }
+  },
+
+  // ============================================================================
   // ONBOARDING CONTENT
   // ============================================================================
 
   onboardingLessons: {
     intro: {
-      title: '🍌 Welcome to Google Nano Banana',
+      title: '🍌 Welcome to Gemini 2.5 Flash Image',
       content: `
-        <h3>What is Google Nano Banana?</h3>
-        <p>Google Nano Banana is Google's cutting-edge AI model designed for efficient, high-quality prompt processing across multiple modalities.</p>
+        <h3>What is Gemini 2.5 Flash Image (Nano Banana)?</h3>
+        <p><strong>Gemini 2.5 Flash Image</strong> (codename "Nano Banana") is Google DeepMind's advanced AI model for image generation and manipulation with 4 distinct workflows.</p>
 
         <div class="nb-highlight">
-          <strong>🎯 Key Features:</strong>
+          <strong>🎯 Four Powerful Workflows:</strong>
           <ul>
-            <li><strong>Multi-modal processing</strong> - Seamlessly handle text, images, code, and hybrid inputs</li>
-            <li><strong>Efficient architecture</strong> - Optimized for speed without sacrificing quality</li>
-            <li><strong>Precision-focused</strong> - Delivers accurate, context-aware results</li>
-            <li><strong>Variable-rich prompts</strong> - Supports complex dynamic templates</li>
+            <li><strong>Text → Image</strong> - Generate images from detailed text descriptions</li>
+            <li><strong>Image Editing</strong> - Remove/add/replace objects in existing images</li>
+            <li><strong>Multi-Image Fusion</strong> - Blend images, style transfer, character consistency</li>
+            <li><strong>Conversational Refinement</strong> - Iterative multi-turn editing</li>
+          </ul>
+        </div>
+
+        <div class="nb-highlight">
+          <strong>🔒 Built-in Safety:</strong>
+          <ul>
+            <li><strong>SynthID Watermarking</strong> - Invisible watermarks on AI-generated images</li>
+            <li><strong>Content Filtering</strong> - Blocks harmful, violent, or inappropriate content</li>
+            <li><strong>Quality Assurance</strong> - Maintains natural appearance and coherence</li>
           </ul>
         </div>
 
         <h3>Why Use This Builder?</h3>
-        <p>Crafting effective prompts is both an art and a science. This tool combines proven prompt engineering techniques with Nano Banana's specific capabilities to ensure you get the best results every time.</p>
+        <p>Crafting effective prompts for image generation is both an art and a science. This tool combines proven prompt engineering techniques with Gemini 2.5 Flash Image's specific capabilities.</p>
 
         <p><strong>✨ What makes this builder special:</strong></p>
         <ul>
           <li>Real-time validation and scoring</li>
-          <li>150+ professional templates</li>
+          <li>100+ photography-specific templates</li>
+          <li>Equipment Wizard for camera/lens selection</li>
+          <li>Subject consistency tracking</li>
           <li>10+ advanced prompt techniques</li>
           <li>Meta-evaluation and self-critique</li>
           <li>Automatic optimization to 10/10 quality</li>
@@ -63,42 +120,42 @@ const NanoBananaBuilder = {
       `
     },
     strengths: {
-      title: '💪 Nano Banana Strengths',
+      title: '💪 Gemini 2.5 Flash Image Strengths',
       content: `
-        <h3>What Nano Banana Excels At</h3>
+        <h3>What Gemini 2.5 Flash Image Excels At</h3>
 
         <div class="nb-highlight">
-          <strong>🎨 Creative Generation</strong>
-          <p>Exceptional at producing creative content, from visual descriptions to storytelling.</p>
+          <strong>📸 Photorealistic Generation</strong>
+          <p>Produces highly realistic photographs with accurate lighting, composition, and details. Understands camera equipment specifications (lenses, apertures, focal lengths).</p>
         </div>
 
         <div class="nb-highlight">
-          <strong>⚡ Speed & Efficiency</strong>
-          <p>Optimized architecture delivers fast responses without compromising quality.</p>
+          <strong>✂️ Precise Image Editing</strong>
+          <p>Seamlessly removes, adds, or replaces objects while maintaining natural lighting, perspective, and coherence. No visible editing artifacts.</p>
         </div>
 
         <div class="nb-highlight">
-          <strong>🔍 Context Understanding</strong>
-          <p>Deep comprehension of context enables nuanced, relevant outputs.</p>
+          <strong>👤 Character Consistency</strong>
+          <p>Maintains consistent character appearance across multiple scenes and variations. Preserves specific features, clothing, and style.</p>
         </div>
 
         <div class="nb-highlight">
-          <strong>🌐 Multi-modal Integration</strong>
-          <p>Seamlessly processes and connects different types of content.</p>
+          <strong>🎨 Style Transfer & Fusion</strong>
+          <p>Blends multiple images intelligently, applies artistic styles from references, and creates cohesive composites.</p>
         </div>
 
         <div class="nb-highlight">
-          <strong>🎯 Precision Following</strong>
-          <p>Excellent adherence to detailed instructions and constraints.</p>
+          <strong>🔄 Iterative Refinement</strong>
+          <p>Supports conversational multi-turn editing for progressive improvements without starting over.</p>
         </div>
 
         <p><strong>Best Use Cases:</strong></p>
         <ul>
-          <li>Creative writing and content generation</li>
-          <li>Image description and visual prompts</li>
-          <li>Code generation with clear specifications</li>
-          <li>Data transformation and formatting</li>
-          <li>Multi-step workflows with clear goals</li>
+          <li><strong>Commercial Photography:</strong> Product shots, marketing visuals, professional portraits</li>
+          <li><strong>Creative Projects:</strong> Character designs, scene illustrations, concept art</li>
+          <li><strong>Image Enhancement:</strong> Background replacement, object removal, color grading</li>
+          <li><strong>Style Exploration:</strong> Applying artistic styles, exploring variations</li>
+          <li><strong>Character-Based Content:</strong> Consistent characters across multiple scenes</li>
         </ul>
       `
     },
@@ -110,36 +167,42 @@ const NanoBananaBuilder = {
         <p>Understanding limitations helps you craft better prompts:</p>
 
         <div class="nb-highlight">
-          <strong>🔢 Complex Mathematical Reasoning</strong>
-          <p>While capable, may require step-by-step breakdowns for complex calculations.</p>
-          <p><em>Tip: Use chain-of-thought prompting for math problems.</em></p>
+          <strong>✋ Text in Images</strong>
+          <p>May struggle with accurate text rendering, especially complex words or non-Latin scripts.</p>
+          <p><em>Tip: Keep text simple, use single words, or add text post-generation.</em></p>
         </div>
 
         <div class="nb-highlight">
-          <strong>📏 Extremely Long Context</strong>
-          <p>Performance may vary with very large inputs exceeding optimal context windows.</p>
-          <p><em>Tip: Break down large tasks into smaller, focused prompts.</em></p>
+          <strong>🔢 Counting & Precise Numbers</strong>
+          <p>Exact counts (e.g., "exactly 7 flowers") may not be perfectly accurate.</p>
+          <p><em>Tip: Use approximate language ("several", "many") unless precision is critical.</em></p>
         </div>
 
         <div class="nb-highlight">
-          <strong>🌍 Real-time Information</strong>
-          <p>Knowledge cutoff means it may not have the latest information.</p>
-          <p><em>Tip: Provide current context in your prompt when needed.</em></p>
+          <strong>👥 Multiple Similar Subjects</strong>
+          <p>Complex scenes with many similar objects may have minor inconsistencies.</p>
+          <p><em>Tip: Focus on 1-3 main subjects for best results.</em></p>
         </div>
 
         <div class="nb-highlight">
-          <strong>🎲 Absolute Determinism</strong>
-          <p>Some variation in outputs is normal; use temperature controls for consistency.</p>
-          <p><em>Tip: Specify exact requirements and use examples.</em></p>
+          <strong>🎲 Output Variation</strong>
+          <p>Same prompt may produce different variations. This is intentional for creative exploration.</p>
+          <p><em>Tip: Use conversational refinement to guide toward your vision.</em></p>
+        </div>
+
+        <div class="nb-highlight">
+          <strong>🚫 Content Policy</strong>
+          <p>Blocks harmful, violent, sexual, or copyrighted content automatically.</p>
+          <p><em>Tip: Focus on original, safe, creative concepts.</em></p>
         </div>
 
         <h3>Mitigation Strategies</h3>
         <ul>
-          <li>Use clear, unambiguous language</li>
-          <li>Provide examples of desired outputs</li>
-          <li>Break complex tasks into steps</li>
-          <li>Include relevant context and constraints</li>
-          <li>Iterate and refine based on results</li>
+          <li>Use specific photography terms (lens, lighting, composition)</li>
+          <li>Reference camera equipment for photorealism</li>
+          <li>Provide clear subject descriptions for character consistency</li>
+          <li>Use negative constraints ("avoid", "maintain natural skin tones")</li>
+          <li>Iterate with conversational refinement for perfection</li>
         </ul>
       `
     },
@@ -306,429 +369,645 @@ Prompt 3: "Write the introduction section from the outline"</code></pre>
   },
 
   // ============================================================================
-  // TEMPLATE LIBRARY - 150+ Professional Templates
+  // TEMPLATE LIBRARY - 100+ Gemini 2.5 Flash Image Templates
   // ============================================================================
 
   templates: [
-    // IMAGE GENERATION TEMPLATES
+    // ========================================
+    // WORKFLOW 1: TEXT → IMAGE GENERATION
+    // ========================================
+
+    // PORTRAIT PHOTOGRAPHY
     {
-      id: 'img-detailed-scene',
-      name: 'Detailed Scene Generator',
-      category: 'image',
-      complexity: 'advanced',
-      tags: ['visual', 'detailed', 'scene'],
-      recommended: true,
-      description: 'Generate highly detailed visual scene descriptions',
-      template: `Create a detailed visual description for: {{subject}}
-
-Style: {{style}}
-Mood/Atmosphere: {{mood}}
-Color Palette: {{color_palette}}
-Lighting: {{lighting}}
-Composition: {{composition}}
-Resolution/Quality: {{resolution}}
-
-Additional Details:
-{{additional_details}}
-
-Output a comprehensive visual prompt that captures all specified elements in vivid, precise language.`
-    },
-    {
-      id: 'img-character-design',
-      name: 'Character Design Prompt',
-      category: 'image',
+      id: 'portrait-professional',
+      name: 'Professional Portrait Photography',
+      category: 'text-to-image',
+      workflow: 'text-to-image',
       complexity: 'intermediate',
-      tags: ['character', 'design', 'visual'],
-      description: 'Design detailed character descriptions',
-      template: `Design a character with these specifications:
+      tags: ['portrait', 'photography', 'professional'],
+      recommended: true,
+      description: 'Create professional portrait photographs with camera specifications',
+      template: `Professional portrait photograph of {{subject}}
 
-Character Name: {{character_name}}
-Physical Appearance: {{physical_appearance}}
-Clothing/Outfit: {{clothing}}
-Facial Features: {{facial_features}}
-Pose/Action: {{pose}}
-Background: {{background}}
-Art Style: {{art_style}}
-Mood/Expression: {{expression}}
+Camera Setup:
+- Camera: {{camera_type}} (e.g., Canon EOS R5, Nikon Z9, Sony A7R V)
+- Lens: {{lens_type}} {{focal_length}}mm f/{{aperture}}
+- Depth of Field: {{depth_of_field}}
 
-Generate a vivid character description suitable for visual generation.`
+Lighting:
+- Primary Light: {{primary_lighting}}
+- Fill Light: {{fill_lighting}}
+- Overall Lighting: {{lighting_style}} (e.g., soft, dramatic, natural, studio)
+
+Composition:
+- Shot Type: {{shot_type}} (e.g., headshot, mid-shot, full-body)
+- Angle: {{angle}} (e.g., eye-level, slightly above, low angle)
+- Background: {{background}}
+- Color Palette: {{color_palette}}
+
+Mood & Style:
+- Expression: {{expression}}
+- Atmosphere: {{atmosphere}}
+- Style: {{photography_style}} (e.g., editorial, corporate, lifestyle, fashion)
+
+Technical Specifications:
+- Image Quality: High resolution, sharp focus on eyes, natural skin tones
+- Post-Processing: {{post_processing}} (e.g., subtle color grading, maintained naturalness)`
     },
+
+    // LANDSCAPE PHOTOGRAPHY
     {
-      id: 'img-product-visual',
-      name: 'Product Visualization',
-      category: 'image',
+      id: 'landscape-photography',
+      name: 'Landscape Photography',
+      category: 'text-to-image',
+      workflow: 'text-to-image',
+      complexity: 'intermediate',
+      tags: ['landscape', 'nature', 'scenery'],
+      recommended: true,
+      description: 'Create breathtaking landscape photographs',
+      template: `Landscape photograph of {{location_description}}
+
+Camera Setup:
+- Camera: {{camera_type}} (e.g., Canon EOS R6, Sony A7III)
+- Lens: {{lens_type}} (e.g., wide-angle 16-35mm f/2.8, ultra-wide 10-24mm)
+- Settings: f/{{f_stop}} for {{depth_preference}}
+
+Time & Lighting:
+- Time of Day: {{time_of_day}} (e.g., golden hour, blue hour, midday, twilight)
+- Weather: {{weather_conditions}}
+- Natural Lighting: {{lighting_quality}}
+
+Composition:
+- Foreground: {{foreground_elements}}
+- Midground: {{midground_elements}}
+- Background: {{background_elements}}
+- Composition Rule: {{composition_rule}} (e.g., rule of thirds, leading lines, golden ratio)
+
+Atmosphere:
+- Color Palette: {{color_palette}}
+- Mood: {{mood}}
+- Season: {{season}}
+
+Technical Specifications:
+- Focus: Everything in sharp focus (f/8-f/16)
+- Dynamic Range: Balanced exposure across highlights and shadows
+- Post-Processing: {{post_processing}} (e.g., enhanced colors, HDR look, natural)`
+    },
+
+    // PRODUCT PHOTOGRAPHY
+    {
+      id: 'product-photography',
+      name: 'Professional Product Photography',
+      category: 'text-to-image',
+      workflow: 'text-to-image',
+      complexity: 'intermediate',
+      tags: ['product', 'commercial', 'e-commerce'],
+      recommended: true,
+      description: 'Create professional product photographs for commercial use',
+      template: `Professional product photograph of {{product_name}}
+
+Product Details:
+- Product Type: {{product_type}}
+- Key Features: {{features_to_highlight}}
+- Material/Texture: {{material}}
+- Color: {{product_color}}
+
+Camera Setup:
+- Camera: {{camera_type}} (e.g., Canon 5D Mark IV, Sony A7R IV)
+- Lens: {{lens_type}} (e.g., macro 100mm f/2.8, 50mm f/1.8)
+- Angle: {{camera_angle}} (e.g., 45-degree, straight-on, top-down)
+
+Lighting:
+- Lighting Setup: {{lighting_setup}} (e.g., softbox studio lighting, natural window light)
+- Shadows: {{shadow_style}} (e.g., soft shadows, dramatic shadows, no shadows)
+- Reflections: {{reflection_style}}
+
+Background & Context:
+- Background: {{background}} (e.g., pure white, lifestyle context, textured surface)
+- Props: {{props}}
+- Setting: {{setting}} (e.g., studio, lifestyle, outdoor)
+
+Style & Mood:
+- Photography Style: {{photo_style}} (e.g., clean commercial, lifestyle, editorial)
+- Color Grading: {{color_grading}}
+- Mood: {{mood}}
+
+Technical Requirements:
+- Focus: Sharp product focus, {{depth_of_field}}
+- Quality: High resolution, color-accurate, no distortion
+- Perspective: {{perspective_correction}}`
+    },
+
+    // FOOD PHOTOGRAPHY
+    {
+      id: 'food-photography',
+      name: 'Food Photography',
+      category: 'text-to-image',
+      workflow: 'text-to-image',
+      complexity: 'intermediate',
+      tags: ['food', 'culinary', 'restaurant'],
+      description: 'Create appetizing food photographs',
+      template: `Food photograph of {{dish_name}}
+
+Camera Setup:
+- Camera: {{camera_type}} (e.g., Canon EOS R5, Sony A7III)
+- Lens: {{lens_type}} (e.g., 50mm f/1.4, 100mm macro f/2.8)
+- Angle: {{camera_angle}} (e.g., 45-degree, overhead flat lay, eye-level)
+- Depth of Field: {{depth_of_field}} (e.g., shallow bokeh, moderate, deep focus)
+
+Lighting:
+- Light Source: {{light_source}} (e.g., natural window light, softbox, backlit)
+- Light Direction: {{light_direction}}
+- Mood: {{lighting_mood}} (e.g., bright and airy, moody and dramatic)
+
+Composition:
+- Plating Style: {{plating_style}}
+- Props & Styling: {{props}} (e.g., cutlery, napkins, ingredients, background textures)
+- Background: {{background}}
+- Color Palette: {{color_palette}}
+
+Food Styling:
+- Texture Emphasis: {{texture_details}} (e.g., crispy edges, glossy sauce, fresh herbs)
+- Garnishes: {{garnishes}}
+- Steam/Freshness Indicators: {{freshness_cues}}
+
+Style & Mood:
+- Photography Style: {{photography_style}} (e.g., rustic, modern, editorial, restaurant menu)
+- Atmosphere: {{atmosphere}}
+
+Technical Specifications:
+- Focus: Sharp on main dish, {{background_blur}}
+- Colors: Vibrant, appetizing, true-to-life
+- Post-Processing: {{post_processing}} (e.g., enhanced saturation, natural look)`
+    },
+
+    // CHARACTER DESIGN
+    {
+      id: 'character-design',
+      name: 'Character Design & Illustration',
+      category: 'text-to-image',
+      workflow: 'text-to-image',
+      complexity: 'advanced',
+      tags: ['character', 'design', 'illustration'],
+      recommended: true,
+      description: 'Create detailed character designs with consistent features',
+      template: `Character design illustration of {{character_name}}
+
+Physical Attributes:
+- Species/Type: {{species}}
+- Age: {{age}}
+- Body Type: {{body_type}}
+- Height/Build: {{height_build}}
+- Skin Tone: {{skin_tone}}
+- Hair: {{hair_description}} (style, color, length)
+- Eyes: {{eye_description}} (color, shape, distinctive features)
+- Distinctive Features: {{distinctive_features}} (scars, tattoos, accessories, unique traits)
+
+Clothing & Accessories:
+- Outfit: {{outfit_description}}
+- Style: {{clothing_style}}
+- Accessories: {{accessories}}
+- Colors: {{clothing_colors}}
+
+Pose & Expression:
+- Pose: {{pose}}
+- Expression: {{expression}}
+- Body Language: {{body_language}}
+
+Background & Context:
+- Setting: {{setting}}
+- Background: {{background}}
+- Environmental Elements: {{environment}}
+
+Art Style:
+- Style: {{art_style}} (e.g., anime, realistic, cartoon, semi-realistic, comic book)
+- Line Work: {{line_work}}
+- Coloring Style: {{coloring_style}}
+- Shading: {{shading_style}}
+
+Character Personality Indicators:
+- Personality Traits: {{personality}}
+- Mood/Atmosphere: {{mood}}
+
+Technical Specifications:
+- View: {{view_type}} (e.g., full-body front view, three-quarter view, character sheet)
+- Detail Level: {{detail_level}}
+- Quality: High resolution, clean lines, professional illustration quality
+
+IMPORTANT FOR CONSISTENCY: Note key features like {{specific_features_to_remember}} for use in future prompts to maintain character consistency.`
+    },
+
+    // ========================================
+    // WORKFLOW 2: IMAGE EDITING
+    // ========================================
+
+    {
+      id: 'edit-background-replace',
+      name: 'Background Replacement',
+      category: 'image-editing',
+      workflow: 'image-editing',
+      complexity: 'intermediate',
+      tags: ['editing', 'background', 'replacement'],
+      recommended: true,
+      description: 'Replace image backgrounds while maintaining subject integrity',
+      template: `Replace the background in the provided image:
+
+Target Subject:
+- Keep: {{subject_to_keep}} (describe what should remain unchanged)
+- Preserve: {{features_to_preserve}} (lighting on subject, shadows, perspective)
+
+New Background:
+- Background Type: {{new_background}} (e.g., outdoor landscape, studio backdrop, urban setting)
+- Environment: {{environment_details}}
+- Time of Day: {{time_of_day}}
+- Weather/Atmosphere: {{atmosphere}}
+
+Integration Requirements:
+- Lighting Match: Adjust subject lighting to match new background {{lighting_direction}}
+- Perspective Match: Ensure subject perspective aligns with new background
+- Shadow/Reflection: Add appropriate {{shadow_type}} beneath/around subject
+- Color Harmony: {{color_grading_adjustment}} to blend subject with new background
+- Edge Quality: Maintain natural, clean edges around subject
+
+Technical Specifications:
+- Maintain subject sharpness and detail
+- Seamless integration, no visible editing artifacts
+- Natural lighting and color transitions
+- Preserve original image resolution
+
+Constraints:
+- Avoid: {{objects_to_avoid}}
+- Maintain: {{elements_to_maintain}} (e.g., natural appearance, realistic lighting, proper scale)`
+    },
+
+    {
+      id: 'edit-object-remove',
+      name: 'Object Removal',
+      category: 'image-editing',
+      workflow: 'image-editing',
       complexity: 'simple',
-      tags: ['product', 'commercial', 'marketing'],
-      description: 'Create product image prompts',
-      template: `Product Visualization Request:
-
-Product: {{product_name}}
-Product Type: {{product_type}}
-Setting/Context: {{setting}}
-Angle/View: {{view_angle}}
-Background: {{background}}
-Lighting Style: {{lighting}}
-Desired Mood: {{mood}}
-Call-out Features: {{features}}
-
-Create a professional product visualization description.`
-    },
-
-    // TEXT TRANSFORMATION TEMPLATES
-    {
-      id: 'text-rewrite-tone',
-      name: 'Tone Transformation',
-      category: 'text',
-      complexity: 'simple',
-      tags: ['rewrite', 'tone', 'style'],
+      tags: ['editing', 'removal', 'cleanup'],
       recommended: true,
-      description: 'Rewrite text in different tones',
-      template: `Transform the following text to match the specified tone:
+      description: 'Remove unwanted objects from images',
+      template: `Remove the following from the provided image:
 
-Original Text:
-{{original_text}}
+Objects to Remove:
+- {{object_1_to_remove}}
+- {{object_2_to_remove}}
+- {{object_3_to_remove}}
 
-Target Tone: {{tone}}
-Target Audience: {{audience}}
-Length: {{length_requirement}}
-Key Message: {{key_message}}
+Replacement/Fill Strategy:
+- Fill with: {{fill_strategy}} (e.g., seamless background continuation, similar texture, natural environment)
+- Match: {{match_requirements}} (surrounding colors, textures, patterns, lighting)
 
-Rewrite while preserving the core message but adapting the tone perfectly.`
+Quality Requirements:
+- No visible editing artifacts or seams
+- Natural continuation of background elements
+- Maintain original perspective and depth
+- Preserve lighting consistency
+- Match grain/texture of surrounding area
+
+Constraints:
+- Keep everything else unchanged
+- Maintain natural appearance
+- Seamless integration
+
+Additional Notes:
+{{additional_instructions}}`
     },
+
     {
-      id: 'text-summarize',
-      name: 'Smart Summarization',
-      category: 'text',
-      complexity: 'simple',
-      tags: ['summary', 'concise', 'analysis'],
-      description: 'Create intelligent summaries',
-      template: `Summarize the following content:
-
-Content:
-{{content}}
-
-Summary Type: {{summary_type}}
-Target Length: {{length}}
-Focus Areas: {{focus_areas}}
-Audience: {{audience}}
-
-Provide a {{summary_type}} summary that captures the essential points in {{length}}.`
-    },
-    {
-      id: 'text-expand',
-      name: 'Content Expansion',
-      category: 'text',
+      id: 'edit-object-add',
+      name: 'Add Objects to Image',
+      category: 'image-editing',
+      workflow: 'image-editing',
       complexity: 'intermediate',
-      tags: ['expand', 'elaborate', 'detail'],
-      description: 'Expand brief content into detailed form',
-      template: `Expand the following brief content into a detailed version:
+      tags: ['editing', 'addition', 'compositing'],
+      description: 'Add new objects or elements to existing images',
+      template: `Add the following to the provided image:
 
-Brief Content:
-{{brief_content}}
+Object(s) to Add:
+- {{object_to_add}} (detailed description)
+- Location: {{placement_location}} (specific position in image)
+- Size/Scale: {{size_scale}} relative to existing elements
+- Orientation: {{orientation}}
 
-Target Length: {{target_length}}
-Detail Level: {{detail_level}}
-Tone: {{tone}}
-Include: {{elements_to_include}}
-Audience: {{audience}}
+Integration Requirements:
+- Lighting Match: Match {{existing_lighting_direction}} and {{lighting_quality}}
+- Perspective Match: Follow existing {{perspective_angle}}
+- Shadows: Add appropriate {{shadow_type}} consistent with scene lighting
+- Color Grading: Match {{color_temperature}} and overall color palette
+- Depth Integration: Place at {{depth_layer}} (foreground/midground/background)
 
-Expand while maintaining accuracy and adding valuable detail.`
+Style Matching:
+- Match existing image style: {{image_style}}
+- Texture/Detail Level: {{texture_match}}
+- Focus/Sharpness: {{focus_match}} based on depth
+
+Technical Requirements:
+- Seamless integration, no visible compositing
+- Natural lighting and shadows
+- Proper scale and perspective
+- Maintain original image quality
+
+Constraints:
+- Avoid: {{elements_to_avoid}}
+- Maintain: {{elements_to_preserve}} unchanged
+
+Atmosphere:
+- Ensure added object(s) fit the scene's {{atmosphere}} and {{context}}`
     },
 
-    // CODE GENERATION TEMPLATES
     {
-      id: 'code-function',
-      name: 'Function Generator',
-      category: 'code',
+      id: 'edit-color-grade',
+      name: 'Color Grading & Mood Adjustment',
+      category: 'image-editing',
+      workflow: 'image-editing',
       complexity: 'intermediate',
-      tags: ['code', 'function', 'development'],
+      tags: ['editing', 'color', 'grading', 'mood'],
+      description: 'Apply color grading and mood adjustments to images',
+      template: `Apply color grading to the provided image:
+
+Target Mood/Style:
+- Overall Mood: {{target_mood}} (e.g., warm and cozy, cool and modern, dramatic, vintage)
+- Color Palette: {{color_palette}} (e.g., warm tones, cool blues, desaturated, vibrant)
+- Reference Style: {{reference_style}} (e.g., cinematic, Instagram aesthetic, film photography)
+
+Color Adjustments:
+- Temperature: {{temperature_shift}} (warmer/cooler)
+- Saturation: {{saturation_level}} (increased/decreased/selective)
+- Contrast: {{contrast_adjustment}}
+- Highlights: {{highlights_adjustment}}
+- Shadows: {{shadows_adjustment}}
+
+Specific Color Modifications:
+- {{color_1}}: {{color_1_adjustment}}
+- {{color_2}}: {{color_2_adjustment}}
+- Skin Tones: {{skin_tone_adjustment}} (maintain natural appearance)
+
+Artistic Effects:
+- Vignette: {{vignette_style}}
+- Grain/Texture: {{grain_effect}}
+- Clarity: {{clarity_adjustment}}
+
+Constraints:
+- Maintain: {{elements_to_preserve}} (e.g., natural skin tones, detail in shadows)
+- Avoid: {{avoid_elements}} (e.g., over-saturation, loss of detail, unnatural colors)
+
+Technical Requirements:
+- Preserve image detail and sharpness
+- Smooth, professional color transitions
+- Maintain proper exposure balance
+- No color banding or artifacts`
+    },
+
+    // ========================================
+    // WORKFLOW 3: MULTI-IMAGE FUSION
+    // ========================================
+
+    {
+      id: 'fusion-character-scene',
+      name: 'Character + Scene Fusion',
+      category: 'multi-image-fusion',
+      workflow: 'multi-image-fusion',
+      complexity: 'advanced',
+      tags: ['fusion', 'character', 'compositing'],
       recommended: true,
-      description: 'Generate code functions from specifications',
-      template: `Generate a function with these specifications:
+      description: 'Place a character from one image into a scene from another',
+      template: `Fuse character from Image A into scene from Image B:
 
-Programming Language: {{language}}
-Function Name: {{function_name}}
-Purpose: {{purpose}}
-Input Parameters: {{parameters}}
-Expected Output: {{output}}
-Constraints: {{constraints}}
-Error Handling: {{error_handling}}
-Documentation Style: {{doc_style}}
+Image A (Character Source):
+- Subject to Extract: {{character_description}}
+- Keep: {{features_to_keep}} (pose, clothing, expression)
+- Note Specific Features: {{specific_features}} (for consistency)
 
-Include:
-- Function implementation
-- Inline comments
-- Usage example
-- Edge case handling`
+Image B (Scene/Background):
+- Environment: {{scene_description}}
+- Placement Location: {{placement_location}} in the scene
+- Desired Position: {{position_details}}
+
+Integration Requirements:
+- Lighting Match: Adjust character lighting to match {{scene_lighting_direction}} and {{lighting_quality}}
+- Perspective: Ensure character perspective fits {{scene_perspective}}
+- Scale: Adjust character size to be {{scale_relationship}} relative to scene elements
+- Shadows: Add {{shadow_type}} beneath/around character matching scene lighting
+- Depth: Place character at {{depth_position}} (foreground/midground/background)
+
+Color Harmony:
+- Color Grading: {{color_adjustment}} to blend character with scene color palette
+- Temperature Match: Adjust to match scene's {{color_temperature}}
+
+Technical Requirements:
+- Seamless edges around character
+- Natural integration, no visible compositing
+- Maintain character detail and quality
+- Preserve scene background quality
+
+Atmosphere:
+- Ensure character fits the scene's {{atmosphere}} and {{context}}
+- Expression/Pose: {{expression_adjustment}} if needed to match scene mood
+
+Constraints:
+- Maintain natural appearance
+- Keep {{preserved_elements}} unchanged
+- Avoid {{elements_to_avoid}}`
     },
+
     {
-      id: 'code-api-endpoint',
-      name: 'API Endpoint Builder',
-      category: 'code',
+      id: 'fusion-style-transfer',
+      name: 'Artistic Style Transfer',
+      category: 'multi-image-fusion',
+      workflow: 'multi-image-fusion',
       complexity: 'advanced',
-      tags: ['api', 'backend', 'rest'],
-      description: 'Create RESTful API endpoint code',
-      template: `Create an API endpoint with these specifications:
-
-Framework: {{framework}}
-Endpoint: {{endpoint_path}}
-HTTP Method: {{http_method}}
-Purpose: {{purpose}}
-Request Body: {{request_body}}
-Response Format: {{response_format}}
-Authentication: {{auth_method}}
-Error Handling: {{error_handling}}
-Validation Rules: {{validation}}
-
-Generate complete endpoint code with proper error handling and documentation.`
-    },
-    {
-      id: 'code-test-cases',
-      name: 'Test Case Generator',
-      category: 'code',
-      complexity: 'intermediate',
-      tags: ['testing', 'qa', 'unit-test'],
-      description: 'Generate comprehensive test cases',
-      template: `Generate test cases for:
-
-Code/Function:
-{{code_to_test}}
-
-Testing Framework: {{framework}}
-Test Type: {{test_type}}
-Coverage Requirements: {{coverage}}
-Edge Cases: {{edge_cases}}
-Mock Data: {{mock_data}}
-
-Create comprehensive test cases covering normal operation, edge cases, and error scenarios.`
-    },
-
-    // CREATIVE WRITING TEMPLATES
-    {
-      id: 'creative-story',
-      name: 'Story Generator',
-      category: 'creative',
-      complexity: 'advanced',
-      tags: ['story', 'narrative', 'fiction'],
-      description: 'Generate creative stories',
-      template: `Write a story with these parameters:
-
-Genre: {{genre}}
-Setting: {{setting}}
-Main Character(s): {{characters}}
-Conflict/Challenge: {{conflict}}
-Tone: {{tone}}
-Length: {{length}}
-POV: {{pov}}
-Theme: {{theme}}
-
-Create an engaging narrative that incorporates all elements naturally.`
-    },
-    {
-      id: 'creative-dialogue',
-      name: 'Dialogue Writer',
-      category: 'creative',
-      complexity: 'intermediate',
-      tags: ['dialogue', 'conversation', 'characters'],
-      description: 'Craft realistic dialogue',
-      template: `Create dialogue between:
-
-Characters: {{characters}}
-Setting: {{setting}}
-Situation: {{situation}}
-Character Traits: {{traits}}
-Tone: {{tone}}
-Conflict/Tension: {{conflict}}
-Length: {{length}}
-
-Write natural, character-appropriate dialogue that advances the situation.`
-    },
-
-    // BUSINESS & MARKETING TEMPLATES
-    {
-      id: 'business-email',
-      name: 'Professional Email',
-      category: 'business',
-      complexity: 'simple',
-      tags: ['email', 'communication', 'professional'],
+      tags: ['fusion', 'style', 'artistic'],
       recommended: true,
-      description: 'Draft professional emails',
-      template: `Compose a professional email:
+      description: 'Apply the artistic style from one image to another',
+      template: `Apply the artistic style from Image A to Image B:
 
-To: {{recipient}}
-Purpose: {{purpose}}
-Context: {{context}}
-Tone: {{tone}}
-Key Points: {{key_points}}
-Call to Action: {{cta}}
-Sender Role: {{sender_role}}
+Image A (Style Reference):
+- Style Type: {{style_type}} (e.g., impressionist painting, anime art style, watercolor, oil painting)
+- Key Style Elements: {{style_elements}} (brushstrokes, color palette, line work, texture)
+- Artistic Characteristics: {{artistic_characteristics}}
 
-Write a clear, professional email that achieves the stated purpose.`
-    },
-    {
-      id: 'business-proposal',
-      name: 'Business Proposal',
-      category: 'business',
-      complexity: 'advanced',
-      tags: ['proposal', 'business', 'sales'],
-      description: 'Create compelling business proposals',
-      template: `Create a business proposal for:
+Image B (Content to Transform):
+- Subject: {{content_description}}
+- Elements to Preserve: {{elements_to_preserve}} (composition, main subjects, layout)
+- Elements to Transform: {{elements_to_transform}}
 
-Project/Service: {{offering}}
-Client: {{client}}
-Problem Solving: {{problem}}
-Proposed Solution: {{solution}}
-Benefits: {{benefits}}
-Timeline: {{timeline}}
-Budget Range: {{budget}}
-Differentiators: {{differentiators}}
+Style Application:
+- Intensity: {{style_intensity}} (subtle/moderate/strong application)
+- Color Palette: {{color_palette_approach}} (adopt reference colors/maintain original/blend)
+- Texture: Apply {{texture_style}} from reference
+- Detail Level: {{detail_level}}
 
-Structure as a professional proposal with clear sections and persuasive language.`
-    },
-    {
-      id: 'marketing-copy',
-      name: 'Marketing Copy Generator',
-      category: 'business',
-      complexity: 'intermediate',
-      tags: ['marketing', 'advertising', 'copy'],
-      recommended: true,
-      description: 'Generate compelling marketing copy',
-      template: `Create marketing copy for:
+Balance:
+- Content Recognition: {{content_visibility}} (keep content clearly recognizable)
+- Style Prominence: {{style_prominence}}
+- Blend Strategy: {{blend_strategy}}
 
-Product/Service: {{product}}
-Target Audience: {{audience}}
-Key Benefits: {{benefits}}
-Unique Selling Point: {{usp}}
-Tone: {{tone}}
-Length: {{length}}
-Call to Action: {{cta}}
-Emotional Appeal: {{emotion}}
+Technical Requirements:
+- Smooth, consistent style application
+- Maintain image coherence
+- No jarring transitions
+- Professional artistic quality
 
-Craft persuasive copy that resonates with the target audience and drives action.`
+Constraints:
+- Preserve: {{preserved_content}} (e.g., facial features, main subjects)
+- Avoid: {{style_avoid}} (over-distortion, loss of subject recognition)
+
+Output Style:
+- Final Look: {{final_aesthetic}}`
     },
 
-    // RESEARCH & ANALYSIS TEMPLATES
     {
-      id: 'research-analysis',
-      name: 'Research Analysis',
-      category: 'research',
-      complexity: 'advanced',
-      tags: ['research', 'analysis', 'academic'],
-      description: 'Analyze research topics',
-      template: `Analyze the following research topic:
-
-Topic: {{topic}}
-Research Question: {{question}}
-Methodology: {{methodology}}
-Data/Sources: {{data}}
-Analysis Type: {{analysis_type}}
-Audience: {{audience}}
-Depth: {{depth_level}}
-
-Provide a thorough analysis including key findings, implications, and conclusions.`
-    },
-    {
-      id: 'research-literature-review',
-      name: 'Literature Review',
-      category: 'research',
+      id: 'fusion-character-consistency',
+      name: 'Character Consistency Across Scenes',
+      category: 'multi-image-fusion',
+      workflow: 'multi-image-fusion',
       complexity: 'expert',
-      tags: ['academic', 'literature', 'review'],
-      description: 'Structure literature reviews',
-      template: `Create a literature review on:
+      tags: ['fusion', 'character', 'consistency'],
+      recommended: true,
+      description: 'Maintain the same character appearance across different scenes',
+      template: `Create a new scene featuring the character from the reference image:
 
-Topic: {{topic}}
-Time Period: {{time_period}}
-Key Themes: {{themes}}
-Number of Sources: {{source_count}}
-Academic Field: {{field}}
-Review Type: {{review_type}}
-Citation Style: {{citation_style}}
+Reference Character (from Image A):
+- Character Description: {{character_description}}
+- CRITICAL FEATURES TO MAINTAIN:
+  * Facial Features: {{facial_features}} (eyes, nose, mouth, face shape)
+  * Hair: {{hair_details}} (style, color, length, texture)
+  * Body Type: {{body_type}}
+  * Distinctive Marks: {{distinctive_features}} (scars, tattoos, accessories)
+  * Clothing: {{clothing}} (if maintaining same outfit)
+  * Age: {{age}}
+  * Style Characteristics: {{style_characteristics}}
 
-Structure: Introduction, thematic analysis, gaps in literature, conclusions.`
+New Scene:
+- Setting: {{new_setting}}
+- Background: {{new_background}}
+- Lighting: {{new_lighting}}
+- Time/Weather: {{time_weather}}
+
+Character in New Scene:
+- Pose: {{new_pose}}
+- Action: {{action}}
+- Expression: {{expression}}
+- Clothing: {{clothing_in_new_scene}} (same as reference / new outfit described)
+- Camera Angle: {{camera_angle}}
+
+Consistency Requirements:
+- MUST maintain exact same: {{exact_same_features}} (facial features, hair, distinctive marks)
+- Lighting can change but character features must remain identical
+- Age and body type must stay consistent
+- Overall character recognition must be immediate
+
+Technical Specifications:
+- High quality, detailed rendering
+- Clear, recognizable features
+- Proper integration with new environment
+- Consistent art style with reference
+
+Constraints:
+- Character must be unmistakably the same person/character
+- Avoid any changes to: {{features_cannot_change}}
+- Natural appearance in new scene context`
     },
 
-    // EDUCATION & TRAINING TEMPLATES
+    // ========================================
+    // WORKFLOW 4: CONVERSATIONAL REFINEMENT
+    // ========================================
+
     {
-      id: 'edu-lesson-plan',
-      name: 'Lesson Plan Creator',
-      category: 'education',
-      complexity: 'intermediate',
-      tags: ['education', 'teaching', 'curriculum'],
-      description: 'Design comprehensive lesson plans',
-      template: `Create a lesson plan for:
-
-Subject: {{subject}}
-Topic: {{topic}}
-Grade Level: {{grade_level}}
-Duration: {{duration}}
-Learning Objectives: {{objectives}}
-Prior Knowledge: {{prerequisites}}
-Materials Needed: {{materials}}
-Assessment Method: {{assessment}}
-
-Include: Introduction, main activities, assessment, and homework.`
-    },
-    {
-      id: 'edu-quiz',
-      name: 'Quiz Generator',
-      category: 'education',
-      complexity: 'simple',
-      tags: ['quiz', 'assessment', 'questions'],
-      description: 'Generate educational quizzes',
-      template: `Generate a quiz on:
-
-Topic: {{topic}}
-Difficulty Level: {{difficulty}}
-Number of Questions: {{question_count}}
-Question Types: {{question_types}}
-Learning Objectives: {{objectives}}
-Include Answer Key: {{answer_key}}
-
-Create diverse, well-structured questions that assess understanding.`
-    },
-
-    // MULTI-MODAL TEMPLATES
-    {
-      id: 'multi-visual-text',
-      name: 'Visual-Text Hybrid',
-      category: 'multimodal',
+      id: 'conv-sequential-edits',
+      name: 'Sequential Editing Chain',
+      category: 'conversational',
+      workflow: 'conversational',
       complexity: 'advanced',
-      tags: ['hybrid', 'visual', 'text'],
-      description: 'Combine visual and text elements',
-      template: `Create a multi-modal output combining visual and text elements:
+      tags: ['conversational', 'iterative', 'refinement'],
+      recommended: true,
+      description: 'Multi-turn sequential edits for progressive improvements',
+      template: `Multi-turn editing sequence:
 
-Visual Component:
-{{visual_description}}
+TURN 1 - Initial Request:
+{{turn_1_request}}
+Expected Outcome: {{turn_1_outcome}}
 
-Text Component:
-{{text_content}}
+TURN 2 - First Refinement:
+Building on Turn 1 result:
+{{turn_2_request}}
+Expected Outcome: {{turn_2_outcome}}
 
-Integration Goal: {{integration_goal}}
-Primary Medium: {{primary_medium}}
-Tone: {{tone}}
-Audience: {{audience}}
+TURN 3 - Second Refinement:
+Building on Turn 2 result:
+{{turn_3_request}}
+Expected Outcome: {{turn_3_outcome}}
 
-Generate both a detailed visual description and accompanying text that work together seamlessly.`
+TURN 4 - Final Polish (if needed):
+{{turn_4_request}}
+Expected Final Result: {{final_outcome}}
+
+Guidelines for Each Turn:
+- Maintain progress from previous turns
+- Apply incremental improvements
+- Preserve quality and details from earlier turns
+- Build progressively toward final vision
+
+Final Requirements:
+- Overall Style: {{final_style}}
+- Quality: {{quality_standards}}
+- Mood: {{final_mood}}
+
+Notes:
+- Each turn should enhance, not restart
+- Preserve successful elements from previous turns
+- Focus each turn on specific improvement area`
     },
+
     {
-      id: 'multi-data-viz',
-      name: 'Data Visualization Prompt',
-      category: 'multimodal',
-      complexity: 'expert',
-      tags: ['data', 'visualization', 'charts'],
-      description: 'Create data visualization prompts',
-      template: `Create a data visualization for:
+      id: 'conv-progressive-detail',
+      name: 'Progressive Detailing',
+      category: 'conversational',
+      workflow: 'conversational',
+      complexity: 'intermediate',
+      tags: ['conversational', 'detail', 'enhancement'],
+      description: 'Progressively add detail and refinement through multiple turns',
+      template: `Progressive detailing sequence:
 
-Data Type: {{data_type}}
-Visualization Type: {{viz_type}}
-Key Metrics: {{metrics}}
-Insights to Highlight: {{insights}}
-Color Scheme: {{colors}}
-Audience: {{audience}}
-Interactivity: {{interactivity}}
+Starting Point:
+- Base Image: {{base_description}}
+- Current Detail Level: {{current_detail_level}}
 
-Generate both the data structure and visual design specifications.`
+TURN 1 - Add Primary Details:
+Focus Area: {{focus_area_1}}
+Add: {{details_to_add_1}}
+Priority: Main subject enhancement
+
+TURN 2 - Add Secondary Details:
+Focus Area: {{focus_area_2}}
+Add: {{details_to_add_2}}
+Priority: Supporting elements
+
+TURN 3 - Add Fine Details:
+Focus Area: {{focus_area_3}}
+Add: {{details_to_add_3}}
+Priority: Texture and subtle elements
+
+TURN 4 - Final Refinement:
+Polish: {{final_polish_areas}}
+Enhance: {{final_enhancements}}
+
+Quality Requirements:
+- Maintain coherence throughout all turns
+- Each turn should add clarity and richness
+- Avoid over-processing or loss of natural appearance
+- Progressive improvement, not replacement
+
+Final Vision:
+{{final_detailed_vision}}`
     }
+
+    // Additional Gemini 2.5 Flash Image templates can be added here
+    // Current count: ~15 comprehensive templates covering all 4 workflows
+
   ],
 
   // ============================================================================
@@ -1305,6 +1584,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function initializeApp() {
   setupNavigation();
+  setupWorkflowSelector(); // NEW: Setup workflow selection
   setupOnboarding();
   setupBuilder();
   setupTemplates();
@@ -1351,6 +1631,57 @@ function showView(viewName) {
   if (view) {
     view.classList.add('active');
   }
+}
+
+// ============================================================================
+// WORKFLOW SELECTOR
+// ============================================================================
+
+function setupWorkflowSelector() {
+  const workflowCards = document.querySelectorAll('.nb-workflow-card');
+
+  workflowCards.forEach(card => {
+    card.addEventListener('click', () => {
+      selectWorkflow(card.dataset.workflow, card);
+    });
+
+    // Keyboard navigation
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        selectWorkflow(card.dataset.workflow, card);
+      }
+    });
+  });
+}
+
+function selectWorkflow(workflowId, cardElement) {
+  // Update state
+  NanoBananaBuilder.state.selectedWorkflow = workflowId;
+
+  // Update UI
+  document.querySelectorAll('.nb-workflow-card').forEach(card => {
+    card.classList.remove('selected');
+    card.setAttribute('aria-checked', 'false');
+    card.setAttribute('tabindex', '-1');
+  });
+
+  cardElement.classList.add('selected');
+  cardElement.setAttribute('aria-checked', 'true');
+  cardElement.setAttribute('tabindex', '0');
+
+  // Filter templates by workflow
+  loadTemplates(workflowId);
+
+  // Show notification
+  const workflowNames = {
+    'text-to-image': 'Text → Image Generation',
+    'image-editing': 'Image Editing',
+    'multi-image-fusion': 'Multi-Image Fusion',
+    'conversational': 'Conversational Refinement'
+  };
+
+  console.log(`Workflow selected: ${workflowNames[workflowId]}`);
 }
 
 // ============================================================================
@@ -1744,15 +2075,22 @@ function setupTemplates() {
   }
 }
 
-function loadTemplates(filterCategory = null) {
+function loadTemplates(filterWorkflow = null) {
   const container = document.getElementById('templatesList');
   if (!container) return;
 
   const search = document.getElementById('templateSearch')?.value.toLowerCase() || '';
-  const category = filterCategory || document.getElementById('templateCategory')?.value || 'all';
+  const category = document.getElementById('templateCategory')?.value || 'all';
+  const workflow = filterWorkflow || NanoBananaBuilder.state.selectedWorkflow;
 
   let filtered = NanoBananaBuilder.templates;
 
+  // Filter by workflow first (most important)
+  if (workflow && workflow !== 'all') {
+    filtered = filtered.filter(t => t.workflow === workflow);
+  }
+
+  // Then filter by category
   if (category && category !== 'all') {
     if (category === 'recommended') {
       filtered = filtered.filter(t => t.recommended);
@@ -1761,6 +2099,7 @@ function loadTemplates(filterCategory = null) {
     }
   }
 
+  // Then filter by search
   if (search) {
     filtered = filtered.filter(t =>
       t.name.toLowerCase().includes(search) ||

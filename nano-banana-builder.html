@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="The world's most advanced Google Nano Banana prompt engineering system">
-  <title>Google Nano Banana Prompt Builder - Ultimate Edition</title>
+  <meta name="description" content="The world's most advanced Gemini 2.5 Flash Image (Nano Banana) prompt engineering system with 4 powerful workflows">
+  <title>Gemini 2.5 Flash Image Prompt Builder - Ultimate Edition</title>
   <link rel="stylesheet" href="nano-banana-styles.css">
 </head>
 <body>
@@ -19,8 +19,8 @@
     <!-- Header with Navigation -->
     <header class="nb-header" role="banner">
       <div class="nb-logo">
-        <h1>🍌 Google Nano Banana Prompt Builder</h1>
-        <p class="nb-tagline">The World's Most Advanced Nano Banana Prompt Engineering System</p>
+        <h1>🍌 Gemini 2.5 Flash Image Prompt Builder</h1>
+        <p class="nb-tagline">The World's Most Advanced Image Generation Prompt Engineering System</p>
       </div>
       <nav class="nb-nav" role="navigation" aria-label="Main navigation">
         <button class="nb-nav-btn active" data-view="builder" aria-label="Builder view" type="button">⚡ Builder</button>
@@ -67,6 +67,58 @@
     <!-- Main Builder View -->
     <section class="nb-view active" id="builder-view" role="region" aria-labelledby="builder-title">
       <div class="nb-builder">
+        <!-- Workflow Selector Panel -->
+        <div class="nb-panel nb-workflow-panel">
+          <h2>🎨 Select Your Workflow</h2>
+          <p class="nb-panel-desc">Choose one of 4 powerful Gemini 2.5 Flash Image workflows</p>
+
+          <div class="nb-workflow-grid" role="radiogroup" aria-labelledby="workflow-title">
+            <div class="nb-workflow-card" data-workflow="text-to-image" role="radio" aria-checked="true" tabindex="0">
+              <div class="nb-workflow-icon">🎨</div>
+              <h3>Text → Image</h3>
+              <p>Generate images from detailed text descriptions</p>
+              <ul class="nb-workflow-features">
+                <li>Photography prompts</li>
+                <li>Illustrated scenes</li>
+                <li>Character design</li>
+              </ul>
+            </div>
+
+            <div class="nb-workflow-card" data-workflow="image-editing" role="radio" aria-checked="false" tabindex="-1">
+              <div class="nb-workflow-icon">✂️</div>
+              <h3>Image Editing</h3>
+              <p>Remove, add, or replace objects in images</p>
+              <ul class="nb-workflow-features">
+                <li>Background replacement</li>
+                <li>Object removal</li>
+                <li>Color grading</li>
+              </ul>
+            </div>
+
+            <div class="nb-workflow-card" data-workflow="multi-image-fusion" role="radio" aria-checked="false" tabindex="-1">
+              <div class="nb-workflow-icon">🔄</div>
+              <h3>Multi-Image Fusion</h3>
+              <p>Blend images and apply style transfer</p>
+              <ul class="nb-workflow-features">
+                <li>Character + scene blending</li>
+                <li>Style transfer</li>
+                <li>Character consistency</li>
+              </ul>
+            </div>
+
+            <div class="nb-workflow-card" data-workflow="conversational" role="radio" aria-checked="false" tabindex="-1">
+              <div class="nb-workflow-icon">💬</div>
+              <h3>Conversational</h3>
+              <p>Iterative multi-turn refinement</p>
+              <ul class="nb-workflow-features">
+                <li>Sequential edits</li>
+                <li>Progressive detailing</li>
+                <li>Iterative improvements</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         <!-- Clarifying Questions Panel -->
         <div class="nb-panel nb-questions-panel">
           <h2 id="builder-title">🎯 Define Your Intent</h2>
@@ -74,20 +126,21 @@
 
           <form id="intentForm" novalidate>
             <div class="nb-question-group">
-              <label class="nb-label" for="primaryGoal">What is your primary goal?</label>
+              <label class="nb-label" for="primaryGoal">Photography Style (for Text→Image)</label>
               <select id="primaryGoal" class="nb-select" aria-describedby="primaryGoal-hint">
-                <option value="">Select primary purpose...</option>
-                <option value="image-generation">Image Generation</option>
-                <option value="text-transformation">Text Transformation</option>
-                <option value="code-generation">Code Generation</option>
-                <option value="hybrid-workflow">Hybrid Workflow</option>
-                <option value="multi-modal">Multi-Modal Processing</option>
-                <option value="data-analysis">Data Analysis</option>
-                <option value="creative-writing">Creative Writing</option>
-                <option value="technical-documentation">Technical Documentation</option>
-                <option value="custom">Custom Use Case</option>
+                <option value="">Select photography style...</option>
+                <option value="portrait">Portrait Photography</option>
+                <option value="landscape">Landscape Photography</option>
+                <option value="product">Product Photography</option>
+                <option value="food">Food Photography</option>
+                <option value="character-design">Character Design & Illustration</option>
+                <option value="architectural">Architectural Photography</option>
+                <option value="wildlife">Wildlife Photography</option>
+                <option value="macro">Macro Photography</option>
+                <option value="action">Action/Sports Photography</option>
+                <option value="custom">Custom Style</option>
               </select>
-              <span id="primaryGoal-hint" class="sr-only">Choose the main type of output you want to create</span>
+              <span id="primaryGoal-hint" class="sr-only">Choose the photography style you want to create</span>
             </div>
 
             <div class="nb-question-group">

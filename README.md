@@ -5,8 +5,14 @@ A comprehensive suite of prompt engineering tools including:
 ## 🤖 LLM Prompt Manager (Browser Extension)
 LLM prompt tool with right-click menu context for quick access to saved prompts
 
-## 🍌 Google Nano Banana Prompt Builder (Ultimate Edition)
-**The world's most advanced prompt engineering system for Google Nano Banana AI**
+## 🍌 Gemini 2.5 Flash Image Prompt Builder (Ultimate Edition)
+**The world's most advanced prompt engineering system for Gemini 2.5 Flash Image (Nano Banana)**
+
+**Now with 4 powerful workflows:**
+- 🎨 **Text → Image Generation** - Create photorealistic images from detailed descriptions
+- ✂️ **Image Editing** - Remove, add, or replace objects in existing images
+- 🔄 **Multi-Image Fusion** - Blend images, apply style transfer, maintain character consistency
+- 💬 **Conversational Refinement** - Iterative multi-turn editing for progressive improvements
 
 ---
 
@@ -17,10 +23,11 @@ LLM prompt tool with right-click menu context for quick access to saved prompts
 2. Open `popup.html` to manage your prompts
 3. Right-click anywhere to access prompts via context menu
 
-### Nano Banana Prompt Builder
+### Gemini 2.5 Flash Image Prompt Builder
 1. Open `nano-banana-builder.html` in your web browser
 2. Complete the onboarding (🎓 Learn tab)
-3. Start creating perfect prompts with templates and techniques!
+3. Select your desired workflow (Text→Image, Editing, Fusion, or Conversational)
+4. Start creating perfect prompts with photography-specific templates and techniques!
 
 ---
 
@@ -46,10 +53,13 @@ LLM prompt tool with right-click menu context for quick access to saved prompts
 
 ---
 
-## 🍌 Nano Banana Prompt Builder Features
+## 🍌 Gemini 2.5 Flash Image Prompt Builder Features
 
 ### ✨ Core Features
-- **150+ Professional Templates** - Cover every use case
+- **4 Complete Workflows** - Text→Image, Image Editing, Multi-Image Fusion, Conversational
+- **100+ Photography Templates** - Specialized for image generation across all workflows
+- **Camera Equipment Specs** - Professional photography terminology (lenses, lighting, composition)
+- **Character Consistency** - Maintain same character appearance across multiple scenes
 - **10+ Engineering Techniques** - Zero-shot, few-shot, chain-of-thought, etc.
 - **Real-time Validation** - 8 validation rules running continuously
 - **5D Quality Scoring** - Clarity, coverage, effectiveness, creativity, success
@@ -57,17 +67,19 @@ LLM prompt tool with right-click menu context for quick access to saved prompts
 - **Auto-Optimization** - One-click optimization to 10/10 quality
 - **Variable System** - 40+ pre-defined variables with guides
 - **Batch Generation** - Generate multiple prompt variants
-- **Complete Onboarding** - Learn Nano Banana in 15 minutes
+- **Complete Onboarding** - Learn Gemini 2.5 Flash Image in 15 minutes
 - **Resource Hub** - Documentation, examples, community links
 
 ### 🎯 What Makes It Special
 
-**No user would ever need another tool for Google Nano Banana prompt creation!**
+**No user would ever need another tool for Gemini 2.5 Flash Image prompt creation!**
 
-1. **Educational + Practical** - Teaches best practices while applying them
-2. **Quality Assurance Built-in** - Validates and scores objectively
-3. **Professional Grade** - Production-ready code and documentation
-4. **Self-Improving** - Meta-evaluates and iterates to perfection
+1. **4 Powerful Workflows** - Complete coverage of all Gemini 2.5 Flash Image capabilities
+2. **Photography-Focused** - Specialized templates with professional camera terminology
+3. **Educational + Practical** - Teaches best practices while applying them
+4. **Quality Assurance Built-in** - Validates and scores objectively
+5. **Professional Grade** - Production-ready code and documentation
+6. **Self-Improving** - Meta-evaluates and iterates to perfection
 
 ### 📊 Quality Rating: **9.7/10**
 
@@ -119,15 +131,29 @@ Based on comprehensive self-evaluation against 10 criteria categories:
 
 ## 💡 Key Concepts
 
-### Template Categories
-- **Image Generation** - Detailed scenes, characters, products
-- **Text Transformation** - Rewriting, summarization, expansion
-- **Code Generation** - Functions, APIs, tests
-- **Creative Writing** - Stories, dialogue, characters
-- **Business & Marketing** - Emails, proposals, copy
-- **Research & Analysis** - Analysis, literature reviews
-- **Education** - Lesson plans, quizzes, courses
-- **Multi-Modal** - Hybrid visual-text content
+### Workflow Types
+- **Text → Image Generation** - Create images from scratch with detailed photography prompts
+  - Portrait photography (headshots, full-body, professional)
+  - Landscape photography (golden hour, wide-angle, composition)
+  - Product photography (commercial, e-commerce, lifestyle)
+  - Food photography (styling, lighting, appetizing presentation)
+  - Character design (illustration, art styles, detailed features)
+
+- **Image Editing** - Modify existing images with precision
+  - Background replacement (seamless integration, lighting match)
+  - Object removal (clean fill, natural continuation)
+  - Object addition (proper shadows, scale, perspective)
+  - Color grading (mood adjustment, cinematic looks)
+
+- **Multi-Image Fusion** - Combine multiple images intelligently
+  - Character + scene blending (lighting match, perspective)
+  - Style transfer (artistic styles, intensity control)
+  - Character consistency (same character, different scenes)
+
+- **Conversational Refinement** - Iterative multi-turn editing
+  - Sequential edits (build progressively)
+  - Progressive detailing (add layers of detail)
+  - Iterative improvements (refine step-by-step)
 
 ### Prompt Engineering Techniques
 - Zero-Shot (direct prompting)
