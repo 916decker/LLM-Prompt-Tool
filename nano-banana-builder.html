@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Google Nano Banana Prompt Builder - Ultimate Edition</title>
+  <link rel="stylesheet" href="nano-banana-styles.css">
+</head>
+<body>
+  <div class="nb-container">
+    <!-- Header with Navigation -->
+    <header class="nb-header">
+      <div class="nb-logo">
+        <h1>🍌 Google Nano Banana Prompt Builder</h1>
+        <p class="nb-tagline">The World's Most Advanced Nano Banana Prompt Engineering System</p>
+      </div>
+      <nav class="nb-nav">
+        <button class="nb-nav-btn active" data-view="builder">⚡ Builder</button>
+        <button class="nb-nav-btn" data-view="onboarding">🎓 Learn</button>
+        <button class="nb-nav-btn" data-view="library">📚 Library</button>
+        <button class="nb-nav-btn" data-view="validate">✓ Validate</button>
+        <button class="nb-nav-btn" data-view="resources">📖 Resources</button>
+      </nav>
+    </header>
+
+    <!-- Onboarding/Learning View -->
+    <section class="nb-view" id="onboarding-view" style="display: none;">
+      <div class="nb-onboarding">
+        <h2>🎓 Master Google Nano Banana in Minutes</h2>
+
+        <div class="nb-lesson-tabs">
+          <button class="nb-lesson-tab active" data-lesson="intro">Introduction</button>
+          <button class="nb-lesson-tab" data-lesson="strengths">Strengths</button>
+          <button class="nb-lesson-tab" data-lesson="limitations">Limitations</button>
+          <button class="nb-lesson-tab" data-lesson="usecases">Use Cases</button>
+          <button class="nb-lesson-tab" data-lesson="fundamentals">Fundamentals</button>
+          <button class="nb-lesson-tab" data-lesson="advanced">Advanced</button>
+        </div>
+
+        <div class="nb-lesson-content" id="lesson-content">
+          <!-- Dynamic content loaded by JS -->
+        </div>
+
+        <div class="nb-onboarding-progress">
+          <div class="nb-progress-bar">
+            <div class="nb-progress-fill" id="onboarding-progress"></div>
+          </div>
+          <p id="progress-text">Progress: 0% Complete</p>
+        </div>
+
+        <div class="nb-onboarding-actions">
+          <button id="prevLesson" class="nb-btn-secondary">← Previous</button>
+          <button id="nextLesson" class="nb-btn-primary">Next →</button>
+          <button id="skipOnboarding" class="nb-btn-link">Skip to Builder</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Builder View -->
+    <section class="nb-view active" id="builder-view">
+      <div class="nb-builder">
+        <!-- Clarifying Questions Panel -->
+        <div class="nb-panel nb-questions-panel">
+          <h2>🎯 Define Your Intent</h2>
+          <p class="nb-panel-desc">Answer these questions to generate the perfect prompt</p>
+
+          <div class="nb-question-group">
+            <label class="nb-label">What is your primary goal?</label>
+            <select id="primaryGoal" class="nb-select">
+              <option value="">Select primary purpose...</option>
+              <option value="image-generation">Image Generation</option>
+              <option value="text-transformation">Text Transformation</option>
+              <option value="code-generation">Code Generation</option>
+              <option value="hybrid-workflow">Hybrid Workflow</option>
+              <option value="multi-modal">Multi-Modal Processing</option>
+              <option value="data-analysis">Data Analysis</option>
+              <option value="creative-writing">Creative Writing</option>
+              <option value="technical-documentation">Technical Documentation</option>
+              <option value="custom">Custom Use Case</option>
+            </select>
+          </div>
+
+          <div class="nb-question-group">
+            <label class="nb-label">User Skill Level</label>
+            <select id="skillLevel" class="nb-select">
+              <option value="">Select skill level...</option>
+              <option value="beginner">Beginner - New to AI prompts</option>
+              <option value="intermediate">Intermediate - Familiar with basics</option>
+              <option value="advanced">Advanced - Experienced prompt engineer</option>
+              <option value="expert">Expert - Professional AI practitioner</option>
+            </select>
+          </div>
+
+          <div class="nb-question-group">
+            <label class="nb-label">Output Context</label>
+            <input type="text" id="outputContext" class="nb-input" placeholder="e.g., Marketing campaign, Research paper, Mobile app" />
+          </div>
+
+          <div class="nb-question-group">
+            <label class="nb-label">Desired Outcome</label>
+            <textarea id="desiredOutcome" class="nb-textarea" rows="3" placeholder="Describe what success looks like for this prompt..."></textarea>
+          </div>
+
+          <div class="nb-question-group">
+            <label class="nb-label">Constraints & Requirements</label>
+            <textarea id="constraints" class="nb-textarea" rows="2" placeholder="Any limitations, requirements, or specific guidelines..."></textarea>
+          </div>
+
+          <div class="nb-question-group">
+            <label class="nb-label">Target Audience</label>
+            <input type="text" id="audience" class="nb-input" placeholder="e.g., Developers, Designers, General public" />
+          </div>
+
+          <div class="nb-question-group">
+            <label class="nb-label">Integration Needs</label>
+            <select id="integration" class="nb-select">
+              <option value="none">Standalone</option>
+              <option value="api">API Integration</option>
+              <option value="batch">Batch Processing</option>
+              <option value="workflow">Workflow Automation</option>
+              <option value="team">Team/Collaborative</option>
+            </select>
+          </div>
+
+          <button id="analyzeIntent" class="nb-btn-primary nb-btn-large">🔍 Analyze & Generate Templates</button>
+        </div>
+
+        <!-- Template Selector -->
+        <div class="nb-panel nb-templates-panel">
+          <h2>📋 Smart Templates</h2>
+          <p class="nb-panel-desc">AI-selected templates based on your intent</p>
+
+          <div class="nb-template-filter">
+            <input type="text" id="templateSearch" class="nb-input" placeholder="🔍 Search templates..." />
+            <select id="templateCategory" class="nb-select">
+              <option value="all">All Categories</option>
+              <option value="recommended">⭐ Recommended</option>
+              <option value="simple">Simple</option>
+              <option value="advanced">Advanced</option>
+              <option value="image">Image</option>
+              <option value="text">Text</option>
+              <option value="code">Code</option>
+              <option value="hybrid">Hybrid</option>
+              <option value="multimodal">Multi-Modal</option>
+            </select>
+          </div>
+
+          <div id="templatesList" class="nb-templates-list">
+            <!-- Templates will be dynamically loaded -->
+          </div>
+        </div>
+
+        <!-- Technique Library -->
+        <div class="nb-panel nb-techniques-panel">
+          <h2>🧠 Prompt Engineering Techniques</h2>
+          <p class="nb-panel-desc">Select techniques to enhance your prompt</p>
+
+          <div class="nb-techniques-grid" id="techniquesList">
+            <!-- Techniques loaded dynamically -->
+          </div>
+
+          <div class="nb-techniques-info">
+            <p id="techniqueDescription" class="nb-info-text">Select a technique to see details</p>
+          </div>
+        </div>
+
+        <!-- Prompt Builder Canvas -->
+        <div class="nb-panel nb-canvas-panel">
+          <h2>✨ Prompt Builder Canvas</h2>
+
+          <div class="nb-builder-controls">
+            <select id="roleVoice" class="nb-select">
+              <option value="">Select role/voice...</option>
+              <option value="expert">Expert - Authoritative specialist</option>
+              <option value="instructional">Instructional - Clear teacher</option>
+              <option value="playful">Playful - Creative and fun</option>
+              <option value="academic">Academic - Scholarly and precise</option>
+              <option value="technical">Technical - Engineering-focused</option>
+              <option value="conversational">Conversational - Friendly guide</option>
+            </select>
+
+            <select id="outputFormat" class="nb-select">
+              <option value="text">Plain Text</option>
+              <option value="markdown">Markdown</option>
+              <option value="json">JSON</option>
+              <option value="xml">XML</option>
+              <option value="api-call">API Call Format</option>
+            </select>
+
+            <button id="addVariable" class="nb-btn-secondary">+ Add Variable</button>
+            <button id="clearCanvas" class="nb-btn-secondary">🗑️ Clear</button>
+          </div>
+
+          <!-- Variables Manager -->
+          <div class="nb-variables-section" id="variablesSection">
+            <h3>🔧 Variables</h3>
+            <div id="variablesList" class="nb-variables-list">
+              <!-- Variables added dynamically -->
+            </div>
+          </div>
+
+          <!-- Prompt Editor -->
+          <div class="nb-editor-section">
+            <div class="nb-editor-header">
+              <h3>Prompt Editor</h3>
+              <div class="nb-editor-stats">
+                <span id="charCount">0 characters</span>
+                <span id="wordCount">0 words</span>
+                <span id="tokenEstimate">~0 tokens</span>
+              </div>
+            </div>
+            <textarea id="promptEditor" class="nb-editor" placeholder="Your prompt will appear here, or write your own..."></textarea>
+          </div>
+
+          <!-- Real-time Validation -->
+          <div class="nb-validation-section">
+            <h3>⚡ Real-time Validation</h3>
+            <div id="validationResults" class="nb-validation-results">
+              <div class="nb-validation-item nb-info">
+                <span class="nb-icon">ℹ️</span>
+                <span>Start building to see validation results</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quality Score -->
+          <div class="nb-quality-section">
+            <h3>📊 Prompt Quality Score</h3>
+            <div class="nb-quality-metrics">
+              <div class="nb-metric">
+                <label>Clarity</label>
+                <div class="nb-score-bar"><div class="nb-score-fill" id="clarity-score"></div></div>
+                <span id="clarity-value">0/10</span>
+              </div>
+              <div class="nb-metric">
+                <label>Coverage</label>
+                <div class="nb-score-bar"><div class="nb-score-fill" id="coverage-score"></div></div>
+                <span id="coverage-value">0/10</span>
+              </div>
+              <div class="nb-metric">
+                <label>Effectiveness</label>
+                <div class="nb-score-bar"><div class="nb-score-fill" id="effectiveness-score"></div></div>
+                <span id="effectiveness-value">0/10</span>
+              </div>
+              <div class="nb-metric">
+                <label>Creativity</label>
+                <div class="nb-score-bar"><div class="nb-score-fill" id="creativity-score"></div></div>
+                <span id="creativity-value">0/10</span>
+              </div>
+              <div class="nb-metric">
+                <label>Success Likelihood</label>
+                <div class="nb-score-bar"><div class="nb-score-fill" id="success-score"></div></div>
+                <span id="success-value">0/10</span>
+              </div>
+            </div>
+            <div class="nb-overall-score">
+              <h4>Overall Score: <span id="overall-score">0.0/10</span></h4>
+              <div id="scoreRecommendation" class="nb-score-recommendation"></div>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="nb-actions">
+            <button id="regeneratePrompt" class="nb-btn-primary">🔄 Regenerate</button>
+            <button id="optimizePrompt" class="nb-btn-primary">✨ Auto-Optimize to 10/10</button>
+            <button id="generateVariants" class="nb-btn-secondary">🎲 Generate Variants</button>
+            <button id="savePrompt" class="nb-btn-secondary">💾 Save</button>
+            <button id="exportPrompt" class="nb-btn-secondary">📥 Export</button>
+            <button id="copyPrompt" class="nb-btn-primary nb-btn-large">📋 Copy to Clipboard</button>
+          </div>
+        </div>
+
+        <!-- Meta Evaluation Panel -->
+        <div class="nb-panel nb-evaluation-panel">
+          <h2>🔬 Meta-Evaluation & Self-Critique</h2>
+          <div id="metaEvaluation" class="nb-meta-eval">
+            <p class="nb-info-text">Click "Analyze Prompt" to get detailed meta-evaluation</p>
+          </div>
+          <button id="analyzePrompt" class="nb-btn-primary">🔍 Deep Analysis</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Template Library View -->
+    <section class="nb-view" id="library-view" style="display: none;">
+      <div class="nb-library">
+        <h2>📚 Complete Template Library</h2>
+
+        <div class="nb-library-filters">
+          <input type="text" id="librarySearch" class="nb-input" placeholder="🔍 Search library..." />
+          <select id="libraryCategory" class="nb-select">
+            <option value="all">All Templates</option>
+            <option value="image">Image Generation</option>
+            <option value="text">Text Processing</option>
+            <option value="code">Code & Development</option>
+            <option value="creative">Creative & Writing</option>
+            <option value="business">Business & Marketing</option>
+            <option value="research">Research & Analysis</option>
+            <option value="education">Education & Training</option>
+            <option value="custom">Custom Templates</option>
+          </select>
+          <select id="libraryComplexity" class="nb-select">
+            <option value="all">All Complexity Levels</option>
+            <option value="simple">Simple</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+            <option value="expert">Expert</option>
+          </select>
+        </div>
+
+        <div id="libraryGrid" class="nb-library-grid">
+          <!-- Library items loaded dynamically -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Validation View -->
+    <section class="nb-view" id="validate-view" style="display: none;">
+      <div class="nb-validator">
+        <h2>✓ Prompt Validator & Analyzer</h2>
+
+        <div class="nb-validator-input">
+          <label class="nb-label">Paste your prompt for comprehensive validation:</label>
+          <textarea id="validatorInput" class="nb-textarea-large" rows="10" placeholder="Paste your Nano Banana prompt here..."></textarea>
+          <button id="validateBtn" class="nb-btn-primary nb-btn-large">🔍 Validate & Analyze</button>
+        </div>
+
+        <div id="validatorResults" class="nb-validator-results">
+          <!-- Results shown after validation -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Resources View -->
+    <section class="nb-view" id="resources-view" style="display: none;">
+      <div class="nb-resources">
+        <h2>📖 Nano Banana Resource Hub</h2>
+
+        <div class="nb-resources-grid">
+          <div class="nb-resource-card">
+            <h3>📘 Official Documentation</h3>
+            <ul class="nb-resource-list" id="docsList"></ul>
+          </div>
+
+          <div class="nb-resource-card">
+            <h3>🎨 Visual Examples</h3>
+            <ul class="nb-resource-list" id="examplesList"></ul>
+          </div>
+
+          <div class="nb-resource-card">
+            <h3>💡 Syntax Cheat Sheets</h3>
+            <ul class="nb-resource-list" id="cheatsheetsList"></ul>
+          </div>
+
+          <div class="nb-resource-card">
+            <h3>💬 Community & Discussions</h3>
+            <ul class="nb-resource-list" id="communityList"></ul>
+          </div>
+
+          <div class="nb-resource-card">
+            <h3>🎓 Tutorial Videos</h3>
+            <ul class="nb-resource-list" id="tutorialsList"></ul>
+          </div>
+
+          <div class="nb-resource-card">
+            <h3>🔧 API Reference</h3>
+            <ul class="nb-resource-list" id="apiRefList"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Batch Generator Modal -->
+    <div id="batchModal" class="nb-modal" style="display: none;">
+      <div class="nb-modal-content nb-modal-large">
+        <div class="nb-modal-header">
+          <h2>🎲 Batch Prompt Generator</h2>
+          <span class="nb-modal-close">&times;</span>
+        </div>
+        <div class="nb-modal-body">
+          <div class="nb-batch-config">
+            <label class="nb-label">Number of Variants:</label>
+            <input type="number" id="batchCount" class="nb-input" value="5" min="1" max="50" />
+
+            <label class="nb-label">Variation Strategy:</label>
+            <select id="variationStrategy" class="nb-select">
+              <option value="diverse">Maximum Diversity</option>
+              <option value="incremental">Incremental Improvements</option>
+              <option value="style">Style Variations</option>
+              <option value="technical">Technical Variations</option>
+              <option value="creative">Creative Alternatives</option>
+            </select>
+          </div>
+
+          <div id="batchResults" class="nb-batch-results"></div>
+        </div>
+        <div class="nb-modal-footer">
+          <button id="generateBatch" class="nb-btn-primary">Generate Variants</button>
+          <button id="closeBatchModal" class="nb-btn-secondary">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Variable Modal -->
+    <div id="variableModal" class="nb-modal" style="display: none;">
+      <div class="nb-modal-content">
+        <div class="nb-modal-header">
+          <h2>🔧 Add Variable</h2>
+          <span class="nb-modal-close">&times;</span>
+        </div>
+        <div class="nb-modal-body">
+          <label class="nb-label">Variable Name:</label>
+          <input type="text" id="varName" class="nb-input" placeholder="e.g., subject, style, tone" />
+
+          <label class="nb-label">Description:</label>
+          <input type="text" id="varDescription" class="nb-input" placeholder="What does this variable control?" />
+
+          <label class="nb-label">Default Value:</label>
+          <input type="text" id="varDefault" class="nb-input" placeholder="Optional default value" />
+
+          <label class="nb-label">Suggestions:</label>
+          <textarea id="varSuggestions" class="nb-textarea" rows="3" placeholder="Comma-separated suggestions (e.g., red, blue, green)"></textarea>
+        </div>
+        <div class="nb-modal-footer">
+          <button id="addVarBtn" class="nb-btn-primary">Add Variable</button>
+          <button id="closeVarModal" class="nb-btn-secondary">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="nano-banana-builder.js"></script>
+</body>
+</html>
