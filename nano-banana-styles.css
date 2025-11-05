@@ -1172,3 +1172,113 @@ body {
 button:focus-visible {
   outline: 3px solid var(--nb-secondary);
 }
+
+/* Toast Notifications */
+.nb-toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  min-width: 300px;
+  max-width: 500px;
+  padding: var(--nb-spacing-md) var(--nb-spacing-lg);
+  border-radius: var(--nb-radius-md);
+  box-shadow: 0 4px 20px var(--nb-shadow);
+  display: flex;
+  align-items: center;
+  gap: var(--nb-spacing-md);
+  z-index: 10000;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.nb-toast-error {
+  background: var(--nb-error);
+  color: white;
+}
+
+.nb-toast-success {
+  background: var(--nb-success);
+  color: white;
+}
+
+.nb-toast-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.nb-toast-close {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  margin-left: auto;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.nb-toast-close:hover {
+  opacity: 1;
+}
+
+/* Loading Spinner */
+.nb-spinner {
+  border: 3px solid var(--nb-bg-tertiary);
+  border-top: 3px solid var(--nb-secondary);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Error States */
+.nb-input-error,
+.nb-select-error,
+.nb-textarea-error {
+  border-color: var(--nb-error) !important;
+}
+
+.nb-error-message {
+  color: var(--nb-error);
+  font-size: 0.85rem;
+  margin-top: var(--nb-spacing-xs);
+  display: block;
+}
+
+/* Disabled States */
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Focus States - Enhanced */
+*:focus-visible {
+  outline: 3px solid var(--nb-secondary);
+  outline-offset: 2px;
+}
+
+button:focus-visible,
+.nb-btn-primary:focus-visible,
+.nb-btn-secondary:focus-visible {
+  outline: 3px solid var(--nb-primary);
+}

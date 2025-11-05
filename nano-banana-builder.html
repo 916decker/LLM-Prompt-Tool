@@ -1,127 +1,139 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="The world's most advanced Google Nano Banana prompt engineering system">
   <title>Google Nano Banana Prompt Builder - Ultimate Edition</title>
   <link rel="stylesheet" href="nano-banana-styles.css">
 </head>
 <body>
-  <div class="nb-container">
+  <noscript>
+    <div style="padding: 20px; text-align: center; background: #fff3cd; border: 2px solid #ffc107;">
+      <h2>⚠️ JavaScript Required</h2>
+      <p>This application requires JavaScript to function. Please enable JavaScript in your browser settings.</p>
+    </div>
+  </noscript>
+
+  <div class="nb-container" id="app">
     <!-- Header with Navigation -->
-    <header class="nb-header">
+    <header class="nb-header" role="banner">
       <div class="nb-logo">
         <h1>🍌 Google Nano Banana Prompt Builder</h1>
         <p class="nb-tagline">The World's Most Advanced Nano Banana Prompt Engineering System</p>
       </div>
-      <nav class="nb-nav">
-        <button class="nb-nav-btn active" data-view="builder">⚡ Builder</button>
-        <button class="nb-nav-btn" data-view="onboarding">🎓 Learn</button>
-        <button class="nb-nav-btn" data-view="library">📚 Library</button>
-        <button class="nb-nav-btn" data-view="validate">✓ Validate</button>
-        <button class="nb-nav-btn" data-view="resources">📖 Resources</button>
+      <nav class="nb-nav" role="navigation" aria-label="Main navigation">
+        <button class="nb-nav-btn active" data-view="builder" aria-label="Builder view" type="button">⚡ Builder</button>
+        <button class="nb-nav-btn" data-view="onboarding" aria-label="Learning view" type="button">🎓 Learn</button>
+        <button class="nb-nav-btn" data-view="library" aria-label="Template library view" type="button">📚 Library</button>
+        <button class="nb-nav-btn" data-view="validate" aria-label="Validation view" type="button">✓ Validate</button>
+        <button class="nb-nav-btn" data-view="resources" aria-label="Resources view" type="button">📖 Resources</button>
       </nav>
     </header>
 
     <!-- Onboarding/Learning View -->
-    <section class="nb-view" id="onboarding-view" style="display: none;">
+    <section class="nb-view" id="onboarding-view" style="display: none;" role="region" aria-labelledby="onboarding-title">
       <div class="nb-onboarding">
-        <h2>🎓 Master Google Nano Banana in Minutes</h2>
+        <h2 id="onboarding-title">🎓 Master Google Nano Banana in Minutes</h2>
 
-        <div class="nb-lesson-tabs">
-          <button class="nb-lesson-tab active" data-lesson="intro">Introduction</button>
-          <button class="nb-lesson-tab" data-lesson="strengths">Strengths</button>
-          <button class="nb-lesson-tab" data-lesson="limitations">Limitations</button>
-          <button class="nb-lesson-tab" data-lesson="usecases">Use Cases</button>
-          <button class="nb-lesson-tab" data-lesson="fundamentals">Fundamentals</button>
-          <button class="nb-lesson-tab" data-lesson="advanced">Advanced</button>
+        <div class="nb-lesson-tabs" role="tablist" aria-label="Lesson navigation">
+          <button class="nb-lesson-tab active" data-lesson="intro" role="tab" aria-selected="true" aria-controls="lesson-content" type="button">Introduction</button>
+          <button class="nb-lesson-tab" data-lesson="strengths" role="tab" aria-selected="false" aria-controls="lesson-content" type="button">Strengths</button>
+          <button class="nb-lesson-tab" data-lesson="limitations" role="tab" aria-selected="false" aria-controls="lesson-content" type="button">Limitations</button>
+          <button class="nb-lesson-tab" data-lesson="usecases" role="tab" aria-selected="false" aria-controls="lesson-content" type="button">Use Cases</button>
+          <button class="nb-lesson-tab" data-lesson="fundamentals" role="tab" aria-selected="false" aria-controls="lesson-content" type="button">Fundamentals</button>
+          <button class="nb-lesson-tab" data-lesson="advanced" role="tab" aria-selected="false" aria-controls="lesson-content" type="button">Advanced</button>
         </div>
 
-        <div class="nb-lesson-content" id="lesson-content">
-          <!-- Dynamic content loaded by JS -->
+        <div class="nb-lesson-content" id="lesson-content" role="tabpanel">
+          <p class="nb-info-text">Loading lesson content...</p>
         </div>
 
-        <div class="nb-onboarding-progress">
-          <div class="nb-progress-bar">
-            <div class="nb-progress-fill" id="onboarding-progress"></div>
+        <div class="nb-onboarding-progress" role="status" aria-live="polite">
+          <div class="nb-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="nb-progress-fill" id="onboarding-progress" style="width: 0%;"></div>
           </div>
           <p id="progress-text">Progress: 0% Complete</p>
         </div>
 
         <div class="nb-onboarding-actions">
-          <button id="prevLesson" class="nb-btn-secondary">← Previous</button>
-          <button id="nextLesson" class="nb-btn-primary">Next →</button>
-          <button id="skipOnboarding" class="nb-btn-link">Skip to Builder</button>
+          <button id="prevLesson" class="nb-btn-secondary" type="button" aria-label="Previous lesson">← Previous</button>
+          <button id="nextLesson" class="nb-btn-primary" type="button" aria-label="Next lesson">Next →</button>
+          <button id="skipOnboarding" class="nb-btn-link" type="button" aria-label="Skip to builder">Skip to Builder</button>
         </div>
       </div>
     </section>
 
     <!-- Main Builder View -->
-    <section class="nb-view active" id="builder-view">
+    <section class="nb-view active" id="builder-view" role="region" aria-labelledby="builder-title">
       <div class="nb-builder">
         <!-- Clarifying Questions Panel -->
         <div class="nb-panel nb-questions-panel">
-          <h2>🎯 Define Your Intent</h2>
+          <h2 id="builder-title">🎯 Define Your Intent</h2>
           <p class="nb-panel-desc">Answer these questions to generate the perfect prompt</p>
 
-          <div class="nb-question-group">
-            <label class="nb-label">What is your primary goal?</label>
-            <select id="primaryGoal" class="nb-select">
-              <option value="">Select primary purpose...</option>
-              <option value="image-generation">Image Generation</option>
-              <option value="text-transformation">Text Transformation</option>
-              <option value="code-generation">Code Generation</option>
-              <option value="hybrid-workflow">Hybrid Workflow</option>
-              <option value="multi-modal">Multi-Modal Processing</option>
-              <option value="data-analysis">Data Analysis</option>
-              <option value="creative-writing">Creative Writing</option>
-              <option value="technical-documentation">Technical Documentation</option>
-              <option value="custom">Custom Use Case</option>
-            </select>
-          </div>
+          <form id="intentForm" novalidate>
+            <div class="nb-question-group">
+              <label class="nb-label" for="primaryGoal">What is your primary goal?</label>
+              <select id="primaryGoal" class="nb-select" aria-describedby="primaryGoal-hint">
+                <option value="">Select primary purpose...</option>
+                <option value="image-generation">Image Generation</option>
+                <option value="text-transformation">Text Transformation</option>
+                <option value="code-generation">Code Generation</option>
+                <option value="hybrid-workflow">Hybrid Workflow</option>
+                <option value="multi-modal">Multi-Modal Processing</option>
+                <option value="data-analysis">Data Analysis</option>
+                <option value="creative-writing">Creative Writing</option>
+                <option value="technical-documentation">Technical Documentation</option>
+                <option value="custom">Custom Use Case</option>
+              </select>
+              <span id="primaryGoal-hint" class="sr-only">Choose the main type of output you want to create</span>
+            </div>
 
-          <div class="nb-question-group">
-            <label class="nb-label">User Skill Level</label>
-            <select id="skillLevel" class="nb-select">
-              <option value="">Select skill level...</option>
-              <option value="beginner">Beginner - New to AI prompts</option>
-              <option value="intermediate">Intermediate - Familiar with basics</option>
-              <option value="advanced">Advanced - Experienced prompt engineer</option>
-              <option value="expert">Expert - Professional AI practitioner</option>
-            </select>
-          </div>
+            <div class="nb-question-group">
+              <label class="nb-label" for="skillLevel">User Skill Level</label>
+              <select id="skillLevel" class="nb-select">
+                <option value="">Select skill level...</option>
+                <option value="beginner">Beginner - New to AI prompts</option>
+                <option value="intermediate">Intermediate - Familiar with basics</option>
+                <option value="advanced">Advanced - Experienced prompt engineer</option>
+                <option value="expert">Expert - Professional AI practitioner</option>
+              </select>
+            </div>
 
-          <div class="nb-question-group">
-            <label class="nb-label">Output Context</label>
-            <input type="text" id="outputContext" class="nb-input" placeholder="e.g., Marketing campaign, Research paper, Mobile app" />
-          </div>
+            <div class="nb-question-group">
+              <label class="nb-label" for="outputContext">Output Context</label>
+              <input type="text" id="outputContext" class="nb-input" placeholder="e.g., Marketing campaign, Research paper, Mobile app" maxlength="200" />
+            </div>
 
-          <div class="nb-question-group">
-            <label class="nb-label">Desired Outcome</label>
-            <textarea id="desiredOutcome" class="nb-textarea" rows="3" placeholder="Describe what success looks like for this prompt..."></textarea>
-          </div>
+            <div class="nb-question-group">
+              <label class="nb-label" for="desiredOutcome">Desired Outcome</label>
+              <textarea id="desiredOutcome" class="nb-textarea" rows="3" placeholder="Describe what success looks like for this prompt..." maxlength="1000"></textarea>
+            </div>
 
-          <div class="nb-question-group">
-            <label class="nb-label">Constraints & Requirements</label>
-            <textarea id="constraints" class="nb-textarea" rows="2" placeholder="Any limitations, requirements, or specific guidelines..."></textarea>
-          </div>
+            <div class="nb-question-group">
+              <label class="nb-label" for="constraints">Constraints & Requirements</label>
+              <textarea id="constraints" class="nb-textarea" rows="2" placeholder="Any limitations, requirements, or specific guidelines..." maxlength="1000"></textarea>
+            </div>
 
-          <div class="nb-question-group">
-            <label class="nb-label">Target Audience</label>
-            <input type="text" id="audience" class="nb-input" placeholder="e.g., Developers, Designers, General public" />
-          </div>
+            <div class="nb-question-group">
+              <label class="nb-label" for="audience">Target Audience</label>
+              <input type="text" id="audience" class="nb-input" placeholder="e.g., Developers, Designers, General public" maxlength="200" />
+            </div>
 
-          <div class="nb-question-group">
-            <label class="nb-label">Integration Needs</label>
-            <select id="integration" class="nb-select">
-              <option value="none">Standalone</option>
-              <option value="api">API Integration</option>
-              <option value="batch">Batch Processing</option>
-              <option value="workflow">Workflow Automation</option>
-              <option value="team">Team/Collaborative</option>
-            </select>
-          </div>
+            <div class="nb-question-group">
+              <label class="nb-label" for="integration">Integration Needs</label>
+              <select id="integration" class="nb-select">
+                <option value="none">Standalone</option>
+                <option value="api">API Integration</option>
+                <option value="batch">Batch Processing</option>
+                <option value="workflow">Workflow Automation</option>
+                <option value="team">Team/Collaborative</option>
+              </select>
+            </div>
 
-          <button id="analyzeIntent" class="nb-btn-primary nb-btn-large">🔍 Analyze & Generate Templates</button>
+            <button id="analyzeIntent" class="nb-btn-primary nb-btn-large" type="button">🔍 Analyze & Generate Templates</button>
+          </form>
         </div>
 
         <!-- Template Selector -->
@@ -130,7 +142,10 @@
           <p class="nb-panel-desc">AI-selected templates based on your intent</p>
 
           <div class="nb-template-filter">
-            <input type="text" id="templateSearch" class="nb-input" placeholder="🔍 Search templates..." />
+            <label for="templateSearch" class="sr-only">Search templates</label>
+            <input type="text" id="templateSearch" class="nb-input" placeholder="🔍 Search templates..." maxlength="100" />
+
+            <label for="templateCategory" class="sr-only">Filter by category</label>
             <select id="templateCategory" class="nb-select">
               <option value="all">All Categories</option>
               <option value="recommended">⭐ Recommended</option>
@@ -144,8 +159,8 @@
             </select>
           </div>
 
-          <div id="templatesList" class="nb-templates-list">
-            <!-- Templates will be dynamically loaded -->
+          <div id="templatesList" class="nb-templates-list" role="list" aria-label="Available templates">
+            <p class="nb-info-text">Loading templates...</p>
           </div>
         </div>
 
@@ -154,11 +169,11 @@
           <h2>🧠 Prompt Engineering Techniques</h2>
           <p class="nb-panel-desc">Select techniques to enhance your prompt</p>
 
-          <div class="nb-techniques-grid" id="techniquesList">
-            <!-- Techniques loaded dynamically -->
+          <div class="nb-techniques-grid" id="techniquesList" role="list" aria-label="Available techniques">
+            <p class="nb-info-text">Loading techniques...</p>
           </div>
 
-          <div class="nb-techniques-info">
+          <div class="nb-techniques-info" role="status" aria-live="polite">
             <p id="techniqueDescription" class="nb-info-text">Select a technique to see details</p>
           </div>
         </div>
@@ -168,6 +183,7 @@
           <h2>✨ Prompt Builder Canvas</h2>
 
           <div class="nb-builder-controls">
+            <label for="roleVoice" class="sr-only">Select role or voice</label>
             <select id="roleVoice" class="nb-select">
               <option value="">Select role/voice...</option>
               <option value="expert">Expert - Authoritative specialist</option>
@@ -178,6 +194,7 @@
               <option value="conversational">Conversational - Friendly guide</option>
             </select>
 
+            <label for="outputFormat" class="sr-only">Select output format</label>
             <select id="outputFormat" class="nb-select">
               <option value="text">Plain Text</option>
               <option value="markdown">Markdown</option>
@@ -186,15 +203,15 @@
               <option value="api-call">API Call Format</option>
             </select>
 
-            <button id="addVariable" class="nb-btn-secondary">+ Add Variable</button>
-            <button id="clearCanvas" class="nb-btn-secondary">🗑️ Clear</button>
+            <button id="addVariable" class="nb-btn-secondary" type="button" aria-label="Add new variable">+ Add Variable</button>
+            <button id="clearCanvas" class="nb-btn-secondary" type="button" aria-label="Clear canvas">🗑️ Clear</button>
           </div>
 
           <!-- Variables Manager -->
           <div class="nb-variables-section" id="variablesSection">
             <h3>🔧 Variables</h3>
-            <div id="variablesList" class="nb-variables-list">
-              <!-- Variables added dynamically -->
+            <div id="variablesList" class="nb-variables-list" role="list" aria-label="Current variables">
+              <p class="nb-info-text">No variables defined. Click "Add Variable" to create one.</p>
             </div>
           </div>
 
@@ -202,21 +219,22 @@
           <div class="nb-editor-section">
             <div class="nb-editor-header">
               <h3>Prompt Editor</h3>
-              <div class="nb-editor-stats">
-                <span id="charCount">0 characters</span>
-                <span id="wordCount">0 words</span>
-                <span id="tokenEstimate">~0 tokens</span>
+              <div class="nb-editor-stats" role="status" aria-live="polite">
+                <span id="charCount" aria-label="Character count">0 characters</span>
+                <span id="wordCount" aria-label="Word count">0 words</span>
+                <span id="tokenEstimate" aria-label="Token estimate">~0 tokens</span>
               </div>
             </div>
-            <textarea id="promptEditor" class="nb-editor" placeholder="Your prompt will appear here, or write your own..."></textarea>
+            <label for="promptEditor" class="sr-only">Prompt editor</label>
+            <textarea id="promptEditor" class="nb-editor" placeholder="Your prompt will appear here, or write your own..." spellcheck="true"></textarea>
           </div>
 
           <!-- Real-time Validation -->
           <div class="nb-validation-section">
             <h3>⚡ Real-time Validation</h3>
-            <div id="validationResults" class="nb-validation-results">
+            <div id="validationResults" class="nb-validation-results" role="status" aria-live="polite">
               <div class="nb-validation-item nb-info">
-                <span class="nb-icon">ℹ️</span>
+                <span class="nb-icon" aria-hidden="true">ℹ️</span>
                 <span>Start building to see validation results</span>
               </div>
             </div>
@@ -225,68 +243,81 @@
           <!-- Quality Score -->
           <div class="nb-quality-section">
             <h3>📊 Prompt Quality Score</h3>
-            <div class="nb-quality-metrics">
+            <div class="nb-quality-metrics" role="status" aria-live="polite">
               <div class="nb-metric">
                 <label>Clarity</label>
-                <div class="nb-score-bar"><div class="nb-score-fill" id="clarity-score"></div></div>
-                <span id="clarity-value">0/10</span>
+                <div class="nb-score-bar" role="progressbar" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0" aria-label="Clarity score">
+                  <div class="nb-score-fill" id="clarity-score" style="width: 0%;"></div>
+                </div>
+                <span id="clarity-value" aria-label="Clarity value">0/10</span>
               </div>
               <div class="nb-metric">
                 <label>Coverage</label>
-                <div class="nb-score-bar"><div class="nb-score-fill" id="coverage-score"></div></div>
-                <span id="coverage-value">0/10</span>
+                <div class="nb-score-bar" role="progressbar" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0" aria-label="Coverage score">
+                  <div class="nb-score-fill" id="coverage-score" style="width: 0%;"></div>
+                </div>
+                <span id="coverage-value" aria-label="Coverage value">0/10</span>
               </div>
               <div class="nb-metric">
                 <label>Effectiveness</label>
-                <div class="nb-score-bar"><div class="nb-score-fill" id="effectiveness-score"></div></div>
-                <span id="effectiveness-value">0/10</span>
+                <div class="nb-score-bar" role="progressbar" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0" aria-label="Effectiveness score">
+                  <div class="nb-score-fill" id="effectiveness-score" style="width: 0%;"></div>
+                </div>
+                <span id="effectiveness-value" aria-label="Effectiveness value">0/10</span>
               </div>
               <div class="nb-metric">
                 <label>Creativity</label>
-                <div class="nb-score-bar"><div class="nb-score-fill" id="creativity-score"></div></div>
-                <span id="creativity-value">0/10</span>
+                <div class="nb-score-bar" role="progressbar" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0" aria-label="Creativity score">
+                  <div class="nb-score-fill" id="creativity-score" style="width: 0%;"></div>
+                </div>
+                <span id="creativity-value" aria-label="Creativity value">0/10</span>
               </div>
               <div class="nb-metric">
                 <label>Success Likelihood</label>
-                <div class="nb-score-bar"><div class="nb-score-fill" id="success-score"></div></div>
-                <span id="success-value">0/10</span>
+                <div class="nb-score-bar" role="progressbar" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0" aria-label="Success likelihood score">
+                  <div class="nb-score-fill" id="success-score" style="width: 0%;"></div>
+                </div>
+                <span id="success-value" aria-label="Success likelihood value">0/10</span>
               </div>
             </div>
             <div class="nb-overall-score">
-              <h4>Overall Score: <span id="overall-score">0.0/10</span></h4>
-              <div id="scoreRecommendation" class="nb-score-recommendation"></div>
+              <h4>Overall Score: <span id="overall-score" aria-label="Overall quality score">0.0/10</span></h4>
+              <div id="scoreRecommendation" class="nb-score-recommendation" role="status" aria-live="polite"></div>
             </div>
           </div>
 
           <!-- Actions -->
           <div class="nb-actions">
-            <button id="regeneratePrompt" class="nb-btn-primary">🔄 Regenerate</button>
-            <button id="optimizePrompt" class="nb-btn-primary">✨ Auto-Optimize to 10/10</button>
-            <button id="generateVariants" class="nb-btn-secondary">🎲 Generate Variants</button>
-            <button id="savePrompt" class="nb-btn-secondary">💾 Save</button>
-            <button id="exportPrompt" class="nb-btn-secondary">📥 Export</button>
-            <button id="copyPrompt" class="nb-btn-primary nb-btn-large">📋 Copy to Clipboard</button>
+            <button id="regeneratePrompt" class="nb-btn-primary" type="button" aria-label="Regenerate prompt">🔄 Regenerate</button>
+            <button id="optimizePrompt" class="nb-btn-primary" type="button" aria-label="Auto-optimize to 10/10">✨ Auto-Optimize to 10/10</button>
+            <button id="generateVariants" class="nb-btn-secondary" type="button" aria-label="Generate variants">🎲 Generate Variants</button>
+            <button id="savePrompt" class="nb-btn-secondary" type="button" aria-label="Save prompt">💾 Save</button>
+            <button id="exportPrompt" class="nb-btn-secondary" type="button" aria-label="Export prompt">📥 Export</button>
+            <button id="copyPrompt" class="nb-btn-primary nb-btn-large" type="button" aria-label="Copy to clipboard">📋 Copy to Clipboard</button>
           </div>
         </div>
 
         <!-- Meta Evaluation Panel -->
         <div class="nb-panel nb-evaluation-panel">
           <h2>🔬 Meta-Evaluation & Self-Critique</h2>
-          <div id="metaEvaluation" class="nb-meta-eval">
+          <div id="metaEvaluation" class="nb-meta-eval" role="status" aria-live="polite">
             <p class="nb-info-text">Click "Analyze Prompt" to get detailed meta-evaluation</p>
           </div>
-          <button id="analyzePrompt" class="nb-btn-primary">🔍 Deep Analysis</button>
+          <button id="analyzePrompt" class="nb-btn-primary" type="button" aria-label="Perform deep analysis">🔍 Deep Analysis</button>
         </div>
       </div>
     </section>
 
     <!-- Template Library View -->
-    <section class="nb-view" id="library-view" style="display: none;">
+    <section class="nb-view" id="library-view" style="display: none;" role="region" aria-labelledby="library-title">
       <div class="nb-library">
-        <h2>📚 Complete Template Library</h2>
+        <h2 id="library-title">📚 Complete Template Library</h2>
 
         <div class="nb-library-filters">
-          <input type="text" id="librarySearch" class="nb-input" placeholder="🔍 Search library..." />
+          <label for="librarySearch" class="sr-only">Search library</label>
+          <input type="text" id="librarySearch" class="nb-input" placeholder="🔍 Search library..." maxlength="100" />
+
+          <label for="libraryCategory" class="sr-only">Filter by category</label>
           <select id="libraryCategory" class="nb-select">
             <option value="all">All Templates</option>
             <option value="image">Image Generation</option>
@@ -298,6 +329,8 @@
             <option value="education">Education & Training</option>
             <option value="custom">Custom Templates</option>
           </select>
+
+          <label for="libraryComplexity" class="sr-only">Filter by complexity</label>
           <select id="libraryComplexity" class="nb-select">
             <option value="all">All Complexity Levels</option>
             <option value="simple">Simple</option>
@@ -307,81 +340,93 @@
           </select>
         </div>
 
-        <div id="libraryGrid" class="nb-library-grid">
-          <!-- Library items loaded dynamically -->
+        <div id="libraryGrid" class="nb-library-grid" role="list" aria-label="Template library">
+          <p class="nb-info-text">Loading templates...</p>
         </div>
       </div>
     </section>
 
     <!-- Validation View -->
-    <section class="nb-view" id="validate-view" style="display: none;">
+    <section class="nb-view" id="validate-view" style="display: none;" role="region" aria-labelledby="validator-title">
       <div class="nb-validator">
-        <h2>✓ Prompt Validator & Analyzer</h2>
+        <h2 id="validator-title">✓ Prompt Validator & Analyzer</h2>
 
         <div class="nb-validator-input">
-          <label class="nb-label">Paste your prompt for comprehensive validation:</label>
-          <textarea id="validatorInput" class="nb-textarea-large" rows="10" placeholder="Paste your Nano Banana prompt here..."></textarea>
-          <button id="validateBtn" class="nb-btn-primary nb-btn-large">🔍 Validate & Analyze</button>
+          <label class="nb-label" for="validatorInput">Paste your prompt for comprehensive validation:</label>
+          <textarea id="validatorInput" class="nb-textarea-large" rows="10" placeholder="Paste your Nano Banana prompt here..." maxlength="10000"></textarea>
+          <button id="validateBtn" class="nb-btn-primary nb-btn-large" type="button" aria-label="Validate and analyze prompt">🔍 Validate & Analyze</button>
         </div>
 
-        <div id="validatorResults" class="nb-validator-results">
+        <div id="validatorResults" class="nb-validator-results" role="status" aria-live="polite">
           <!-- Results shown after validation -->
         </div>
       </div>
     </section>
 
     <!-- Resources View -->
-    <section class="nb-view" id="resources-view" style="display: none;">
+    <section class="nb-view" id="resources-view" style="display: none;" role="region" aria-labelledby="resources-title">
       <div class="nb-resources">
-        <h2>📖 Nano Banana Resource Hub</h2>
+        <h2 id="resources-title">📖 Nano Banana Resource Hub</h2>
 
         <div class="nb-resources-grid">
           <div class="nb-resource-card">
             <h3>📘 Official Documentation</h3>
-            <ul class="nb-resource-list" id="docsList"></ul>
+            <ul class="nb-resource-list" id="docsList" role="list">
+              <li class="nb-info-text">Loading resources...</li>
+            </ul>
           </div>
 
           <div class="nb-resource-card">
             <h3>🎨 Visual Examples</h3>
-            <ul class="nb-resource-list" id="examplesList"></ul>
+            <ul class="nb-resource-list" id="examplesList" role="list">
+              <li class="nb-info-text">Loading resources...</li>
+            </ul>
           </div>
 
           <div class="nb-resource-card">
             <h3>💡 Syntax Cheat Sheets</h3>
-            <ul class="nb-resource-list" id="cheatsheetsList"></ul>
+            <ul class="nb-resource-list" id="cheatsheetsList" role="list">
+              <li class="nb-info-text">Loading resources...</li>
+            </ul>
           </div>
 
           <div class="nb-resource-card">
             <h3>💬 Community & Discussions</h3>
-            <ul class="nb-resource-list" id="communityList"></ul>
+            <ul class="nb-resource-list" id="communityList" role="list">
+              <li class="nb-info-text">Loading resources...</li>
+            </ul>
           </div>
 
           <div class="nb-resource-card">
             <h3>🎓 Tutorial Videos</h3>
-            <ul class="nb-resource-list" id="tutorialsList"></ul>
+            <ul class="nb-resource-list" id="tutorialsList" role="list">
+              <li class="nb-info-text">Loading resources...</li>
+            </ul>
           </div>
 
           <div class="nb-resource-card">
             <h3>🔧 API Reference</h3>
-            <ul class="nb-resource-list" id="apiRefList"></ul>
+            <ul class="nb-resource-list" id="apiRefList" role="list">
+              <li class="nb-info-text">Loading resources...</li>
+            </ul>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Batch Generator Modal -->
-    <div id="batchModal" class="nb-modal" style="display: none;">
+    <div id="batchModal" class="nb-modal" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="batch-modal-title">
       <div class="nb-modal-content nb-modal-large">
         <div class="nb-modal-header">
-          <h2>🎲 Batch Prompt Generator</h2>
-          <span class="nb-modal-close">&times;</span>
+          <h2 id="batch-modal-title">🎲 Batch Prompt Generator</h2>
+          <button class="nb-modal-close" type="button" aria-label="Close modal">&times;</button>
         </div>
         <div class="nb-modal-body">
           <div class="nb-batch-config">
-            <label class="nb-label">Number of Variants:</label>
-            <input type="number" id="batchCount" class="nb-input" value="5" min="1" max="50" />
+            <label class="nb-label" for="batchCount">Number of Variants:</label>
+            <input type="number" id="batchCount" class="nb-input" value="5" min="1" max="50" required />
 
-            <label class="nb-label">Variation Strategy:</label>
+            <label class="nb-label" for="variationStrategy">Variation Strategy:</label>
             <select id="variationStrategy" class="nb-select">
               <option value="diverse">Maximum Diversity</option>
               <option value="incremental">Incremental Improvements</option>
@@ -391,43 +436,75 @@
             </select>
           </div>
 
-          <div id="batchResults" class="nb-batch-results"></div>
+          <div id="batchResults" class="nb-batch-results" role="list" aria-label="Generated variants"></div>
         </div>
         <div class="nb-modal-footer">
-          <button id="generateBatch" class="nb-btn-primary">Generate Variants</button>
-          <button id="closeBatchModal" class="nb-btn-secondary">Close</button>
+          <button id="generateBatch" class="nb-btn-primary" type="button">Generate Variants</button>
+          <button id="closeBatchModal" class="nb-btn-secondary" type="button">Close</button>
         </div>
       </div>
     </div>
 
     <!-- Variable Modal -->
-    <div id="variableModal" class="nb-modal" style="display: none;">
+    <div id="variableModal" class="nb-modal" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="variable-modal-title">
       <div class="nb-modal-content">
         <div class="nb-modal-header">
-          <h2>🔧 Add Variable</h2>
-          <span class="nb-modal-close">&times;</span>
+          <h2 id="variable-modal-title">🔧 Add Variable</h2>
+          <button class="nb-modal-close" type="button" aria-label="Close modal">&times;</button>
         </div>
         <div class="nb-modal-body">
-          <label class="nb-label">Variable Name:</label>
-          <input type="text" id="varName" class="nb-input" placeholder="e.g., subject, style, tone" />
+          <label class="nb-label" for="varName">Variable Name:</label>
+          <input type="text" id="varName" class="nb-input" placeholder="e.g., subject, style, tone" maxlength="50" required />
 
-          <label class="nb-label">Description:</label>
-          <input type="text" id="varDescription" class="nb-input" placeholder="What does this variable control?" />
+          <label class="nb-label" for="varDescription">Description:</label>
+          <input type="text" id="varDescription" class="nb-input" placeholder="What does this variable control?" maxlength="200" />
 
-          <label class="nb-label">Default Value:</label>
-          <input type="text" id="varDefault" class="nb-input" placeholder="Optional default value" />
+          <label class="nb-label" for="varDefault">Default Value:</label>
+          <input type="text" id="varDefault" class="nb-input" placeholder="Optional default value" maxlength="200" />
 
-          <label class="nb-label">Suggestions:</label>
-          <textarea id="varSuggestions" class="nb-textarea" rows="3" placeholder="Comma-separated suggestions (e.g., red, blue, green)"></textarea>
+          <label class="nb-label" for="varSuggestions">Suggestions:</label>
+          <textarea id="varSuggestions" class="nb-textarea" rows="3" placeholder="Comma-separated suggestions (e.g., red, blue, green)" maxlength="500"></textarea>
         </div>
         <div class="nb-modal-footer">
-          <button id="addVarBtn" class="nb-btn-primary">Add Variable</button>
-          <button id="closeVarModal" class="nb-btn-secondary">Cancel</button>
+          <button id="addVarBtn" class="nb-btn-primary" type="button">Add Variable</button>
+          <button id="closeVarModal" class="nb-btn-secondary" type="button">Cancel</button>
         </div>
       </div>
     </div>
+
+    <!-- Error Toast -->
+    <div id="errorToast" class="nb-toast nb-toast-error" style="display: none;" role="alert" aria-live="assertive">
+      <span class="nb-toast-icon">⚠️</span>
+      <span id="errorToastMessage"></span>
+      <button class="nb-toast-close" type="button" aria-label="Close notification">&times;</button>
+    </div>
+
+    <!-- Success Toast -->
+    <div id="successToast" class="nb-toast nb-toast-success" style="display: none;" role="status" aria-live="polite">
+      <span class="nb-toast-icon">✓</span>
+      <span id="successToastMessage"></span>
+      <button class="nb-toast-close" type="button" aria-label="Close notification">&times;</button>
+    </div>
   </div>
 
+  <!-- Screen Reader Only Class -->
+  <style>
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+  </style>
+
+  <!-- Load error handler first -->
+  <script src="nano-banana-error-handler.js"></script>
+  <!-- Then load main application -->
   <script src="nano-banana-builder.js"></script>
 </body>
 </html>
