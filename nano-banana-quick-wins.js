@@ -101,7 +101,7 @@ const NanoBananaQuickWins = [
     timeToValue: '30 seconds',
     useCase: 'Indoor portraits, lifestyle photography, personal branding',
     prompt: `Indoor portrait photograph lit by window light. Person in 20s seated near large window, natural daylight streaming in from left side. Shot with Nikon Z9, 50mm f/1.8 lens for natural perspective. Window light creates soft Rembrandt lighting on face (triangle of light on cheek). Cozy indoor environment - home office or coffee shop. Warm color palette, comfortable casual clothing. Person looking directly at camera, genuine smile. Blurred background showing interior details. Professional yet approachable feel. High resolution, natural skin tones, soft shadows.`,
-    why: 'Window light is nature's softbox. Creates beautiful portraits with equipment you already have.',
+    why: 'Window light is nature\'s softbox. Creates beautiful portraits with equipment you already have.',
     proTip: 'Position subject 3-6 feet from window, turn them slightly toward light. Instant pro results.',
     tags: ['portrait', 'window-light', 'natural', 'indoor']
   },
@@ -130,7 +130,7 @@ const NanoBananaQuickWins = [
     useCase: 'Lifestyle brands, social media marketing, aspirational content',
     prompt: `Lifestyle product photography showing laptop on modern desk workspace. Shot with Sony A7III, 35mm f/2.0 lens for environmental context. Product (MacBook) is hero but shown in aspirational context. Styled desk with coffee cup, notebook, plant, and window showing city view. Natural morning light from window, bright and airy feel. Product screen showing design work. Clean, organized aesthetic appeals to creative professionals. Depth of field: laptop sharp, background slightly soft. Tells story of productive, stylish workspace. Warm color grading, professional yet relatable.`,
     why: 'Lifestyle context sells the dream, not just the product. Shows how life improves.',
-    proTip: 'Include 3-5 supporting props that tell a story. Remove anything that doesn't support narrative.',
+    proTip: 'Include 3-5 supporting props that tell a story. Remove anything that doesn\'t support narrative.',
     tags: ['product', 'lifestyle', 'workspace', 'aspirational']
   },
 
@@ -143,7 +143,7 @@ const NanoBananaQuickWins = [
     timeToValue: '1 minute',
     useCase: 'Product details, textures, scientific photography',
     prompt: `Extreme macro photograph showing detailed texture of leather material. Shot with Canon 5D Mark IV, 100mm macro lens at f/8. Extreme closeup revealing grain texture, natural imperfections, and character of genuine leather. Lighting from 45-degree angle highlights texture and depth. Shallow depth of field - sharp focus on center, gradual blur at edges. Rich brown leather color, natural tones. Professional commercial macro quality. Shows craftsmanship and material quality. Detailed enough to see individual fiber textures.`,
-    why: 'Macro shots prove quality. Shows details customers can't see in regular photos.',
+    why: 'Macro shots prove quality. Shows details customers can\'t see in regular photos.',
     proTip: 'Use f/8 to f/11 for macro - gives enough depth of field while keeping background soft.',
     tags: ['macro', 'texture', 'detail', 'close-up']
   },
@@ -214,7 +214,7 @@ const NanoBananaQuickWins = [
     useCase: 'Artistic portraits, moody photography, dramatic headshots',
     prompt: `Low-key portrait photograph with dramatic lighting. Person's face partially lit from single light source at 45 degrees, other half in deep shadow (Rembrandt lighting). Shot with Nikon Z7 II, 85mm f/1.4 lens. Black background, subject emerges from darkness. Strong contrast between light and shadow on face. Side of face catches light creating triangle of light under eye on shadow side. Moody, dramatic feel. Subject in dark clothing blending with background. Face is focal point. Professional headshot with artistic, cinematic quality. High contrast, rich blacks.`,
     why: 'Low-key lighting = instant drama. One light source creates cinema-quality portraits.',
-    proTip: 'Single light at 45 degrees + black background = professional dramatic portraits. That's it.',
+    proTip: 'Single light at 45 degrees + black background = professional dramatic portraits. That\'s it.',
     tags: ['portrait', 'dramatic', 'low-key', 'rembrandt']
   },
 
@@ -228,7 +228,7 @@ const NanoBananaQuickWins = [
     useCase: 'Architecture, design, Instagram, fine art',
     prompt: `Architectural photography emphasizing perfect symmetry. Modern building facade shot from center, creating mirror-like composition. Shot with Canon EOS R5, 24mm tilt-shift lens for perspective correction. Building perfectly centered, vertical lines straight. Blue sky centered above, ground below. Symmetrical elements - windows, doors, structural features mirror left and right. Clean, minimal aesthetic. Shot during blue hour for even lighting. Perfectly balanced composition appeals to human love of symmetry. Professional architecture photography. Colors accurate, lines crisp and straight.`,
     why: 'Symmetry is psychologically pleasing. Architecture + symmetry = Instagram gold.',
-    proTip: 'Find the exact center point, keep camera level. Symmetry only works if it's PERFECT.',
+    proTip: 'Find the exact center point, keep camera level. Symmetry only works if it\'s PERFECT.',
     tags: ['architecture', 'symmetry', 'geometric', 'minimal']
   },
 
@@ -242,7 +242,7 @@ const NanoBananaQuickWins = [
     useCase: 'Fashion photography, editorial content, magazine-style',
     prompt: `Editorial fashion photograph, high-fashion aesthetic. Model in designer clothing, strong pose showing confidence. Shot with Hasselblad H6D, 80mm lens f/4. Studio lighting - beauty dish from above creating sculpted face lighting, fill light from below. Minimal background - solid color or subtle texture. Model looking directly at camera, intense gaze. Fashion-forward styling, contemporary clothing. Professional hair and makeup. Color grading with lifted blacks and muted colors for editorial feel. Sharp focus on face, slight blur on background. Magazine-quality professional fashion photography. Sophisticated, editorial mood.`,
     why: 'Editorial = aspirational. This is fashion photography that gets published.',
-    proTip: 'Fashion is about attitude. Model's confidence and pose matter more than equipment.',
+    proTip: 'Fashion is about attitude. Model\'s confidence and pose matter more than equipment.',
     tags: ['fashion', 'editorial', 'magazine', 'high-fashion']
   },
 
@@ -270,7 +270,7 @@ const NanoBananaQuickWins = [
     useCase: 'Business content, transparency, social media storytelling',
     prompt: `Behind-the-scenes photograph showing creative work process. Shot in natural office environment with available light, Canon EOS R6, 35mm f/2.0 lens. Person working at desk with laptop, papers, coffee. Captured from side angle showing their profile and workspace. Authentic moment, not posed - person focused on work. Natural window light creating soft illumination. Workspace details visible - plants, books, tools of trade. Tells story of real work and creativity. Authentic, relatable feel. Colors warm and natural. Documentary-style composition. Shows the human side of business.`,
     why: 'BTS content builds connection and trust. Shows reality behind polished final products.',
-    proTip: 'Don't pose. Capture real work moments. Authenticity > perfection for BTS content.',
+    proTip: 'Don\'t pose. Capture real work moments. Authenticity > perfection for BTS content.',
     tags: ['behind-the-scenes', 'documentary', 'authentic', 'business']
   },
 

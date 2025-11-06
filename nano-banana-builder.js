@@ -620,7 +620,7 @@ Technical Specifications:
         species: 'human with magical abilities',
         age: '16 years old',
         body_type: 'petite, athletic',
-        height_build: '5\\'4", lean with defined muscles',
+        height_build: '5\'4", lean with defined muscles',
         skin_tone: 'warm medium brown',
         hair_description: 'long silver-white hair with purple streaks, braided crown style',
         eye_description: 'bright violet eyes with star-shaped pupils, expressive',
