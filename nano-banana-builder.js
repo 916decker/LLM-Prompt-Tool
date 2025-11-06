@@ -2337,14 +2337,16 @@ function setupNavigation() {
 function showView(viewName) {
   NanoBananaBuilder.state.currentView = viewName;
 
-  // Hide all views
+  // Hide all views (must use inline style to override HTML inline styles)
   document.querySelectorAll('.nb-view').forEach(view => {
+    view.style.display = 'none';
     view.classList.remove('active');
   });
 
-  // Show selected view
+  // Show selected view (use inline style to override)
   const view = document.getElementById(`${viewName}-view`);
   if (view) {
+    view.style.display = 'block';
     view.classList.add('active');
   }
 
