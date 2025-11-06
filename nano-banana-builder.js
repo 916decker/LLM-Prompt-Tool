@@ -387,6 +387,27 @@ Prompt 3: "Write the introduction section from the outline"</code></pre>
       tags: ['portrait', 'photography', 'professional'],
       recommended: true,
       description: 'Create professional portrait photographs with camera specifications',
+      example: {
+        subject: 'a confident female CEO in her 40s',
+        camera_type: 'Sony A7R V',
+        lens_type: 'portrait',
+        focal_length: '85',
+        aperture: '1.4',
+        depth_of_field: 'shallow, blurred background',
+        primary_lighting: 'softbox positioned 45 degrees to the right',
+        fill_lighting: 'reflector on the left side',
+        lighting_style: 'soft, professional',
+        shot_type: 'mid-shot from waist up',
+        angle: 'eye-level',
+        background: 'modern office with blurred city view through windows',
+        color_palette: 'cool professional tones, navy and white',
+        expression: 'confident, approachable smile',
+        atmosphere: 'professional yet warm',
+        photography_style: 'corporate editorial',
+        post_processing: 'subtle color grading, sharp details, natural skin tones'
+      },
+      didYouKnow: 'Portrait lenses (85mm, 100mm) create beautiful background blur (bokeh) that makes your subject stand out! The f/1.4 aperture lets you control exactly how blurry the background is.',
+      relatedTemplates: ['character-design', 'product-photography', 'visual-storytelling-scenes'],
       template: `Professional portrait photograph of {{subject}}
 
 Camera Setup:
@@ -425,6 +446,26 @@ Technical Specifications:
       tags: ['landscape', 'nature', 'scenery'],
       recommended: true,
       description: 'Create breathtaking landscape photographs',
+      example: {
+        location_description: 'mountain lake surrounded by pine forests at sunrise',
+        camera_type: 'Canon EOS R6',
+        lens_type: 'wide-angle 16-35mm f/2.8',
+        f_stop: '11',
+        depth_preference: 'maximum depth of field, everything in focus',
+        time_of_day: 'golden hour sunrise, 30 minutes after dawn',
+        weather_conditions: 'clear sky with light morning mist',
+        lighting_quality: 'warm, directional golden light',
+        foreground_elements: 'rocky shoreline with wildflowers',
+        midground_elements: 'crystal clear lake with mirror reflections',
+        background_elements: 'snow-capped mountain peaks',
+        composition_rule: 'rule of thirds, mountains in upper third, lake in middle third',
+        color_palette: 'warm golds and oranges, cool blue shadows',
+        mood: 'serene, majestic, awe-inspiring',
+        season: 'early autumn',
+        post_processing: 'enhanced colors, HDR look, maintained naturalness'
+      },
+      didYouKnow: 'Golden hour (shortly after sunrise or before sunset) creates magical warm light perfect for landscapes! Using f/11 or higher ensures everything from foreground to background stays sharp.',
+      relatedTemplates: ['food-photography', 'product-photography', 'poster-banner-design'],
       template: `Landscape photograph of {{location_description}}
 
 Camera Setup:
@@ -464,6 +505,29 @@ Technical Specifications:
       tags: ['product', 'commercial', 'e-commerce'],
       recommended: true,
       description: 'Create professional product photographs for commercial use',
+      example: {
+        product_name: 'premium leather wallet',
+        product_type: 'luxury accessory',
+        features_to_highlight: 'hand-stitched seams, Italian leather, RFID protection',
+        material: 'full-grain Italian leather with brass hardware',
+        product_color: 'rich cognac brown',
+        camera_type: 'Sony A7R IV',
+        lens_type: 'macro 100mm f/2.8',
+        camera_angle: '45-degree angle showing front and side',
+        lighting_setup: 'softbox studio lighting with two lights at 45 degrees',
+        shadow_style: 'soft shadows on the right side',
+        reflection_style: 'subtle reflection on glossy surface',
+        background: 'pure white seamless backdrop',
+        props: 'minimalist, just a few copper coins artfully placed',
+        setting: 'clean studio environment',
+        photo_style: 'clean commercial',
+        color_grading: 'warm tones enhanced',
+        mood: 'premium, sophisticated, timeless',
+        depth_of_field: 'moderate, product entirely in focus with slight background blur',
+        perspective_correction: 'corrected, no distortion'
+      },
+      didYouKnow: 'Professional product photography uses at least 2 lights to eliminate harsh shadows! The 45-degree lighting angle is perfect for showing texture and dimension.',
+      relatedTemplates: ['product-description-writer', 'food-photography', 'poster-banner-design'],
       template: `Professional product photograph of {{product_name}}
 
 Product Details:
@@ -551,6 +615,38 @@ Technical Specifications:
       tags: ['character', 'design', 'illustration'],
       recommended: true,
       description: 'Create detailed character designs with consistent features',
+      example: {
+        character_name: 'Luna Starweaver',
+        species: 'human with magical abilities',
+        age: '16 years old',
+        body_type: 'petite, athletic',
+        height_build: '5\\'4", lean with defined muscles',
+        skin_tone: 'warm medium brown',
+        hair_description: 'long silver-white hair with purple streaks, braided crown style',
+        eye_description: 'bright violet eyes with star-shaped pupils, expressive',
+        distinctive_features: 'constellation-shaped birthmark on left cheek, glowing runes on forearms',
+        outfit_description: 'flowing purple and silver battle robes with leather armor pieces',
+        clothing_style: 'fantasy mage-warrior hybrid',
+        accessories: 'crescent moon pendant, fingerless gloves, tall leather boots',
+        clothing_colors: 'deep purple, silver, black leather',
+        pose: 'confident stance, hands glowing with magical energy',
+        expression: 'determined yet kind, slight smile',
+        body_language: 'ready for action, weight shifted to left leg',
+        setting: 'floating above ancient ruins under starry sky',
+        background: 'mystical ruins with glowing crystals',
+        environment: 'magical energy swirling around her',
+        art_style: 'anime-inspired, semi-realistic',
+        line_work: 'clean, dynamic lines',
+        coloring_style: 'vibrant digital painting',
+        shading_style: 'cel-shaded with soft gradients',
+        personality: 'brave, curious, protective of friends',
+        mood: 'heroic, magical, adventurous',
+        view_type: 'full-body front view with slight three-quarter turn',
+        detail_level: 'highly detailed, character sheet quality',
+        specific_features_to_remember: 'silver-white hair with purple streaks, violet star-shaped pupils, constellation birthmark, glowing forearm runes'
+      },
+      didYouKnow: 'Character consistency is KEY for sequels! Note specific features like eye color, hair style, and distinctive marks in your prompt so you can recreate the same character in future scenes.',
+      relatedTemplates: ['visual-storytelling-scenes', 'fusion-character-consistency', 'portrait-professional'],
       template: `Character design illustration of {{character_name}}
 
 Physical Attributes:
@@ -1020,6 +1116,25 @@ Final Vision:
       tags: ['product', 'marketing', 'commercial', 'copy'],
       recommended: true,
       description: 'Generate product photo prompt AND marketing copy together',
+      example: {
+        product_name: 'EcoGlow Bamboo Wireless Charger',
+        product_type: 'tech accessory / eco-friendly gadget',
+        camera_type: 'Canon 5D Mark IV',
+        lens_type: 'macro 100mm f/2.8',
+        lighting_setup: 'soft natural window light with white reflector',
+        camera_angle: '45-degree angle on modern desk',
+        background: 'minimal workspace with plant and coffee cup',
+        mood: 'eco-conscious, modern, peaceful',
+        color_palette: 'natural wood tones, white, green accents',
+        target_audience: 'environmentally conscious professionals aged 25-40',
+        key_features: '15W fast charging, sustainable bamboo, LED indicator, universal compatibility',
+        usp: 'The only wireless charger that charges your phone AND your conscience',
+        tone: 'friendly yet premium, eco-focused',
+        benefits: 'Reduce plastic waste, beautiful desk aesthetic, faster charging than competitors, sustainably sourced materials',
+        cta: 'Shop Sustainable Tech'
+      },
+      didYouKnow: 'You can generate BOTH the product image AND all your marketing copy in one prompt! This saves hours of work for e-commerce sellers and marketers.',
+      relatedTemplates: ['product-photography', 'poster-banner-design', 'image-request-email'],
       template: `Create comprehensive product marketing package:
 
 PART 1 - PHOTOGRAPHY PROMPT:
@@ -2713,19 +2828,46 @@ function loadTemplates(filterWorkflow = null) {
       ${template.recommended ? '<span class="nb-template-badge">⭐ Recommended</span>' : ''}
       <h3>${template.name}</h3>
       <p>${template.description}</p>
+
+      ${template.didYouKnow ? `
+        <div class="nb-did-you-know">
+          <span class="nb-tip-icon">💡</span>
+          <span class="nb-tip-text">${template.didYouKnow}</span>
+        </div>
+      ` : ''}
+
       <div class="nb-template-tags">
         ${template.tags.map(tag => `<span class="nb-tag">${tag}</span>`).join('')}
+      </div>
+
+      <div class="nb-template-actions">
+        <button class="nb-btn-select" data-template-id="${template.id}">Use Template</button>
+        ${template.example ? `<button class="nb-btn-example" data-template-id="${template.id}">✨ Try Example</button>` : ''}
       </div>
     </div>
   `).join('');
 
-  // Add click handlers
-  container.querySelectorAll('.nb-template-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const templateId = card.dataset.templateId;
+  // Add click handlers for template selection
+  container.querySelectorAll('.nb-btn-select').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const templateId = btn.dataset.templateId;
       const template = NanoBananaBuilder.templates.find(t => t.id === templateId);
+      const card = btn.closest('.nb-template-card');
       if (template) {
         selectTemplate(template, card);
+      }
+    });
+  });
+
+  // Add click handlers for example buttons
+  container.querySelectorAll('.nb-btn-example').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const templateId = btn.dataset.templateId;
+      const template = NanoBananaBuilder.templates.find(t => t.id === templateId);
+      if (template && template.example) {
+        tryExample(template);
       }
     });
   });
@@ -2762,6 +2904,132 @@ function applyTemplate(template) {
   updatePromptStats();
   validatePrompt();
   updateQualityScores();
+
+  // Show related templates recommendations
+  showRelatedTemplates(template);
+}
+
+// ============================================================================
+// DISCOVERY FEATURES
+// ============================================================================
+
+function tryExample(template) {
+  if (!template.example) return;
+
+  // Apply template first
+  document.getElementById('promptEditor').value = template.template;
+  NanoBananaBuilder.state.promptText = template.template;
+
+  // Fill in example values
+  let filledPrompt = template.template;
+  Object.keys(template.example).forEach(key => {
+    const regex = new RegExp(`\\{\\{${key}\\}\\}`, 'g');
+    filledPrompt = filledPrompt.replace(regex, template.example[key]);
+  });
+
+  // Display filled prompt
+  document.getElementById('promptEditor').value = filledPrompt;
+  NanoBananaBuilder.state.promptText = filledPrompt;
+
+  // Switch to builder view if not already there
+  showView('builder');
+
+  // Update stats and validation
+  updatePromptStats();
+  validatePrompt();
+  updateQualityScores();
+
+  // Show success message with discovery moment
+  if (typeof showSuccessToast === 'function') {
+    showSuccessToast(`✨ Example loaded! This is what a professional ${template.name} prompt looks like.`);
+  } else {
+    console.log(`Example loaded for ${template.name}`);
+  }
+
+  // Show tip if available
+  if (template.didYouKnow) {
+    setTimeout(() => {
+      showDiscoveryTip(template.didYouKnow);
+    }, 2000);
+  }
+
+  // Show related templates
+  showRelatedTemplates(template);
+}
+
+function showDiscoveryTip(tip) {
+  const tipContainer = document.getElementById('discoveryTipContainer');
+  if (!tipContainer) {
+    // Create tip container if it doesn't exist
+    const container = document.createElement('div');
+    container.id = 'discoveryTipContainer';
+    container.className = 'nb-discovery-tip';
+    container.innerHTML = `
+      <div class="nb-tip-header">
+        <span class="nb-tip-icon">💡 Did You Know?</span>
+        <button class="nb-tip-close" onclick="this.parentElement.parentElement.style.display='none'">×</button>
+      </div>
+      <div class="nb-tip-content">${tip}</div>
+    `;
+    document.querySelector('.nb-builder')?.prepend(container);
+
+    // Auto-hide after 10 seconds
+    setTimeout(() => {
+      container.style.opacity = '0';
+      setTimeout(() => container.style.display = 'none', 300);
+    }, 10000);
+  } else {
+    tipContainer.querySelector('.nb-tip-content').textContent = tip;
+    tipContainer.style.display = 'block';
+    tipContainer.style.opacity = '1';
+  }
+}
+
+function showRelatedTemplates(template) {
+  if (!template.relatedTemplates || template.relatedTemplates.length === 0) return;
+
+  const container = document.getElementById('relatedTemplatesContainer');
+  if (!container) {
+    // Create container if it doesn't exist
+    const relatedDiv = document.createElement('div');
+    relatedDiv.id = 'relatedTemplatesContainer';
+    relatedDiv.className = 'nb-related-templates';
+    relatedDiv.innerHTML = '<h4>📚 You might also like...</h4><div class="nb-related-list"></div>';
+    document.querySelector('.nb-builder')?.appendChild(relatedDiv);
+  }
+
+  const listContainer = document.querySelector('.nb-related-list');
+  if (!listContainer) return;
+
+  // Get related templates
+  const related = template.relatedTemplates
+    .map(id => NanoBananaBuilder.templates.find(t => t.id === id))
+    .filter(t => t); // Remove undefined
+
+  listContainer.innerHTML = related.map(t => `
+    <div class="nb-related-card" data-template-id="${t.id}">
+      <h5>${t.name}</h5>
+      <p>${t.description}</p>
+      <button class="nb-btn-try-related" data-template-id="${t.id}">Try This →</button>
+    </div>
+  `).join('');
+
+  // Add click handlers
+  listContainer.querySelectorAll('.nb-btn-try-related').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const templateId = btn.dataset.templateId;
+      const relatedTemplate = NanoBananaBuilder.templates.find(t => t.id === templateId);
+      if (relatedTemplate) {
+        if (relatedTemplate.example) {
+          tryExample(relatedTemplate);
+        } else {
+          applyTemplate(relatedTemplate);
+        }
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+  });
 }
 
 // ============================================================================

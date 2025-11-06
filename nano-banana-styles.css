@@ -274,6 +274,191 @@ body {
   color: var(--nb-primary);
 }
 
+/* Discovery Features */
+.nb-did-you-know {
+  background: linear-gradient(135deg, #FFF9E6 0%, #FFEDD5 100%);
+  border-left: 3px solid var(--nb-primary);
+  padding: var(--nb-spacing-sm) var(--nb-spacing-md);
+  margin: var(--nb-spacing-md) 0;
+  border-radius: var(--nb-radius-sm);
+  display: flex;
+  align-items: start;
+  gap: var(--nb-spacing-sm);
+}
+
+.nb-tip-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.nb-tip-text {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--nb-text-primary);
+}
+
+.nb-template-actions {
+  display: flex;
+  gap: var(--nb-spacing-sm);
+  margin-top: var(--nb-spacing-md);
+  flex-wrap: wrap;
+}
+
+.nb-btn-select,
+.nb-btn-example {
+  flex: 1;
+  min-width: 120px;
+  padding: var(--nb-spacing-sm) var(--nb-spacing-md);
+  border: none;
+  border-radius: var(--nb-radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.nb-btn-select {
+  background: var(--nb-secondary);
+  color: white;
+}
+
+.nb-btn-select:hover {
+  background: var(--nb-secondary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px var(--nb-shadow);
+}
+
+.nb-btn-example {
+  background: linear-gradient(135deg, var(--nb-primary) 0%, var(--nb-primary-dark) 100%);
+  color: var(--nb-text-primary);
+  font-weight: 700;
+}
+
+.nb-btn-example:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 193, 7, 0.4);
+}
+
+.nb-discovery-tip {
+  background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+  border: 2px solid var(--nb-success);
+  border-radius: var(--nb-radius-lg);
+  padding: var(--nb-spacing-lg);
+  margin-bottom: var(--nb-spacing-lg);
+  box-shadow: 0 4px 16px rgba(76, 175, 80, 0.2);
+  animation: slideDown 0.3s ease-out;
+  transition: opacity 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.nb-tip-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--nb-spacing-sm);
+  font-weight: 700;
+  color: var(--nb-success);
+  font-size: 1.1rem;
+}
+
+.nb-tip-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--nb-text-secondary);
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  transition: background 0.2s ease;
+}
+
+.nb-tip-close:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.nb-tip-content {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--nb-text-primary);
+}
+
+.nb-related-templates {
+  background: var(--nb-bg-secondary);
+  border: 2px dashed var(--nb-border);
+  border-radius: var(--nb-radius-lg);
+  padding: var(--nb-spacing-lg);
+  margin-top: var(--nb-spacing-xl);
+}
+
+.nb-related-templates h4 {
+  margin-bottom: var(--nb-spacing-md);
+  color: var(--nb-text-primary);
+  font-size: 1.1rem;
+}
+
+.nb-related-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--nb-spacing-md);
+}
+
+.nb-related-card {
+  background: var(--nb-bg-primary);
+  border: 1px solid var(--nb-border);
+  border-radius: var(--nb-radius-md);
+  padding: var(--nb-spacing-md);
+  transition: all 0.2s ease;
+}
+
+.nb-related-card:hover {
+  border-color: var(--nb-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--nb-shadow);
+}
+
+.nb-related-card h5 {
+  font-size: 1rem;
+  margin-bottom: var(--nb-spacing-xs);
+  color: var(--nb-text-primary);
+}
+
+.nb-related-card p {
+  font-size: 0.85rem;
+  color: var(--nb-text-secondary);
+  margin-bottom: var(--nb-spacing-sm);
+  line-height: 1.4;
+}
+
+.nb-btn-try-related {
+  width: 100%;
+  padding: var(--nb-spacing-sm);
+  background: var(--nb-bg-secondary);
+  border: 2px solid var(--nb-primary);
+  border-radius: var(--nb-radius-sm);
+  color: var(--nb-text-primary);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.nb-btn-try-related:hover {
+  background: var(--nb-primary);
+  transform: translateX(4px);
+}
+
 /* Form Elements */
 .nb-label {
   display: block;
