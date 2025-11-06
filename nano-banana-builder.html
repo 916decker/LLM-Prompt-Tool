@@ -23,13 +23,51 @@
         <p class="nb-tagline">The World's Most Advanced Image Generation Prompt Engineering System</p>
       </div>
       <nav class="nb-nav" role="navigation" aria-label="Main navigation">
-        <button class="nb-nav-btn active" data-view="builder" aria-label="Builder view" type="button">⚡ Builder</button>
+        <button class="nb-nav-btn" data-view="quick-wins" aria-label="Quick Wins view" type="button">⚡ Quick Wins</button>
+        <button class="nb-nav-btn active" data-view="builder" aria-label="Builder view" type="button">🔧 Builder</button>
         <button class="nb-nav-btn" data-view="onboarding" aria-label="Learning view" type="button">🎓 Learn</button>
         <button class="nb-nav-btn" data-view="library" aria-label="Template library view" type="button">📚 Library</button>
         <button class="nb-nav-btn" data-view="validate" aria-label="Validation view" type="button">✓ Validate</button>
         <button class="nb-nav-btn" data-view="resources" aria-label="Resources view" type="button">📖 Resources</button>
       </nav>
     </header>
+
+    <!-- Quick Wins View -->
+    <section class="nb-view" id="quick-wins-view" style="display: none;" role="region" aria-labelledby="quick-wins-title">
+      <div class="nb-quick-wins">
+        <div class="nb-quick-wins-header">
+          <h2 id="quick-wins-title">⚡ Quick Wins: Copy-Paste-Ready Prompts</h2>
+          <p class="nb-quick-wins-subtitle">Start creating stunning images in 30 seconds - zero editing required!</p>
+        </div>
+
+        <div class="nb-quick-wins-filters">
+          <label for="quickWinsSearch" class="sr-only">Search Quick Wins</label>
+          <input type="text" id="quickWinsSearch" class="nb-input" placeholder="🔍 Search Quick Wins..." maxlength="100" />
+
+          <label for="quickWinsDifficulty" class="sr-only">Filter by difficulty</label>
+          <select id="quickWinsDifficulty" class="nb-select">
+            <option value="all">All Difficulty Levels</option>
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+          </select>
+
+          <label for="quickWinsCategory" class="sr-only">Filter by category</label>
+          <select id="quickWinsCategory" class="nb-select">
+            <option value="all">All Categories</option>
+            <option value="portrait">Portrait</option>
+            <option value="landscape">Landscape</option>
+            <option value="product">Product</option>
+            <option value="character">Character</option>
+            <option value="creative">Creative</option>
+          </select>
+        </div>
+
+        <div id="quickWinsGrid" class="nb-quick-wins-grid" role="list" aria-label="Quick Wins prompts">
+          <p class="nb-info-text">Loading Quick Wins...</p>
+        </div>
+      </div>
+    </section>
 
     <!-- Onboarding/Learning View -->
     <section class="nb-view" id="onboarding-view" style="display: none;" role="region" aria-labelledby="onboarding-title">
@@ -557,6 +595,8 @@
 
   <!-- Load error handler first -->
   <script src="nano-banana-error-handler.js"></script>
+  <!-- Load Quick Wins library -->
+  <script src="nano-banana-quick-wins.js"></script>
   <!-- Then load main application -->
   <script src="nano-banana-builder.js"></script>
 </body>

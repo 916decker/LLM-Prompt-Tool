@@ -2306,6 +2306,7 @@ function initializeApp() {
   setupTechniques();
   setupValidator();
   setupResources();
+  setupQuickWins(); // NEW: Setup Quick Wins
   setupModals();
   setupEventListeners();
 
@@ -2346,6 +2347,175 @@ function showView(viewName) {
   if (view) {
     view.classList.add('active');
   }
+
+  // Load Quick Wins when that view is shown
+  if (viewName === 'quick-wins') {
+    loadQuickWins();
+  }
+}
+
+// ============================================================================
+// QUICK WINS
+// ============================================================================
+
+function setupQuickWins() {
+  const searchInput = document.getElementById('quickWinsSearch');
+  const difficultySelect = document.getElementById('quickWinsDifficulty');
+  const categorySelect = document.getElementById('quickWinsCategory');
+
+  if (searchInput) {
+    searchInput.addEventListener('input', () => loadQuickWins());
+  }
+
+  if (difficultySelect) {
+    difficultySelect.addEventListener('change', () => loadQuickWins());
+  }
+
+  if (categorySelect) {
+    categorySelect.addEventListener('change', () => loadQuickWins());
+  }
+}
+
+function loadQuickWins() {
+  const container = document.getElementById('quickWinsGrid');
+  if (!container) return;
+
+  // Check if NanoBananaQuickWins is available
+  if (typeof NanoBananaQuickWins === 'undefined') {
+    container.innerHTML = '<p class="nb-info-text">Quick Wins library not loaded. Please refresh the page.</p>';
+    return;
+  }
+
+  const search = document.getElementById('quickWinsSearch')?.value.toLowerCase() || '';
+  const difficulty = document.getElementById('quickWinsDifficulty')?.value || 'all';
+  const category = document.getElementById('quickWinsCategory')?.value || 'all';
+
+  let filtered = NanoBananaQuickWins;
+
+  // Filter by difficulty
+  if (difficulty !== 'all') {
+    filtered = filtered.filter(qw => qw.difficulty === difficulty);
+  }
+
+  // Filter by category
+  if (category !== 'all') {
+    filtered = filtered.filter(qw => qw.category === category);
+  }
+
+  // Filter by search
+  if (search) {
+    filtered = filtered.filter(qw =>
+      qw.name.toLowerCase().includes(search) ||
+      qw.useCase.toLowerCase().includes(search) ||
+      qw.tags.some(tag => tag.toLowerCase().includes(search))
+    );
+  }
+
+  if (filtered.length === 0) {
+    container.innerHTML = '<div class="nb-quick-wins-empty"><p>No Quick Wins found matching your filters. Try adjusting your search criteria.</p></div>';
+    return;
+  }
+
+  container.innerHTML = filtered.map(qw => `
+    <div class="nb-quick-win-card" data-qw-id="${qw.id}">
+      <div class="nb-quick-win-header">
+        <h3>${qw.name}</h3>
+        <span class="nb-quick-win-difficulty nb-difficulty-${qw.difficulty}">${qw.difficulty}</span>
+      </div>
+
+      <div class="nb-quick-win-meta">
+        <span>⏱️ ${qw.timeToValue}</span>
+        <span>📸 ${qw.workflow}</span>
+      </div>
+
+      <div class="nb-quick-win-usecase">
+        <strong>USE CASE:</strong>
+        ${qw.useCase}
+      </div>
+
+      <div class="nb-quick-win-prompt">
+        ${qw.prompt.substring(0, 200)}${qw.prompt.length > 200 ? '...' : ''}
+      </div>
+
+      <div class="nb-quick-win-details">
+        <div class="nb-quick-win-prompt">
+          ${qw.prompt}
+        </div>
+
+        <div class="nb-quick-win-why">
+          <strong>WHY IT WORKS:</strong>
+          ${qw.why}
+        </div>
+
+        <div class="nb-quick-win-protip">
+          <strong>💡 PRO TIP:</strong>
+          ${qw.proTip}
+        </div>
+
+        <div class="nb-quick-win-tags">
+          ${qw.tags.map(tag => `<span class="nb-tag">${tag}</span>`).join('')}
+        </div>
+      </div>
+
+      <div class="nb-quick-win-actions">
+        <button class="nb-btn-copy-prompt" data-prompt="${qw.prompt.replace(/"/g, '&quot;')}">
+          📋 Copy Prompt
+        </button>
+        <button class="nb-btn-expand">
+          <span class="expand-text">Details ▼</span>
+        </button>
+      </div>
+    </div>
+  `).join('');
+
+  // Add event listeners for copy buttons
+  container.querySelectorAll('.nb-btn-copy-prompt').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const prompt = btn.dataset.prompt.replace(/&quot;/g, '"');
+      copyQuickWinPrompt(prompt, btn);
+    });
+  });
+
+  // Add event listeners for expand buttons
+  container.querySelectorAll('.nb-btn-expand').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const card = btn.closest('.nb-quick-win-card');
+      card.classList.toggle('expanded');
+      const expandText = btn.querySelector('.expand-text');
+      if (card.classList.contains('expanded')) {
+        expandText.textContent = 'Hide ▲';
+      } else {
+        expandText.textContent = 'Details ▼';
+      }
+    });
+  });
+}
+
+function copyQuickWinPrompt(prompt, buttonElement) {
+  navigator.clipboard.writeText(prompt).then(() => {
+    // Show success feedback
+    const originalText = buttonElement.innerHTML;
+    buttonElement.innerHTML = '✓ Copied!';
+    buttonElement.style.background = 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)';
+
+    // Show success toast
+    if (typeof showSuccessToast === 'function') {
+      showSuccessToast('✓ Prompt copied! Paste it into Gemini 2.5 Flash Image and watch the magic happen!');
+    }
+
+    // Reset button after 2 seconds
+    setTimeout(() => {
+      buttonElement.innerHTML = originalText;
+      buttonElement.style.background = '';
+    }, 2000);
+  }).catch(err => {
+    console.error('Failed to copy:', err);
+    if (typeof showErrorToast === 'function') {
+      showErrorToast('Failed to copy prompt. Please try again.');
+    } else {
+      alert('Failed to copy prompt. Please try selecting and copying manually.');
+    }
+  });
 }
 
 // ============================================================================
