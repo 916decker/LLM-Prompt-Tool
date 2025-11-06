@@ -1003,10 +1003,610 @@ Quality Requirements:
 
 Final Vision:
 {{final_detailed_vision}}`
+    },
+
+    // ========================================
+    // SUPPORTING TEMPLATES - ADAPTED FOR IMAGE GENERATION
+    // ========================================
+
+    // HIGH PRIORITY - Marketing & Commercial
+
+    {
+      id: 'product-description-writer',
+      name: 'Product Photography + Description',
+      category: 'text-to-image',
+      workflow: 'text-to-image',
+      complexity: 'intermediate',
+      tags: ['product', 'marketing', 'commercial', 'copy'],
+      recommended: true,
+      description: 'Generate product photo prompt AND marketing copy together',
+      template: `Create comprehensive product marketing package:
+
+PART 1 - PHOTOGRAPHY PROMPT:
+Product: {{product_name}}
+Product Type: {{product_type}}
+
+Camera Setup:
+- Camera: {{camera_type}}
+- Lens: {{lens_type}}
+- Lighting: {{lighting_setup}}
+- Angle: {{camera_angle}}
+
+Visual Style:
+- Background: {{background}}
+- Mood: {{mood}}
+- Color Palette: {{color_palette}}
+
+PART 2 - MARKETING COPY:
+Target Audience: {{target_audience}}
+Key Features to Highlight: {{key_features}}
+Unique Selling Point: {{usp}}
+Tone: {{tone}} (e.g., professional, friendly, luxury, playful)
+
+OUTPUT FORMAT:
+1. Complete photography prompt for product image
+2. Product description (50-100 words)
+3. Short marketing tagline (10-15 words)
+4. Social media caption (Instagram/Facebook ready)
+5. Key bullet points for product page
+
+Benefits to Emphasize: {{benefits}}
+Call to Action: {{cta}}`
+    },
+
+    {
+      id: 'visual-storytelling-scenes',
+      name: 'Visual Storytelling Scene Creator',
+      category: 'text-to-image',
+      workflow: 'text-to-image',
+      complexity: 'advanced',
+      tags: ['storytelling', 'sequential', 'narrative', 'character'],
+      recommended: true,
+      description: 'Create sequential image prompts for visual narratives',
+      template: `Create sequential scene prompts for visual story:
+
+STORY OVERVIEW:
+Story Concept: {{story_concept}}
+Genre: {{genre}} (e.g., fantasy, sci-fi, children's book, comic)
+Art Style: {{art_style}} (e.g., anime, realistic, cartoon, watercolor)
+Number of Scenes: {{scene_count}}
+
+MAIN CHARACTERS (for consistency):
+Character 1: {{character_1_description}}
+- Key Features: {{character_1_features}} (hair, eyes, clothing, distinctive marks)
+Character 2: {{character_2_description}}
+- Key Features: {{character_2_features}}
+
+SCENE-BY-SCENE BREAKDOWN:
+
+Scene 1:
+- Setting: {{scene_1_setting}}
+- Action: {{scene_1_action}}
+- Characters Present: {{scene_1_characters}}
+- Mood: {{scene_1_mood}}
+- Camera Angle: {{scene_1_angle}}
+
+Scene 2:
+- Setting: {{scene_2_setting}}
+- Action: {{scene_2_action}}
+- Characters Present: {{scene_2_characters}}
+- Mood: {{scene_2_mood}}
+- Camera Angle: {{scene_2_angle}}
+
+Scene 3:
+- Setting: {{scene_3_setting}}
+- Action: {{scene_3_action}}
+- Characters Present: {{scene_3_characters}}
+- Mood: {{scene_3_mood}}
+- Camera Angle: {{scene_3_angle}}
+
+[Add more scenes as needed]
+
+CONSISTENCY REQUIREMENTS:
+- Maintain exact same character features across ALL scenes
+- Keep consistent art style throughout
+- Use {{color_palette}} color palette for entire story
+- Lighting can vary by scene but style must remain consistent
+
+OUTPUT: Generate detailed prompt for each scene with character consistency tracking.`
+    },
+
+    {
+      id: 'infographic-chart-generator',
+      name: 'Infographic & Chart Image Generator',
+      category: 'text-to-image',
+      workflow: 'text-to-image',
+      complexity: 'advanced',
+      tags: ['infographic', 'data', 'visualization', 'chart'],
+      description: 'Create prompts for infographic and data visualization images',
+      template: `Create infographic/chart visualization prompt:
+
+DATA & CONTENT:
+Topic: {{topic}}
+Key Data Points: {{data_points}}
+Main Message: {{main_message}}
+Statistics to Highlight: {{statistics}}
+
+VISUALIZATION TYPE:
+Chart Type: {{chart_type}} (e.g., bar chart, pie chart, flowchart, timeline, comparison table, process diagram)
+Layout Style: {{layout_style}} (e.g., vertical, horizontal, circular, grid)
+
+DESIGN SPECIFICATIONS:
+Visual Style: {{visual_style}} (e.g., minimal, modern, colorful, professional, flat design, 3D)
+Color Scheme: {{color_scheme}}
+- Primary Color: {{primary_color}}
+- Secondary Color: {{secondary_color}}
+- Accent Color: {{accent_color}}
+
+Typography:
+- Headline Style: {{headline_style}} (bold, clean, modern)
+- Data Label Style: {{label_style}}
+- Font Mood: {{font_mood}} (professional, friendly, technical)
+
+CONTENT ELEMENTS:
+- Title: {{title}}
+- Subtitle: {{subtitle}}
+- Icons Needed: {{icons}} (e.g., people, money, growth arrows, checkmarks)
+- Sections: {{sections}}
+
+LAYOUT REQUIREMENTS:
+- Dimensions: {{dimensions}} (e.g., square, vertical, horizontal, social media size)
+- Information Density: {{density}} (minimal, balanced, detailed)
+- White Space: {{white_space_amount}}
+- Visual Hierarchy: {{hierarchy}} (what should stand out most)
+
+TARGET USE:
+Purpose: {{purpose}} (presentation, social media, report, education)
+Audience: {{audience}}
+Platform: {{platform}} (PowerPoint, Instagram, website, print)
+
+OUTPUT: Generate prompt for creating visual infographic/chart with all data clearly represented.`
+    },
+
+    {
+      id: 'poster-banner-design',
+      name: 'Poster/Banner Design with Text',
+      category: 'text-to-image',
+      workflow: 'text-to-image',
+      complexity: 'intermediate',
+      tags: ['poster', 'banner', 'text', 'design', 'social'],
+      recommended: true,
+      description: 'Create poster/banner designs with integrated text',
+      template: `Create poster/banner design with text integration:
+
+PURPOSE & CONTEXT:
+Purpose: {{purpose}} (e.g., event promotion, product launch, announcement, social media graphic)
+Event/Product: {{event_product}}
+Target Audience: {{target_audience}}
+
+TEXT CONTENT:
+Main Headline: {{headline}}
+- Font Style: {{headline_font}} (bold, decorative, modern, elegant)
+- Size: {{headline_size}} (large, dominant, eye-catching)
+- Position: {{headline_position}}
+
+Subheadline/Details: {{subheadline}}
+- Font Style: {{subheadline_font}}
+- Size: {{subheadline_size}}
+
+Call to Action: {{cta_text}}
+Additional Info: {{additional_info}} (date, time, location, website)
+
+VISUAL DESIGN:
+Overall Style: {{design_style}} (e.g., modern, vintage, minimalist, maximalist, grunge, elegant)
+Color Scheme: {{color_scheme}}
+- Background Color(s): {{background_colors}}
+- Text Color(s): {{text_colors}}
+- Accent Colors: {{accent_colors}}
+
+Background Image/Elements:
+- Background Type: {{background_type}} (photo, gradient, pattern, illustration, solid color)
+- Background Description: {{background_description}}
+- Visual Elements: {{visual_elements}} (shapes, icons, photos, illustrations)
+
+LAYOUT & COMPOSITION:
+Dimensions: {{dimensions}} (e.g., Instagram square, story, Facebook cover, print poster 24x36)
+Orientation: {{orientation}} (portrait, landscape, square)
+Text Placement: {{text_placement}} (centered, left-aligned, top, bottom)
+Visual Balance: {{balance}} (symmetrical, asymmetrical, dynamic)
+
+MOOD & ATMOSPHERE:
+Mood: {{mood}} (energetic, calm, professional, playful, urgent, celebratory)
+Emotional Impact: {{emotional_impact}}
+
+TECHNICAL SPECS:
+- Text Readability: Ensure high contrast between text and background
+- Hierarchy: {{hierarchy}} (what should viewer see first, second, third)
+- Brand Elements: {{brand_elements}} (logo, brand colors, specific fonts)
+
+OUTPUT: Generate prompt for creating poster/banner with all text clearly integrated and readable.`
+    },
+
+    // MEDIUM PRIORITY - Workflow Support
+
+    {
+      id: 'image-request-email',
+      name: 'Image Request Email Template',
+      category: 'text-to-image',
+      workflow: 'text-to-image',
+      complexity: 'simple',
+      tags: ['email', 'communication', 'brief', 'client'],
+      description: 'Generate professional emails requesting specific images',
+      template: `Compose professional image request email:
+
+TO: {{recipient}} (designer, photographer, creative team)
+FROM: {{sender_role}}
+
+PROJECT CONTEXT:
+Project Name: {{project_name}}
+Purpose: {{purpose}}
+Deadline: {{deadline}}
+Budget Range: {{budget}} (if applicable)
+
+IMAGE REQUIREMENTS:
+
+Number of Images Needed: {{image_count}}
+
+For Each Image:
+1. Subject/Content: {{image_1_subject}}
+   - Style: {{image_1_style}}
+   - Mood: {{image_1_mood}}
+   - Specific Requirements: {{image_1_requirements}}
+   - Dimensions: {{image_1_dimensions}}
+   - File Format: {{image_1_format}}
+
+2. Subject/Content: {{image_2_subject}}
+   - Style: {{image_2_style}}
+   - Mood: {{image_2_mood}}
+   - Specific Requirements: {{image_2_requirements}}
+
+[Add more as needed]
+
+TECHNICAL SPECIFICATIONS:
+- Resolution: {{resolution}}
+- Color Profile: {{color_profile}}
+- File Formats Needed: {{file_formats}}
+- Usage Rights: {{usage_rights}}
+
+BRAND GUIDELINES:
+- Brand Colors: {{brand_colors}}
+- Brand Style: {{brand_style}}
+- Elements to Include: {{brand_elements}}
+- Elements to Avoid: {{elements_to_avoid}}
+
+REFERENCE MATERIALS:
+- Reference Images Attached: {{reference_images}}
+- Inspiration Links: {{inspiration_links}}
+- Mood Board: {{mood_board}}
+
+DELIVERABLES:
+- Number of Concepts: {{concept_count}}
+- Revision Rounds: {{revision_rounds}}
+- Final Deliverable Date: {{final_date}}
+
+TONE: {{email_tone}} (professional, friendly, collaborative)
+
+OUTPUT: Professional email that clearly communicates image requirements to creative team.`
+    },
+
+    {
+      id: 'comic-speech-bubbles',
+      name: 'Comic Book Speech Bubble Generator',
+      category: 'text-to-image',
+      workflow: 'text-to-image',
+      complexity: 'intermediate',
+      tags: ['comic', 'dialogue', 'speech', 'sequential'],
+      description: 'Create dialogue and scene prompts for comic panels',
+      template: `Create comic book panel with dialogue:
+
+COMIC STYLE:
+Art Style: {{art_style}} (e.g., American superhero, manga, European BD, indie, webcomic)
+Genre: {{genre}} (action, romance, comedy, horror, sci-fi, slice-of-life)
+Color Style: {{color_style}} (full color, black & white, limited palette, grayscale with spot color)
+
+PANEL LAYOUT:
+Panel Size: {{panel_size}} (full page, half page, quarter page, splash page)
+Panel Shape: {{panel_shape}} (rectangular, irregular, borderless)
+
+CHARACTERS IN PANEL:
+Character 1: {{character_1_name}}
+- Appearance: {{character_1_appearance}}
+- Position: {{character_1_position}}
+- Expression: {{character_1_expression}}
+- Action: {{character_1_action}}
+
+Character 2: {{character_2_name}}
+- Appearance: {{character_2_appearance}}
+- Position: {{character_2_position}}
+- Expression: {{character_2_expression}}
+- Action: {{character_2_action}}
+
+DIALOGUE & SPEECH BUBBLES:
+
+Character 1 Says: "{{character_1_dialogue}}"
+- Speech Bubble Type: {{bubble_1_type}} (normal, thought bubble, shout, whisper, telepathy)
+- Bubble Position: {{bubble_1_position}}
+
+Character 2 Says: "{{character_2_dialogue}}"
+- Speech Bubble Type: {{bubble_2_type}}
+- Bubble Position: {{bubble_2_position}}
+
+Narration Box (if any): "{{narration}}"
+- Position: {{narration_position}}
+
+Sound Effects (if any): {{sound_effects}} (e.g., BOOM!, CRASH!, whoosh)
+- Sound Effect Style: {{sfx_style}} (integrated, floating, bold)
+
+SCENE & BACKGROUND:
+Setting: {{setting}}
+Background Detail Level: {{background_detail}} (detailed, simple, minimal, abstract)
+Perspective: {{perspective}} (eye-level, bird's eye, worm's eye, dutch angle)
+Depth: {{depth}} (deep background, mid-depth, flat)
+
+MOOD & ATMOSPHERE:
+Panel Mood: {{panel_mood}}
+Lighting: {{lighting}} (dramatic shadows, bright, noir, backlit)
+Color Temperature: {{color_temperature}}
+
+COMPOSITION:
+Focus: {{focus}} (who/what is the main focus)
+Camera Angle: {{camera_angle}}
+Panel Border Style: {{border_style}} (clean, rough, broken, none)
+
+OUTPUT: Generate prompt for comic panel with characters, dialogue bubbles, and scene elements clearly positioned.`
+    },
+
+    {
+      id: 'educational-illustration-planner',
+      name: 'Educational Illustration Planner',
+      category: 'text-to-image',
+      workflow: 'text-to-image',
+      complexity: 'advanced',
+      tags: ['education', 'teaching', 'illustration', 'diagram'],
+      description: 'Create illustrated educational content and diagrams',
+      template: `Create educational illustration series:
+
+EDUCATIONAL CONTEXT:
+Subject/Topic: {{subject}}
+Specific Concept: {{concept}}
+Grade Level: {{grade_level}} (elementary, middle school, high school, college, adult learning)
+Learning Objective: {{learning_objective}}
+
+ILLUSTRATION TYPE:
+Type: {{illustration_type}} (e.g., diagram, flowchart, step-by-step process, comparison, timeline, anatomy, cross-section)
+Complexity Level: {{complexity}} (simple, moderate, detailed)
+
+VISUAL STYLE:
+Art Style: {{art_style}} (e.g., flat illustration, realistic, cartoon, technical drawing, hand-drawn, infographic)
+Color Scheme: {{color_scheme}}
+- Use colors to: {{color_purpose}} (differentiate parts, show progression, highlight important elements)
+
+CONTENT BREAKDOWN:
+
+Main Illustration:
+- Central Visual: {{central_visual}}
+- Key Components: {{components}}
+- Labels Needed: {{labels}}
+- Arrows/Connections: {{connections}}
+
+Supporting Illustrations (if series):
+1. {{illustration_1_description}}
+2. {{illustration_2_description}}
+3. {{illustration_3_description}}
+
+TEXT ELEMENTS:
+- Title: {{title}}
+- Main Labels: {{main_labels}}
+- Explanatory Text: {{explanatory_text}}
+- Numbered Steps (if applicable): {{steps}}
+- Caption: {{caption}}
+
+VISUAL HIERARCHY:
+- Primary Focus: {{primary_focus}} (what should students notice first)
+- Secondary Elements: {{secondary_elements}}
+- Supporting Details: {{supporting_details}}
+
+EDUCATIONAL FEATURES:
+- Visual Metaphors: {{visual_metaphors}} (to make abstract concepts concrete)
+- Color Coding: {{color_coding_system}}
+- Size/Scale Indicators: {{scale_indicators}}
+- Before/After Comparisons: {{comparisons}}
+
+ACCESSIBILITY:
+- Color Contrast: High contrast for visibility
+- Text Size: {{text_size}} (large enough for projected/printed viewing)
+- Icon Clarity: {{icon_clarity}}
+- Pattern/Texture: {{patterns}} (for color-blind accessibility)
+
+TARGET USE:
+Platform: {{platform}} (textbook, presentation, worksheet, poster, digital learning)
+Viewing Distance: {{viewing_distance}} (projected, computer screen, printed handout)
+Age-Appropriate: {{age_appropriateness}}
+
+OUTPUT: Generate prompt for educational illustration(s) that clearly explain the concept visually.`
+    },
+
+    // LOWER PRIORITY - Prompt Utilities
+
+    {
+      id: 'prompt-tone-adjuster',
+      name: 'Prompt Tone Adjuster',
+      category: 'text-to-image',
+      workflow: 'text-to-image',
+      complexity: 'simple',
+      tags: ['utility', 'adjustment', 'mood', 'tone'],
+      description: 'Transform image prompt mood and emotional tone',
+      template: `Adjust the tone/mood of an existing image prompt:
+
+ORIGINAL PROMPT:
+{{original_prompt}}
+
+TONE TRANSFORMATION:
+From: {{current_tone}} (e.g., professional, serious, dramatic, realistic)
+To: {{target_tone}} (e.g., playful, whimsical, dark, uplifting, nostalgic, futuristic)
+
+ADJUSTMENTS TO MAKE:
+
+Mood/Atmosphere:
+- Current Mood: {{current_mood}}
+- Target Mood: {{target_mood}}
+- Emotional Impact: {{emotional_impact}}
+
+Visual Style Changes:
+- Color Palette: Change from {{old_colors}} to {{new_colors}}
+- Lighting: Change from {{old_lighting}} to {{new_lighting}}
+- Art Style: {{style_adjustment}} (make more realistic/stylized/abstract)
+
+Language & Descriptors:
+- Replace formal language with: {{language_style}}
+- Adjust adjectives to convey: {{adjective_tone}}
+- Modify intensity: {{intensity}} (subtle, moderate, dramatic)
+
+Specific Elements to Change:
+- {{element_1}}: Change to {{element_1_new}}
+- {{element_2}}: Change to {{element_2_new}}
+- {{element_3}}: Change to {{element_3_new}}
+
+PRESERVE:
+Keep these elements unchanged: {{preserve_elements}}
+
+TONE EXAMPLES:
+Professional → Playful: Serious office → Fun creative workspace with colorful decor
+Realistic → Whimsical: Real forest → Enchanted forest with glowing mushrooms
+Dark → Uplifting: Gloomy cityscape → Vibrant sunrise over city
+Modern → Nostalgic: Contemporary design → Vintage 1950s aesthetic
+
+OUTPUT: Rewritten prompt with adjusted tone while maintaining core subject/composition.`
+    },
+
+    {
+      id: 'prompt-detail-enhancer',
+      name: 'Prompt Detail Enhancer',
+      category: 'text-to-image',
+      workflow: 'text-to-image',
+      complexity: 'simple',
+      tags: ['utility', 'enhancement', 'expansion'],
+      recommended: true,
+      description: 'Expand brief ideas into detailed photography prompts',
+      template: `Expand brief image idea into comprehensive prompt:
+
+BRIEF IDEA:
+{{brief_idea}}
+
+TARGET WORKFLOW:
+Workflow: {{workflow}} (text-to-image, image-editing, multi-image-fusion, conversational)
+
+DETAIL LEVEL:
+Level: {{detail_level}} (basic, moderate, comprehensive, expert)
+
+EXPANSION AREAS:
+
+1. SUBJECT CLARIFICATION:
+Main Subject: {{main_subject}} (expanded description)
+Supporting Elements: {{supporting_elements}}
+Specific Details: {{specific_details}}
+
+2. PHOTOGRAPHY SPECIFICATIONS:
+Camera Equipment:
+- Camera Type: {{camera_suggestion}}
+- Lens: {{lens_suggestion}}
+- Settings: {{settings_suggestion}}
+
+Composition:
+- Framing: {{framing}}
+- Angle: {{angle}}
+- Perspective: {{perspective}}
+
+3. LIGHTING & ATMOSPHERE:
+Lighting Setup: {{lighting_setup}}
+Time of Day: {{time_of_day}}
+Weather/Conditions: {{conditions}}
+Mood: {{mood}}
+
+4. VISUAL STYLE:
+Photography Style: {{photography_style}}
+Color Palette: {{color_palette}}
+Post-Processing: {{post_processing}}
+
+5. TECHNICAL QUALITY:
+Resolution: {{resolution}}
+Focus: {{focus_points}}
+Depth of Field: {{depth_of_field}}
+
+6. CONTEXTUAL DETAILS:
+Background: {{background_details}}
+Foreground: {{foreground_details}}
+Environmental Context: {{environmental_context}}
+
+ENHANCEMENT GOALS:
+- Add {{specificity_level}} specificity
+- Include {{technical_depth}} technical photography terms
+- Ensure {{clarity_level}} clarity for AI interpretation
+
+OUTPUT: Complete, detailed prompt ready for Gemini 2.5 Flash Image with all photography specifications.`
+    },
+
+    {
+      id: 'prompt-simplifier',
+      name: 'Prompt Simplifier',
+      category: 'text-to-image',
+      workflow: 'text-to-image',
+      complexity: 'simple',
+      tags: ['utility', 'simplification', 'clarity'],
+      description: 'Condense complex prompts to essential elements',
+      template: `Simplify overly complex prompt to essential elements:
+
+COMPLEX PROMPT:
+{{complex_prompt}}
+
+SIMPLIFICATION GOALS:
+Target Length: {{target_length}} (words/characters)
+Retain Priority: {{priority}} (subject, style, mood, technical specs)
+Remove: {{elements_to_remove}} (redundancy, excessive detail, conflicting instructions)
+
+SIMPLIFICATION PROCESS:
+
+1. IDENTIFY CORE ELEMENTS:
+Essential Subject: {{core_subject}}
+Essential Style: {{core_style}}
+Essential Mood: {{core_mood}}
+Must-Have Technical Specs: {{must_have_specs}}
+
+2. REMOVE REDUNDANCY:
+Redundant Phrases: {{redundant_phrases}}
+Repetitive Details: {{repetitive_details}}
+Conflicting Instructions: {{conflicts}}
+
+3. CONSOLIDATE:
+Merge similar concepts: {{merged_concepts}}
+Combine related details: {{combined_details}}
+
+4. PRIORITIZE:
+Keep Priority 1 (Critical): {{priority_1}}
+Keep Priority 2 (Important): {{priority_2}}
+Remove Priority 3 (Nice-to-have): {{priority_3}}
+
+5. CLARITY OPTIMIZATION:
+Replace verbose phrases with: {{concise_replacements}}
+Simplify technical jargon: {{simplified_jargon}}
+Use clear, direct language: {{direct_language}}
+
+SIMPLIFICATION RULES:
+- Maximum {{max_words}} words
+- Focus on {{focus_areas}}
+- Maintain {{preserve_qualities}}
+- Remove {{remove_categories}}
+
+BALANCE:
+Simplicity vs Detail: {{balance_point}}
+- Too simple: Vague, generic results
+- Just right: Clear, focused, essential
+- Too complex: Overwhelming, contradictory
+
+OUTPUT: Simplified prompt that maintains essential quality while removing complexity.`
     }
 
-    // Additional Gemini 2.5 Flash Image templates can be added here
-    // Current count: ~15 comprehensive templates covering all 4 workflows
+    // Total: 25+ comprehensive templates covering all 4 workflows + supporting tools
 
   ],
 
