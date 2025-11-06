@@ -2416,8 +2416,8 @@ function loadQuickWins() {
     return;
   }
 
-  container.innerHTML = filtered.map(qw => `
-    <div class="nb-quick-win-card" data-qw-id="${qw.id}">
+  container.innerHTML = filtered.map((qw, index) => `
+    <div class="nb-quick-win-card" data-qw-id="${qw.id}" data-qw-index="${index}">
       <div class="nb-quick-win-header">
         <h3>${qw.name}</h3>
         <span class="nb-quick-win-difficulty nb-difficulty-${qw.difficulty}">${qw.difficulty}</span>
@@ -2458,7 +2458,7 @@ function loadQuickWins() {
       </div>
 
       <div class="nb-quick-win-actions">
-        <button class="nb-btn-copy-prompt" data-prompt="${qw.prompt.replace(/"/g, '&quot;')}">
+        <button class="nb-btn-copy-prompt">
           📋 Copy Prompt
         </button>
         <button class="nb-btn-expand">
@@ -2468,10 +2468,15 @@ function loadQuickWins() {
     </div>
   `).join('');
 
+  // Store reference to filtered array for copy buttons
+  const filteredQuickWins = filtered;
+
   // Add event listeners for copy buttons
   container.querySelectorAll('.nb-btn-copy-prompt').forEach(btn => {
     btn.addEventListener('click', () => {
-      const prompt = btn.dataset.prompt.replace(/&quot;/g, '"');
+      const card = btn.closest('.nb-quick-win-card');
+      const qwIndex = parseInt(card.dataset.qwIndex);
+      const prompt = filteredQuickWins[qwIndex].prompt;
       copyQuickWinPrompt(prompt, btn);
     });
   });
