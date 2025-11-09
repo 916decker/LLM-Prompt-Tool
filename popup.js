@@ -9,6 +9,12 @@ let currentEditingIndex = null;
 let draggedElement = null;
 let draggedIndex = null;
 
+// Behavioral tracking state
+let promptViewStartTime = null;
+let currentlyViewingPromptIndex = null;
+let lastCopiedPromptIndex = null;
+let lastCopyTime = null;
+
 // DOM elements
 const promptNameInput = document.getElementById('promptName');
 const promptTextInput = document.getElementById('promptText');
@@ -492,6 +498,32 @@ function displayPrompts(prompts, folders) {
       folderBadge.appendChild(usageSpan);
     }
 
+    // BEHAVIORAL TRACKING: Show effectiveness score
+    if (prompt.effectivenessScore !== null && prompt.effectivenessScore !== undefined) {
+      const effectivenessSpan = document.createElement('span');
+      effectivenessSpan.style.marginLeft = '8px';
+      effectivenessSpan.style.fontWeight = '600';
+      effectivenessSpan.style.padding = '2px 8px';
+      effectivenessSpan.style.borderRadius = '4px';
+      effectivenessSpan.style.fontSize = '12px';
+
+      if (prompt.effectivenessScore >= 75) {
+        effectivenessSpan.style.background = '#e8f5e9';
+        effectivenessSpan.style.color = '#2e7d32';
+        effectivenessSpan.textContent = `🟢 ${Math.round(prompt.effectivenessScore)}% effective`;
+      } else if (prompt.effectivenessScore >= 50) {
+        effectivenessSpan.style.background = '#fff3e0';
+        effectivenessSpan.style.color = '#ef6c00';
+        effectivenessSpan.textContent = `🟡 ${Math.round(prompt.effectivenessScore)}% effective`;
+      } else {
+        effectivenessSpan.style.background = '#ffebee';
+        effectivenessSpan.style.color = '#c62828';
+        effectivenessSpan.textContent = `🔴 ${Math.round(prompt.effectivenessScore)}% effective`;
+      }
+
+      folderBadge.appendChild(effectivenessSpan);
+    }
+
     const promptText = document.createElement('p');
     promptText.className = 'prompt-text';
     promptText.textContent = prompt.text;
@@ -533,7 +565,17 @@ async function addPrompt() {
     usageCount: 0,
     lastUsed: null,
     createdAt: Date.now(),
-    history: []
+    history: [],
+    // BEHAVIORAL TRACKING FIELDS
+    behavioralSignals: {
+      viewTimes: [],
+      copyTimes: [],
+      reCopies: 0,
+      abandons: 0,
+      quickReuses: 0,
+      editedAfterView: 0
+    },
+    effectivenessScore: null
   });
 
   await smartStorage.set({ prompts });
@@ -553,6 +595,10 @@ async function usePrompt(index) {
 
   if (!prompt) return;
 
+  // BEHAVIORAL TRACKING: Record view time
+  const viewStartTime = Date.now();
+  await recordPromptView(index, viewStartTime);
+
   // Check for variables
   const variables = extractVariables(prompt.text);
 
@@ -561,17 +607,26 @@ async function usePrompt(index) {
     showVariableModal(prompt.text, variables, index);
   } else {
     // Copy directly
-    await copyPromptText(prompt.text, prompt.name, index);
+    await copyPromptText(prompt.text, prompt.name, index, viewStartTime);
   }
 }
 
-async function copyPromptText(text, name, index) {
+async function copyPromptText(text, name, index, viewStartTime = null) {
   try {
     await navigator.clipboard.writeText(text);
+    const copyTime = Date.now();
+
     showToast(`"${name}" copied to clipboard!`);
 
     // Update usage stats
     await incrementUsageCount(index);
+
+    // BEHAVIORAL TRACKING: Record copy behavior
+    await recordPromptCopy(index, viewStartTime, copyTime);
+
+    // Schedule smart feedback collection
+    scheduleFeedbackCheck(index, name);
+
   } catch (error) {
     console.error('Failed to copy:', error);
     showToast('Failed to copy prompt', 'error');
@@ -1919,10 +1974,15 @@ async function loadAnalytics() {
   const data = await smartStorage.get(['prompts']);
   const prompts = data.prompts || [];
 
-  // Top prompts
+  // ENHANCED: Top prompts by effectiveness, not just usage
   const topPrompts = prompts
     .filter(p => p.usageCount > 0)
-    .sort((a, b) => b.usageCount - a.usageCount)
+    .map(p => ({
+      ...p,
+      // Calculate combined score: effectiveness + usage
+      combinedScore: ((p.effectivenessScore || 50) * 0.6) + ((p.usageCount / Math.max(...prompts.map(x => x.usageCount || 1))) * 100 * 0.4)
+    }))
+    .sort((a, b) => b.combinedScore - a.combinedScore)
     .slice(0, 10);
 
   const topPromptsList = document.getElementById('topPromptsList');
@@ -1931,29 +1991,41 @@ async function loadAnalytics() {
   if (topPrompts.length === 0) {
     topPromptsList.innerHTML = '<p style="text-align: center; color: var(--text-tertiary);">No usage data yet</p>';
   } else {
-    topPrompts.forEach(prompt => {
+    topPromptsList.forEach(prompt => {
       const item = document.createElement('div');
       item.className = 'top-prompt-item';
+
+      const effectivenessIndicator = prompt.effectivenessScore >= 75 ? '🟢' :
+                                      prompt.effectivenessScore >= 50 ? '🟡' : '🔴';
+
       item.innerHTML = `
-        <span class="top-prompt-name">${prompt.name}</span>
-        <span class="top-prompt-count">${prompt.usageCount}x</span>
+        <span class="top-prompt-name">${effectivenessIndicator} ${prompt.name}</span>
+        <span class="top-prompt-count">${prompt.usageCount}x ${prompt.effectivenessScore ? `• ${Math.round(prompt.effectivenessScore)}%` : ''}</span>
       `;
       topPromptsList.appendChild(item);
     });
   }
 
-  // Favorites count
-  const favoritesCount = prompts.filter(p => p.favorite).length;
+  // ENHANCED: Show effectiveness insights
+  const effectivePrompts = prompts.filter(p => p.effectivenessScore >= 75).length;
+  const needsWorkPrompts = prompts.filter(p => p.effectivenessScore && p.effectivenessScore < 50).length;
+
   document.getElementById('favoritesCount').innerHTML = `
-    <div class="analytics-number">${favoritesCount}</div>
-    <div class="analytics-label">Favorite Prompts</div>
+    <div class="analytics-number">${effectivePrompts}</div>
+    <div class="analytics-label">Highly Effective</div>
+    ${needsWorkPrompts > 0 ? `<div style="font-size: 11px; color: #ef6c00; margin-top: 4px;">⚠️ ${needsWorkPrompts} need work</div>` : ''}
   `;
 
-  // Total usage
+  // Total usage with behavioral insights
   const totalUsage = prompts.reduce((sum, p) => sum + (p.usageCount || 0), 0);
+  const avgEffectiveness = prompts.filter(p => p.effectivenessScore).length > 0
+    ? Math.round(prompts.filter(p => p.effectivenessScore).reduce((sum, p) => sum + p.effectivenessScore, 0) / prompts.filter(p => p.effectivenessScore).length)
+    : null;
+
   document.getElementById('totalUsage').innerHTML = `
     <div class="analytics-number">${totalUsage}</div>
     <div class="analytics-label">Total Uses</div>
+    ${avgEffectiveness ? `<div style="font-size: 11px; color: #4285f4; margin-top: 4px;">Avg. effectiveness: ${avgEffectiveness}%</div>` : ''}
   `;
 }
 
@@ -2047,7 +2119,7 @@ window.addEventListener('unhandledrejection', (e) => {
 });
 
 // Migration System
-const CURRENT_VERSION = '2.1';
+const CURRENT_VERSION = '2.2'; // Updated for behavioral tracking
 
 async function runMigrations() {
   const data = await chrome.storage.local.get(['schemaVersion']);
@@ -2060,6 +2132,10 @@ async function runMigrations() {
   // Run migrations
   if (currentSchema === '1.0') {
     await migrateFrom1To2();
+  }
+
+  if (currentSchema === '2.0' || currentSchema === '2.1') {
+    await migrateFrom2To22();
   }
 
   await chrome.storage.local.set({ schemaVersion: CURRENT_VERSION });
@@ -2081,6 +2157,28 @@ async function migrateFrom1To2() {
 
   await smartStorage.set({ prompts: migratedPrompts });
   console.log('Migration 1.0 -> 2.0 complete');
+}
+
+async function migrateFrom2To22() {
+  // Add behavioral tracking fields to existing prompts
+  const data = await smartStorage.get(['prompts']);
+  const prompts = data.prompts || [];
+
+  const migratedPrompts = prompts.map(p => ({
+    ...p,
+    behavioralSignals: p.behavioralSignals || {
+      viewTimes: [],
+      copyTimes: [],
+      reCopies: 0,
+      abandons: 0,
+      quickReuses: 0,
+      editedAfterView: 0
+    },
+    effectivenessScore: p.effectivenessScore !== undefined ? p.effectivenessScore : null
+  }));
+
+  await smartStorage.set({ prompts: migratedPrompts });
+  console.log('Migration 2.0/2.1 -> 2.2 complete (behavioral tracking added)');
 }
 
 // Run migrations on load
@@ -2593,3 +2691,319 @@ document.addEventListener('DOMContentLoaded', async () => {
     await smartStorage.set({ chains: [] });
   }
 });
+
+// ============================================================================
+// BEHAVIORAL TRACKING SYSTEM (Week 1 Implementation)
+// ============================================================================
+
+// Record when user views a prompt
+async function recordPromptView(index, viewStartTime) {
+  const data = await smartStorage.get(['prompts']);
+  const prompts = data.prompts || [];
+
+  if (!prompts[index]) return;
+
+  // Initialize behavioralSignals if missing (for existing prompts)
+  if (!prompts[index].behavioralSignals) {
+    prompts[index].behavioralSignals = {
+      viewTimes: [],
+      copyTimes: [],
+      reCopies: 0,
+      abandons: 0,
+      quickReuses: 0,
+      editedAfterView: 0
+    };
+  }
+
+  prompts[index].behavioralSignals.viewTimes.push(viewStartTime);
+
+  // Store globally for abandon detection
+  currentlyViewingPromptIndex = index;
+  promptViewStartTime = viewStartTime;
+
+  await smartStorage.set({ prompts });
+}
+
+// Record when user copies a prompt
+async function recordPromptCopy(index, viewStartTime, copyTime) {
+  const data = await smartStorage.get(['prompts']);
+  const prompts = data.prompts || [];
+
+  if (!prompts[index]) return;
+
+  if (!prompts[index].behavioralSignals) {
+    prompts[index].behavioralSignals = {
+      viewTimes: [],
+      copyTimes: [],
+      reCopies: 0,
+      abandons: 0,
+      quickReuses: 0,
+      editedAfterView: 0
+    };
+  }
+
+  const timeToCopy = viewStartTime ? copyTime - viewStartTime : null;
+
+  prompts[index].behavioralSignals.copyTimes.push({
+    timestamp: copyTime,
+    timeToCopy: timeToCopy
+  });
+
+  // Detect quick re-copy (within 60 seconds of last copy)
+  if (lastCopiedPromptIndex === index && lastCopyTime) {
+    const timeSinceLastCopy = (copyTime - lastCopyTime) / 1000; // seconds
+    if (timeSinceLastCopy < 60) {
+      prompts[index].behavioralSignals.reCopies++;
+      prompts[index].behavioralSignals.quickReuses++;
+    }
+  }
+
+  // Update global state
+  lastCopiedPromptIndex = index;
+  lastCopyTime = copyTime;
+
+  // Recalculate effectiveness score
+  prompts[index].effectivenessScore = calculateEffectivenessScore(prompts[index]);
+
+  await smartStorage.set({ prompts });
+}
+
+// Calculate effectiveness based on behavioral signals
+function calculateEffectivenessScore(prompt) {
+  if (!prompt.behavioralSignals || prompt.usageCount === 0) {
+    return null;
+  }
+
+  const signals = prompt.behavioralSignals;
+  let score = 50; // Start at neutral
+
+  // Positive signals
+  if (signals.quickReuses > 0) {
+    score += signals.quickReuses * 10; // Re-copying is strong positive signal
+  }
+
+  if (signals.reCopies > 0) {
+    score += signals.reCopies * 5;
+  }
+
+  // Fast copy time indicates confidence
+  const avgCopyTime = signals.copyTimes.length > 0
+    ? signals.copyTimes.reduce((sum, c) => sum + (c.timeToCopy || 0), 0) / signals.copyTimes.length
+    : 0;
+
+  if (avgCopyTime > 0 && avgCopyTime < 2000) { // Less than 2 seconds
+    score += 15; // Quick decision = good prompt
+  }
+
+  // Negative signals
+  if (signals.abandons > 0) {
+    score -= signals.abandons * 8;
+  }
+
+  if (signals.editedAfterView > 0) {
+    score -= signals.editedAfterView * 3; // Needs improvement
+  }
+
+  // Factor in explicit ratings if available
+  if (prompt.ratings) {
+    const ratingScore = ((prompt.ratings.up || 0) - (prompt.ratings.down || 0)) * 5;
+    score += ratingScore;
+  }
+
+  // Normalize to 0-100
+  return Math.max(0, Math.min(100, score));
+}
+
+// Schedule smart feedback collection based on behavior
+function scheduleFeedbackCheck(index, promptName) {
+  const data = chrome.storage.local.get(['prompts']).then(async (data) => {
+    const prompts = data.prompts || [];
+    const prompt = prompts[index];
+
+    if (!prompt || !prompt.behavioralSignals) return;
+
+    const signals = prompt.behavioralSignals;
+
+    // SCENARIO 1: Quick re-copy detected = high confidence positive
+    if (signals.quickReuses > 0 && !prompt.ratings?.userRating) {
+      setTimeout(() => {
+        showSmartFeedback({
+          type: 'confirm-positive',
+          promptName: promptName,
+          message: `"${promptName}" worked well?`,
+          index: index,
+          autoConfirmIn: 5000 // Auto-yes in 5 seconds
+        });
+      }, 2000);
+    }
+
+    // SCENARIO 2: Used multiple times but no rating = ask for feedback
+    else if (prompt.usageCount >= 3 && !prompt.ratings?.userRating) {
+      setTimeout(() => {
+        showSmartFeedback({
+          type: 'ask-rating',
+          promptName: promptName,
+          message: `How's "${promptName}" working for you?`,
+          index: index
+        });
+      }, 8000);
+    }
+
+    // SCENARIO 3: Low effectiveness score = suggest improvement
+    else if (prompt.effectivenessScore !== null && prompt.effectivenessScore < 50) {
+      setTimeout(() => {
+        showSmartFeedback({
+          type: 'suggest-improve',
+          promptName: promptName,
+          message: `"${promptName}" seems tricky. Want help improving it?`,
+          index: index
+        });
+      }, 5000);
+    }
+  });
+}
+
+// Show smart contextual feedback UI
+function showSmartFeedback(options) {
+  const { type, promptName, message, index, autoConfirmIn } = options;
+
+  const feedbackDiv = document.createElement('div');
+  feedbackDiv.className = 'smart-feedback';
+  feedbackDiv.style.cssText = `
+    position: fixed;
+    bottom: 60px;
+    right: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 16px 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    z-index: 10000;
+    max-width: 320px;
+    animation: slideInUp 0.3s ease-out;
+    font-size: 14px;
+  `;
+
+  feedbackDiv.innerHTML = `
+    <div style="margin-bottom: 12px; font-weight: 500;">${message}</div>
+    <div class="feedback-actions" style="display: flex; gap: 8px;">
+      ${type === 'confirm-positive' ? `
+        <button class="feedback-btn" data-action="thumbs-up" style="flex: 1; padding: 8px; border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.2); color: white; border-radius: 6px; cursor: pointer; font-size: 13px;">
+          👍 Yes
+        </button>
+        <button class="feedback-btn" data-action="dismiss" style="flex: 1; padding: 8px; border: 1px solid rgba(255,255,255,0.3); background: transparent; color: white; border-radius: 6px; cursor: pointer; font-size: 13px;">
+          Not really
+        </button>
+      ` : type === 'ask-rating' ? `
+        <button class="feedback-btn" data-action="thumbs-up" style="padding: 8px 12px; border: none; background: rgba(255,255,255,0.9); color: #667eea; border-radius: 6px; cursor: pointer; font-size: 18px;">
+          👍
+        </button>
+        <button class="feedback-btn" data-action="thumbs-down" style="padding: 8px 12px; border: none; background: rgba(255,255,255,0.9); color: #764ba2; border-radius: 6px; cursor: pointer; font-size: 18px;">
+          👎
+        </button>
+        <button class="feedback-btn" data-action="dismiss" style="padding: 8px 12px; border: 1px solid rgba(255,255,255,0.3); background: transparent; color: white; border-radius: 6px; cursor: pointer; font-size: 13px;">
+          Skip
+        </button>
+      ` : `
+        <button class="feedback-btn" data-action="edit" style="flex: 1; padding: 8px; border: none; background: rgba(255,255,255,0.9); color: #667eea; border-radius: 6px; cursor: pointer; font-size: 13px;">
+          ✏️ Edit
+        </button>
+        <button class="feedback-btn" data-action="dismiss" style="padding: 8px 12px; border: 1px solid rgba(255,255,255,0.3); background: transparent; color: white; border-radius: 6px; cursor: pointer; font-size: 13px;">
+          Later
+        </button>
+      `}
+    </div>
+    ${autoConfirmIn ? `<div style="margin-top: 8px; font-size: 11px; opacity: 0.8;">Auto-confirming in <span class="countdown">${Math.floor(autoConfirmIn/1000)}</span>s...</div>` : ''}
+  `;
+
+  document.body.appendChild(feedbackDiv);
+
+  // Add click handlers
+  feedbackDiv.querySelectorAll('.feedback-btn').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      const action = e.target.dataset.action;
+
+      if (action === 'thumbs-up') {
+        await ratePrompt(index, 'up');
+        showToast('Thanks for the feedback! 👍');
+      } else if (action === 'thumbs-down') {
+        await ratePrompt(index, 'down');
+        showToast('Got it - we\'ll help improve this prompt');
+      } else if (action === 'edit') {
+        const data = await smartStorage.get(['prompts']);
+        const prompts = data.prompts || [];
+        if (prompts[index]) {
+          openEditModal(index, prompts[index]);
+        }
+      }
+
+      // Remove feedback
+      feedbackDiv.remove();
+    });
+  });
+
+  // Auto-confirm logic
+  if (autoConfirmIn) {
+    let timeLeft = autoConfirmIn;
+    const countdownEl = feedbackDiv.querySelector('.countdown');
+
+    const interval = setInterval(() => {
+      timeLeft -= 1000;
+      if (countdownEl) {
+        countdownEl.textContent = Math.floor(timeLeft / 1000);
+      }
+
+      if (timeLeft <= 0) {
+        clearInterval(interval);
+        // Auto-confirm positive
+        ratePrompt(index, 'up');
+        feedbackDiv.remove();
+        showToast('Marked as effective! 👍');
+      }
+    }, 1000);
+
+    // Cancel auto-confirm on any interaction
+    feedbackDiv.addEventListener('click', () => clearInterval(interval));
+  }
+
+  // Auto-dismiss after 20 seconds if no interaction
+  setTimeout(() => {
+    if (feedbackDiv.parentNode) {
+      feedbackDiv.style.animation = 'slideOutDown 0.3s ease-out';
+      setTimeout(() => feedbackDiv.remove(), 300);
+    }
+  }, 20000);
+}
+
+// Add CSS animation
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes slideInUp {
+    from {
+      transform: translateY(100px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideOutDown {
+    from {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(100px);
+      opacity: 0;
+    }
+  }
+
+  .feedback-btn:hover {
+    opacity: 0.9;
+    transform: scale(1.05);
+    transition: all 0.2s;
+  }
+`;
+document.head.appendChild(style);
