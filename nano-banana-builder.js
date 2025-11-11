@@ -2350,9 +2350,75 @@ function showView(viewName) {
     view.classList.add('active');
   }
 
-  // Load Quick Wins when that view is shown
-  if (viewName === 'quick-wins') {
-    loadQuickWins();
+  // Load content for each specific view
+  switch(viewName) {
+    case 'quick-wins':
+      if (typeof loadQuickWins === 'function') loadQuickWins();
+      break;
+    case 'onboarding':
+      if (typeof loadLesson === 'function') loadLesson('intro');
+      break;
+    case 'library':
+      loadLibraryTemplates();
+      break;
+    case 'validate':
+      // Validate view is just an input field, no loading needed
+      break;
+    case 'resources':
+      if (typeof loadResources === 'function') loadResources();
+      break;
+  }
+}
+
+function loadLibraryTemplates() {
+  const container = document.getElementById('libraryGrid');
+  if (!container) return;
+
+  const search = document.getElementById('librarySearch')?.value.toLowerCase() || '';
+  const category = document.getElementById('libraryCategory')?.value || 'all';
+  const complexity = document.getElementById('libraryComplexity')?.value || 'all';
+
+  let filtered = NanoBananaBuilder.templates;
+
+  // Apply filters
+  if (category !== 'all') {
+    filtered = filtered.filter(t => t.category === category || t.workflow === category);
+  }
+
+  if (complexity !== 'all') {
+    filtered = filtered.filter(t => t.complexity === complexity);
+  }
+
+  if (search) {
+    filtered = filtered.filter(t =>
+      t.name.toLowerCase().includes(search) ||
+      t.description.toLowerCase().includes(search)
+    );
+  }
+
+  if (filtered.length === 0) {
+    container.innerHTML = '<p class="nb-info-text">No templates found matching your filters.</p>';
+    return;
+  }
+
+  container.innerHTML = filtered.map(template => `
+    <div class="nb-template-card" style="cursor: pointer;" onclick="selectTemplateFromLibrary('${template.id}')">
+      ${template.recommended ? '<span class="nb-template-badge">⭐ Recommended</span>' : ''}
+      <h3>${template.name}</h3>
+      <p>${template.description}</p>
+      <div class="nb-template-tags">
+        ${template.tags.slice(0, 3).map(tag => `<span class="nb-tag">${tag}</span>`).join('')}
+      </div>
+      <button class="nb-btn-primary" onclick="event.stopPropagation(); selectTemplateFromLibrary('${template.id}')">Use Template</button>
+    </div>
+  `).join('');
+}
+
+function selectTemplateFromLibrary(templateId) {
+  const template = NanoBananaBuilder.templates.find(t => t.id === templateId);
+  if (template) {
+    showView('builder');
+    applyTemplate(template);
   }
 }
 

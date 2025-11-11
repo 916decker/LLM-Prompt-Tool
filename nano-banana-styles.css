@@ -24,19 +24,19 @@
   --nb-border: #E5E7EB;
   --nb-shadow: rgba(0, 0, 0, 0.08);
 
-  /* Spacing - More generous for readability */
-  --nb-spacing-xs: 6px;
-  --nb-spacing-sm: 12px;
-  --nb-spacing-md: 20px;
-  --nb-spacing-lg: 32px;
-  --nb-spacing-xl: 48px;
+  /* Spacing - Compact for less scrolling */
+  --nb-spacing-xs: 4px;
+  --nb-spacing-sm: 8px;
+  --nb-spacing-md: 12px;
+  --nb-spacing-lg: 16px;
+  --nb-spacing-xl: 24px;
 
-  /* Typography - Larger for readability */
+  /* Typography - Readable but compact */
   --nb-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --nb-font-mono: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-  --nb-font-size-base: 16px;
-  --nb-font-size-lg: 18px;
-  --nb-font-size-xl: 20px;
+  --nb-font-size-base: 14px;
+  --nb-font-size-lg: 16px;
+  --nb-font-size-xl: 18px;
 
   /* Border Radius - Softer */
   --nb-radius-sm: 6px;
@@ -463,11 +463,11 @@ body {
 .nb-select,
 .nb-textarea {
   width: 100%;
-  padding: 14px 16px;
-  border: 2px solid var(--nb-border);
-  border-radius: var(--nb-radius-md);
+  padding: 8px 12px;
+  border: 1px solid var(--nb-border);
+  border-radius: var(--nb-radius-sm);
   font-family: var(--nb-font-family);
-  font-size: 1rem;
+  font-size: 14px;
   background: var(--nb-bg-primary);
   color: var(--nb-text-primary);
   transition: var(--nb-transition);
@@ -478,34 +478,34 @@ body {
 .nb-textarea:focus {
   outline: none;
   border-color: var(--nb-primary);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
 }
 
 .nb-textarea {
   resize: vertical;
-  min-height: 120px;
+  min-height: 80px;
   font-family: var(--nb-font-mono);
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
 .nb-textarea-large {
-  min-height: 250px;
+  min-height: 150px;
 }
 
 /* Buttons */
 .nb-btn-primary,
 .nb-btn-secondary,
 .nb-btn-link {
-  padding: 14px 28px;
-  border-radius: var(--nb-radius-md);
+  padding: 8px 16px;
+  border-radius: var(--nb-radius-sm);
   font-weight: 600;
   cursor: pointer;
   transition: var(--nb-transition);
-  border: 2px solid transparent;
-  font-size: 1rem;
+  border: 1px solid transparent;
+  font-size: 14px;
   display: inline-flex;
   align-items: center;
-  gap: var(--nb-spacing-sm);
+  gap: var(--nb-spacing-xs);
 }
 
 .nb-btn-primary {
