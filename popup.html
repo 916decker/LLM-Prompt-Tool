@@ -45,6 +45,14 @@
       </div>
 
       <div class="setting-item">
+        <button id="branchesBtn" class="btn-secondary">🌳 Conversation Branches</button>
+      </div>
+
+      <div class="setting-item">
+        <button id="apiSettingsBtn" class="btn-secondary">🔑 API Settings</button>
+      </div>
+
+      <div class="setting-item">
         <button id="closeSettingsBtn" class="btn-primary">Close</button>
       </div>
     </div>
@@ -103,15 +111,71 @@
       </div>
     </div>
 
-    <!-- Add Prompt Section -->
+    <!-- Add Prompt Section with Copilot -->
     <div class="add-section">
-      <h2>Add New Prompt</h2>
+      <div class="section-header-with-toggle">
+        <h2>Add New Prompt</h2>
+        <label class="toggle-container-inline">
+          <input type="checkbox" id="copilotToggle">
+          <span class="toggle-slider-small"></span>
+          <span class="toggle-label-small">🤖 Copilot</span>
+        </label>
+      </div>
+
       <select id="promptFolder" class="folder-select">
         <option value="">Select folder...</option>
       </select>
+
       <input type="text" id="promptName" placeholder="Prompt name (e.g., 'Scrutinize Answer')" />
+
+      <!-- Task Type Selector (for smart routing) -->
+      <select id="taskTypeSelect" class="task-type-select">
+        <option value="general">General Task</option>
+        <option value="code">Code/Programming</option>
+        <option value="writing">Writing/Content</option>
+        <option value="reasoning">Analysis/Reasoning</option>
+        <option value="creative">Creative</option>
+      </select>
+
       <textarea id="promptText" placeholder="Enter your prompt here... Use {{variable}} for variables"></textarea>
-      <button id="addPrompt" class="btn-primary">Add Prompt</button>
+
+      <!-- Real-time Quality Feedback -->
+      <div id="qualityFeedback" class="quality-feedback" style="display: none;">
+        <div class="quality-header">
+          <span class="quality-grade">Grade: <strong id="qualityGrade">-</strong></span>
+          <span class="quality-score">Score: <strong id="qualityScore">-</strong></span>
+          <span class="quality-tokens">Tokens: <strong id="qualityTokens">-</strong></span>
+          <span class="quality-cost">Est. Cost: <strong id="qualityCost">$-</strong></span>
+        </div>
+        <div id="qualityIssues" class="quality-issues"></div>
+        <div id="qualitySuggestions" class="quality-suggestions"></div>
+      </div>
+
+      <!-- Copilot Suggestions Panel -->
+      <div id="copilotPanel" class="copilot-panel" style="display: none;">
+        <div class="copilot-header">
+          <strong>🤖 Copilot Suggestions</strong>
+          <button id="closeCopilot" class="btn-icon-small">×</button>
+        </div>
+        <div id="copilotSuggestions" class="copilot-suggestions"></div>
+      </div>
+
+      <!-- Model Router Info -->
+      <div id="modelRouterInfo" class="model-router-info" style="display: none;">
+        <div class="router-header">
+          <span>Recommended Model: <strong id="recommendedModel">-</strong></span>
+          <button id="showModelOptions" class="btn-link">See alternatives</button>
+        </div>
+        <div id="modelDetails" class="model-details" style="display: none;"></div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="prompt-actions">
+        <button id="addPrompt" class="btn-primary">Add Prompt</button>
+        <button id="improvePrompt" class="btn-secondary" style="display: none;">✨ Improve</button>
+        <button id="compressPrompt" class="btn-secondary" style="display: none;">🗜️ Compress</button>
+        <button id="scanSecurity" class="btn-secondary" style="display: none;">🔒 Security Scan</button>
+      </div>
     </div>
 
     <!-- Prompts List Section -->
@@ -334,6 +398,128 @@
     </div>
   </div>
 
+  <!-- A/B Test Modal -->
+  <div id="abTestModal" class="modal" style="display: none;">
+    <div class="modal-content modal-large">
+      <div class="modal-header">
+        <h2>🧪 A/B Test Variations</h2>
+        <span class="modal-close">&times;</span>
+      </div>
+      <div class="modal-body">
+        <p>Test different versions of your prompt to see which performs better</p>
+        <div id="abTestVariants" class="ab-test-variants"></div>
+        <div id="abTestResults" class="ab-test-results"></div>
+      </div>
+      <div class="modal-footer">
+        <button id="startABTest" class="btn-primary">Start Test</button>
+        <button id="closeABTest" class="btn-secondary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Output Comparison Modal -->
+  <div id="outputCompareModal" class="modal" style="display: none;">
+    <div class="modal-content modal-large">
+      <div class="modal-header">
+        <h2>📊 Compare Outputs</h2>
+        <span class="modal-close">&times;</span>
+      </div>
+      <div class="modal-body">
+        <div id="outputComparison" class="output-comparison">
+          <div class="output-side">
+            <h3>Output A</h3>
+            <div id="outputA" class="output-display"></div>
+          </div>
+          <div class="output-side">
+            <h3>Output B</h3>
+            <div id="outputB" class="output-display"></div>
+          </div>
+        </div>
+        <div id="comparisonStats" class="comparison-stats"></div>
+      </div>
+      <div class="modal-footer">
+        <button id="closeOutputCompare" class="btn-secondary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- API Settings Modal -->
+  <div id="apiSettingsModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>🔑 API Settings</h2>
+        <span class="modal-close">&times;</span>
+      </div>
+      <div class="modal-body">
+        <p class="modal-description">Add API keys to enable AI-powered features (optional)</p>
+
+        <label>Anthropic API Key:</label>
+        <input type="password" id="anthropicApiKey" class="modal-input" placeholder="sk-ant-...">
+
+        <label>OpenAI API Key:</label>
+        <input type="password" id="openaiApiKey" class="modal-input" placeholder="sk-...">
+
+        <div class="api-info">
+          <p><strong>Privacy:</strong> API keys are stored locally in your browser only.</p>
+          <p><strong>Features enabled:</strong> AI-powered prompt improvement, smart suggestions, mutation testing</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="saveApiSettings" class="btn-primary">Save</button>
+        <button id="cancelApiSettings" class="btn-secondary">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Conversation Branches Modal -->
+  <div id="branchesModal" class="modal" style="display: none;">
+    <div class="modal-content modal-large">
+      <div class="modal-header">
+        <h2>🌳 Conversation Branches</h2>
+        <span class="modal-close">&times;</span>
+      </div>
+      <div class="modal-body">
+        <p>Explore different conversation paths (Git for AI chats)</p>
+        <button id="newConversation" class="btn-primary" style="width: 100%; margin-bottom: 16px;">+ New Conversation</button>
+        <div id="conversationsList" class="conversations-list"></div>
+        <div id="branchVisualization" class="branch-viz"></div>
+      </div>
+      <div class="modal-footer">
+        <button id="closeBranches" class="btn-secondary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Security Scan Results Modal -->
+  <div id="securityScanModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>🔒 Security Scan Results</h2>
+        <span class="modal-close">&times;</span>
+      </div>
+      <div class="modal-body">
+        <div id="securityScore" class="security-score"></div>
+        <div id="securityIssues" class="security-issues"></div>
+        <div id="securityWarnings" class="security-warnings"></div>
+      </div>
+      <div class="modal-footer">
+        <button id="sanitizePrompt" class="btn-primary" style="display: none;">🛡️ Auto-Fix Issues</button>
+        <button id="closeSecurityScan" class="btn-secondary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Load core modules first -->
+  <script src="core-utils.js"></script>
+  <script src="prompt-assistant.js"></script>
+  <script src="output-manager.js"></script>
+  <script src="model-router.js"></script>
+  <script src="workflow-manager.js"></script>
+
+  <!-- Main application -->
   <script src="popup.js"></script>
+
+  <!-- Feature integration -->
+  <script src="integration.js"></script>
 </body>
 </html>

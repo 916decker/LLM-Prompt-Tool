@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "LLM Prompt Manager",
-  "version": "3.0",
-  "description": "Smart LLM prompt manager with behavioral analytics and effectiveness tracking",
+  "version": "4.0",
+  "description": "AI-powered prompt engineering tool with Copilot, quality analysis, model routing, A/B testing, and security scanning",
   "permissions": [
     "contextMenus",
     "storage",
