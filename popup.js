@@ -946,13 +946,16 @@ async function saveEdit() {
       prompts[currentEditingIndex].history.push({
         text: oldPrompt.text,
         name: oldPrompt.name,
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        effectivenessScore: oldPrompt.effectivenessScore,
+        usageCount: oldPrompt.usageCount || 0
       });
     }
 
     prompts[currentEditingIndex].name = newName;
     prompts[currentEditingIndex].text = newText;
     prompts[currentEditingIndex].folderId = newFolderId;
+    prompts[currentEditingIndex].lastModified = Date.now();
 
     await smartStorage.set({ prompts });
     await loadPrompts();

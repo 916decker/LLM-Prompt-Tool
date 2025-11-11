@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "LLM Prompt Manager",
-  "version": "4.0",
-  "description": "AI-powered prompt engineering tool with Copilot, quality analysis, model routing, A/B testing, and security scanning",
+  "version": "4.1",
+  "description": "AI-powered prompt engineering tool with visual tree viewer, version diff, Copilot, quality analysis, and more",
   "permissions": [
     "contextMenus",
     "storage",

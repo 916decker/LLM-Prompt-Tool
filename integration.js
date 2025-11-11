@@ -369,16 +369,20 @@ async function loadConversations() {
 }
 
 async function viewConversation(convId) {
-  const tree = await ConversationBranches.getTree(convId);
-
-  // Simple visualization (could be enhanced with a proper tree view)
+  // Use the visual tree viewer
   const vizDiv = document.getElementById('branchVisualization');
-  vizDiv.innerHTML = `
-    <h3>${tree.conversation.name}</h3>
-    <p>Active branch: ${tree.conversation.branches.find(b => b.id === tree.conversation.activeBranch)?.name}</p>
-    <p>${Object.keys(tree.conversation).length} total messages</p>
-  `;
+  vizDiv.style.display = 'block';
+  ConversationTreeVisualizer.renderTree(convId, vizDiv);
 }
+
+// ============================================================================
+// VERSION HISTORY (Add to prompt cards)
+// ============================================================================
+
+// This function will be called from popup.js when adding version history buttons
+window.showPromptVersionHistory = async function(promptIndex, promptName) {
+  await VersionDiff.showVersionHistory(promptIndex, promptName);
+};
 
 // ============================================================================
 // INITIALIZE ON LOAD
@@ -390,4 +394,37 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (data.apiKeys) {
     currentApiKeys = data.apiKeys;
   }
+
+  // Add version history buttons to existing prompts
+  addVersionHistoryButtons();
 });
+
+// Add version history buttons to prompt cards
+function addVersionHistoryButtons() {
+  // This will be called after prompts are loaded
+  const observer = new MutationObserver(() => {
+    const promptCards = document.querySelectorAll('.prompt-card');
+    promptCards.forEach((card, index) => {
+      if (!card.querySelector('.btn-version-history')) {
+        const actionsDiv = card.querySelector('.prompt-actions');
+        if (actionsDiv) {
+          const versionBtn = document.createElement('button');
+          versionBtn.className = 'btn-icon btn-version-history';
+          versionBtn.title = 'Version History';
+          versionBtn.innerHTML = '📜';
+          versionBtn.onclick = (e) => {
+            e.stopPropagation();
+            const promptName = card.querySelector('h3').textContent;
+            showPromptVersionHistory(index, promptName);
+          };
+          actionsDiv.insertBefore(versionBtn, actionsDiv.firstChild);
+        }
+      }
+    });
+  });
+
+  observer.observe(document.getElementById('promptsList'), {
+    childList: true,
+    subtree: true
+  });
+}
