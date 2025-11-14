@@ -301,6 +301,42 @@
           <!-- Variables Manager -->
           <div class="nb-variables-section" id="variablesSection">
             <h3>🔧 Variables</h3>
+
+            <!-- Variables Tutorial -->
+            <div class="nb-variables-help" style="background: #EFF6FF; border: 1px solid #DBEAFE; border-radius: 6px; padding: 12px; margin-bottom: 16px;">
+              <details>
+                <summary style="cursor: pointer; font-weight: 600; color: #1E40AF; margin-bottom: 8px;">❓ What are variables and how do they work?</summary>
+                <div style="margin-top: 8px; font-size: 13px; line-height: 1.6;">
+                  <p style="margin-bottom: 8px;"><strong>Variables are placeholders in your prompt that you can fill in later.</strong></p>
+
+                  <p style="margin-bottom: 8px;"><strong>Example:</strong></p>
+                  <code style="display: block; background: white; padding: 8px; border-radius: 4px; margin-bottom: 8px;">
+                    Create a {{style}} photograph of {{subject}} using {{camera}}.
+                  </code>
+
+                  <p style="margin-bottom: 8px;"><strong>How it works:</strong></p>
+                  <ol style="margin-left: 20px; margin-bottom: 8px;">
+                    <li>Click "Add Variable" button above</li>
+                    <li>Enter variable name (e.g., "subject", "style", "camera")</li>
+                    <li>Add description (optional - helps you remember what it's for)</li>
+                    <li>Variables appear in your prompt as <code>{{variableName}}</code></li>
+                    <li>Fill in the values when you're ready to use the prompt</li>
+                  </ol>
+
+                  <p style="margin-bottom: 8px;"><strong>Why use variables?</strong></p>
+                  <ul style="margin-left: 20px;">
+                    <li><strong>Reusable:</strong> Create one prompt template, use it many times</li>
+                    <li><strong>Consistent:</strong> Same structure every time, just change the details</li>
+                    <li><strong>Faster:</strong> No need to rewrite the whole prompt</li>
+                  </ul>
+
+                  <p style="margin-top: 12px; padding: 8px; background: #FEF3C7; border-left: 3px solid #F59E0B; border-radius: 4px;">
+                    <strong>💡 Pro Tip:</strong> Templates already have variables built-in! When you select a template, its variables automatically appear here.
+                  </p>
+                </div>
+              </details>
+            </div>
+
             <div id="variablesList" class="nb-variables-list" role="list" aria-label="Current variables">
               <p class="nb-info-text">No variables defined. Click "Add Variable" to create one.</p>
             </div>
