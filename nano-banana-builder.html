@@ -105,10 +105,106 @@
     <!-- Main Builder View -->
     <section class="nb-view active" id="builder-view" role="region" aria-labelledby="builder-title">
       <div class="nb-builder">
+        <!-- Model Selector Panel -->
+        <div class="nb-panel nb-model-panel">
+          <h2>🤖 Select Model</h2>
+          <p class="nb-panel-desc">Choose between Flash (fast) or Pro (high-fidelity with reasoning)</p>
+
+          <div class="nb-model-selector">
+            <div class="nb-model-option nb-model-flash active" data-model="flash">
+              <div class="nb-model-header">
+                <div class="nb-model-icon">⚡</div>
+                <div>
+                  <h3>Gemini 2.5 Flash Image</h3>
+                  <span class="nb-model-codename">Nano Banana</span>
+                </div>
+              </div>
+              <p class="nb-model-desc">Fast, efficient image generation</p>
+              <div class="nb-model-features">
+                <span class="nb-feature-tag">✓ Fast Generation</span>
+                <span class="nb-feature-tag">✓ 1024x1024</span>
+                <span class="nb-feature-tag">✓ Up to 3 refs</span>
+              </div>
+            </div>
+
+            <div class="nb-model-option nb-model-pro" data-model="pro">
+              <div class="nb-model-header">
+                <div class="nb-model-icon">🚀</div>
+                <div>
+                  <h3>Gemini 3 Pro Image</h3>
+                  <span class="nb-model-codename">Nano Banana Pro</span>
+                  <span class="nb-model-badge">NEW</span>
+                </div>
+              </div>
+              <p class="nb-model-desc">Professional quality with reasoning</p>
+              <div class="nb-model-features">
+                <span class="nb-feature-tag-pro">✓ 4K Resolution</span>
+                <span class="nb-feature-tag-pro">✓ Thinking Process</span>
+                <span class="nb-feature-tag-pro">✓ 14 References</span>
+                <span class="nb-feature-tag-pro">✓ Search Grounding</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pro Settings (shown only when Pro is selected) -->
+          <div class="nb-pro-settings" id="proSettings" style="display: none;">
+            <h3>⚙️ Pro Model Settings</h3>
+
+            <div class="nb-settings-grid">
+              <div class="nb-setting-group">
+                <label class="nb-label" for="proResolution">Resolution</label>
+                <select id="proResolution" class="nb-select">
+                  <option value="1024x1024">1024x1024 (Standard)</option>
+                  <option value="2048x2048" selected>2048x2048 (High Quality)</option>
+                  <option value="4096x4096">4096x4096 (4K - Max Quality)</option>
+                </select>
+              </div>
+
+              <div class="nb-setting-group">
+                <label class="nb-label" for="proAspectRatio">Aspect Ratio</label>
+                <select id="proAspectRatio" class="nb-select">
+                  <option value="1:1" selected>1:1 (Square)</option>
+                  <option value="16:9">16:9 (Widescreen)</option>
+                  <option value="9:16">9:16 (Vertical/Mobile)</option>
+                  <option value="3:4">3:4 (Portrait)</option>
+                  <option value="4:3">4:3 (Landscape)</option>
+                  <option value="3:2">3:2 (Classic)</option>
+                  <option value="2:3">2:3 (Tall)</option>
+                  <option value="21:9">21:9 (Cinematic)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="nb-setting-group">
+              <label class="nb-checkbox-label">
+                <input type="checkbox" id="includeThoughts" checked>
+                <span>Show Thinking/Reasoning Process</span>
+                <span class="nb-setting-hint">View how the model plans the image before generating</span>
+              </label>
+            </div>
+
+            <div class="nb-setting-group">
+              <label class="nb-checkbox-label">
+                <input type="checkbox" id="searchGrounding">
+                <span>Enable Google Search Grounding</span>
+                <span class="nb-setting-hint">Use real-time search for factual accuracy (current events, products, etc.)</span>
+              </label>
+            </div>
+
+            <div class="nb-setting-group">
+              <label class="nb-label">Reference Images (Max 14)</label>
+              <button id="addReferenceImage" class="nb-btn-secondary" type="button">+ Add Reference Image</button>
+              <div id="referenceImagesList" class="nb-reference-list">
+                <p class="nb-info-text">No reference images added. Add images for style transfer, character consistency, or brand guidelines.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Workflow Selector Panel -->
         <div class="nb-panel nb-workflow-panel">
           <h2>🎨 Select Your Workflow</h2>
-          <p class="nb-panel-desc">Choose one of 4 powerful Gemini 2.5 Flash Image workflows</p>
+          <p class="nb-panel-desc" id="workflowDesc">Choose from available workflows for your selected model</p>
 
           <div class="nb-workflow-grid" role="radiogroup" aria-labelledby="workflow-title">
             <div class="nb-workflow-card" data-workflow="text-to-image" role="radio" aria-checked="true" tabindex="0">

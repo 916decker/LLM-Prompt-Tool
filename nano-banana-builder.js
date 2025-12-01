@@ -1,12 +1,23 @@
 /**
  * Google Nano Banana Prompt Builder - Ultimate Edition
- * The world's most advanced prompt engineering system for Gemini 2.5 Flash Image (Nano Banana)
+ * The world's most advanced prompt engineering system for Gemini Image Models
+ *
+ * SUPPORTED MODELS:
+ * - Gemini 2.5 Flash Image (Nano Banana) - Fast, efficient image generation
+ * - Gemini 3 Pro Image (Nano Banana Pro) - Professional, high-fidelity with reasoning
  *
  * GEMINI 2.5 FLASH IMAGE WORKFLOWS:
  * 1. Text → Image: Generate images from text descriptions
  * 2. Image Editing: Remove/add/replace objects in existing images
  * 3. Multi-Image Fusion: Blend multiple images, style transfer, character consistency
  * 4. Conversational Refinement: Iterative multi-turn editing
+ *
+ * GEMINI 3 PRO IMAGE NEW FEATURES:
+ * - Thinking/Reasoning process before generation
+ * - 4K resolution support (up to 4096x4096)
+ * - Up to 14 reference images
+ * - Google Search grounding for real-time accuracy
+ * - Advanced text rendering in images
  */
 
 // ============================================================================
@@ -18,9 +29,10 @@ const NanoBananaBuilder = {
   state: {
     currentView: 'builder',
     currentLesson: 'intro',
+    selectedModel: 'flash', // NEW: 'flash' or 'pro'
     selectedTemplate: null,
     selectedTechniques: [],
-    selectedWorkflow: 'text-to-image', // NEW: Workflow selection
+    selectedWorkflow: 'text-to-image',
     variables: [],
     promptText: '',
     validationResults: [],
@@ -32,11 +44,60 @@ const NanoBananaBuilder = {
       success: 0
     },
     userIntent: {},
-    onboardingProgress: 0
+    onboardingProgress: 0,
+    // NEW: Pro Model Settings
+    proSettings: {
+      resolution: '2048x2048', // '1024x1024', '2048x2048', '4096x4096'
+      aspectRatio: '1:1', // '1:1', '16:9', '9:16', '3:4', '4:3', '3:2', '2:3', '21:9'
+      includeThoughts: true, // Show reasoning process
+      searchGrounding: false, // Enable Google Search
+      referenceImages: [] // Up to 14 reference images
+    }
   },
 
   // ============================================================================
-  // WORKFLOW DEFINITIONS FOR GEMINI 2.5 FLASH IMAGE
+  // MODEL CONFIGURATIONS
+  // ============================================================================
+
+  models: {
+    'flash': {
+      id: 'gemini-2.5-flash-image',
+      name: 'Gemini 2.5 Flash Image',
+      codename: 'Nano Banana',
+      description: 'Fast, efficient image generation',
+      maxResolution: '1024x1024',
+      maxReferenceImages: 3,
+      features: ['Fast generation', 'Efficient', 'Good quality'],
+      limitations: ['Limited to 1024x1024', 'Basic text rendering', 'Up to 3 reference images']
+    },
+    'pro': {
+      id: 'gemini-3-pro-image-preview',
+      name: 'Gemini 3 Pro Image',
+      codename: 'Nano Banana Pro',
+      description: 'Professional, high-fidelity with reasoning',
+      maxResolution: '4096x4096',
+      maxReferenceImages: 14,
+      features: [
+        'Thinking/Reasoning process',
+        '4K resolution (4096x4096)',
+        'Up to 14 reference images',
+        'Google Search grounding',
+        'Advanced text rendering',
+        'Identity consistency',
+        'Professional quality'
+      ],
+      newFeatures: [
+        'Visible reasoning chain ("thinking" before drawing)',
+        'Real-time Google Search for accuracy',
+        '4K native resolution',
+        'Multi-reference consistency (up to 14 images)',
+        'Professional-grade text in images'
+      ]
+    }
+  },
+
+  // ============================================================================
+  // WORKFLOW DEFINITIONS
   // ============================================================================
 
   workflows: {
@@ -46,7 +107,8 @@ const NanoBananaBuilder = {
       icon: '🎨',
       description: 'Generate images from scratch using detailed text descriptions',
       capabilities: ['Photography prompts', 'Illustrated scenes', 'Product visualization', 'Character design', 'Technical renderings'],
-      examplePrompt: 'A professional photograph of a golden retriever playing in a sunlit meadow, shot with a Canon EOS R5, 85mm f/1.4 lens, shallow depth of field, golden hour lighting, warm color palette'
+      examplePrompt: 'A professional photograph of a golden retriever playing in a sunlit meadow, shot with a Canon EOS R5, 85mm f/1.4 lens, shallow depth of field, golden hour lighting, warm color palette',
+      supportedModels: ['flash', 'pro']
     },
     'image-editing': {
       id: 'image-editing',
@@ -54,7 +116,8 @@ const NanoBananaBuilder = {
       icon: '✂️',
       description: 'Remove, add, or replace objects in existing images',
       capabilities: ['Remove unwanted objects', 'Add new elements', 'Replace backgrounds', 'Color grading', 'Object manipulation'],
-      examplePrompt: 'Remove the car from the background and replace it with blooming cherry blossom trees. Maintain natural lighting and perspective.'
+      examplePrompt: 'Remove the car from the background and replace it with blooming cherry blossom trees. Maintain natural lighting and perspective.',
+      supportedModels: ['flash', 'pro']
     },
     'multi-image-fusion': {
       id: 'multi-image-fusion',
@@ -62,7 +125,8 @@ const NanoBananaBuilder = {
       icon: '🔄',
       description: 'Blend multiple images, apply style transfer, ensure character consistency',
       capabilities: ['Character + scene blending', 'Style transfer from reference', 'Consistent characters across scenes', 'Image compositing', 'Artistic style application'],
-      examplePrompt: 'Place the character from Image A into the scene from Image B, maintaining consistent lighting and applying the artistic style from Image C'
+      examplePrompt: 'Place the character from Image A into the scene from Image B, maintaining consistent lighting and applying the artistic style from Image C',
+      supportedModels: ['flash', 'pro']
     },
     'conversational': {
       id: 'conversational',
@@ -70,7 +134,39 @@ const NanoBananaBuilder = {
       icon: '💬',
       description: 'Iterative multi-turn editing for progressive refinement',
       capabilities: ['Sequential edits', 'Iterative improvements', 'Progressive detailing', 'Multi-step transformations', 'Guided refinement'],
-      examplePrompt: 'Turn 1: Make the lighting more dramatic. Turn 2: Add a fog effect in the background. Turn 3: Increase color saturation by 20%.'
+      examplePrompt: 'Turn 1: Make the lighting more dramatic. Turn 2: Add a fog effect in the background. Turn 3: Increase color saturation by 20%.',
+      supportedModels: ['flash', 'pro']
+    },
+    // NEW: Pro-Exclusive Workflows
+    'thinking-reasoning': {
+      id: 'thinking-reasoning',
+      name: 'Thinking/Reasoning (Pro Only)',
+      icon: '🧠',
+      description: 'Complex prompts where the model reasons about composition, lighting, and physics before generating',
+      capabilities: ['Logical consistency', 'Physics-aware generation', 'Complex scene planning', 'Detailed reasoning chains'],
+      examplePrompt: 'Create a photorealistic scene of a glass of water on a wooden table. The glass should show accurate refraction, the water level should obey physics, and reflections should be consistent with a window on the left casting afternoon light.',
+      supportedModels: ['pro'],
+      proOnly: true
+    },
+    'multi-reference-design': {
+      id: 'multi-reference-design',
+      name: 'Multi-Reference Design (Pro Only)',
+      icon: '🖼️',
+      description: 'Use up to 14 reference images for brand consistency, character sheets, and complex compositions',
+      capabilities: ['Brand kit integration', 'Character turnarounds', 'Style guide consistency', 'Multi-asset compositing'],
+      examplePrompt: 'Using the uploaded brand colors (Image 1), logo (Image 2), and character design (Images 3-5), create a marketing poster that maintains brand consistency.',
+      supportedModels: ['pro'],
+      proOnly: true
+    },
+    'search-grounded': {
+      id: 'search-grounded',
+      name: 'Search-Grounded Generation (Pro Only)',
+      icon: '🔍',
+      description: 'Generate images using real-time Google Search for factual accuracy',
+      capabilities: ['Current events', 'Accurate products', 'Real locations', 'Up-to-date information'],
+      examplePrompt: 'Show me a realistic image of the 2024 Tesla Cybertruck parked at the Grand Canyon during sunset',
+      supportedModels: ['pro'],
+      proOnly: true
     }
   },
 
