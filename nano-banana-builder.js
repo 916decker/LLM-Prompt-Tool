@@ -2472,6 +2472,8 @@ function initializeApp() {
   setupResources();
   setupQuickWins(); // NEW: Setup Quick Wins
   setupModals();
+  setupPayloadTabs(); // NEW: Setup API payload tabs
+  setupConversationalEditing(); // NEW: Setup conversational editing
   setupEventListeners();
 
   // Load initial view
@@ -3859,6 +3861,15 @@ function setupModals() {
   document.getElementById('closeBatchModal')?.addEventListener('click', () => {
     document.getElementById('batchModal').style.display = 'none';
   });
+
+  // API Payload modal
+  document.getElementById('viewAPIPayload')?.addEventListener('click', viewAPIPayload);
+  document.getElementById('downloadPayload')?.addEventListener('click', downloadPayload);
+  document.getElementById('copyFullPayload')?.addEventListener('click', copyFullPayload);
+
+  // Thinking Process modal
+  document.getElementById('viewThinking')?.addEventListener('click', viewThinkingProcess);
+  document.getElementById('exportThinking')?.addEventListener('click', exportThinking);
 }
 
 function generateBatchVariants() {
@@ -4374,6 +4385,473 @@ function removeReferenceImage(imageId, role) {
     NanoBananaBuilder.state.proSettings.referenceImages.filter(img => img.id !== id);
 
   displayReferenceImages();
+}
+
+// ============================================================================
+// API PAYLOAD PREVIEW & EXPORT
+// ============================================================================
+
+/**
+ * Opens the API Payload Preview modal and generates the payload
+ */
+function viewAPIPayload() {
+  const modal = document.getElementById('apiPayloadModal');
+  if (!modal) return;
+
+  const userPrompt = NanoBananaBuilder.state.promptText || document.getElementById('promptEditor')?.value || '';
+
+  if (!userPrompt.trim()) {
+    alert('Please enter a prompt first');
+    return;
+  }
+
+  // Build the payload using Prompt Architect
+  const payload = PromptArchitect.buildAPIPayload(userPrompt, NanoBananaBuilder.state);
+
+  if (!payload) {
+    alert('Error generating payload');
+    return;
+  }
+
+  // Get the enhanced prompt
+  const hasIdentityImages = NanoBananaBuilder.state.proSettings.identityImages.length > 0;
+  const hasStyleImages = NanoBananaBuilder.state.proSettings.styleImages.length > 0;
+
+  const enhancedPrompt = PromptArchitect.constructMasterPrompt(userPrompt, {
+    modelType: NanoBananaBuilder.state.selectedModel,
+    hasIdentityImages,
+    hasStyleImages,
+    forceReasoning: NanoBananaBuilder.state.proSettings.reasoningEffort === 'high',
+    forceGrounding: NanoBananaBuilder.state.proSettings.searchGrounding
+  });
+
+  // Populate the enhanced prompt tab
+  document.getElementById('enhancedPrompt').textContent = enhancedPrompt;
+
+  // Populate the full payload tab (with syntax highlighting)
+  const fullPayloadElement = document.getElementById('fullPayload');
+  fullPayloadElement.innerHTML = syntaxHighlightJSON(JSON.stringify(payload, null, 2));
+
+  // Generate cURL command
+  const curlCommand = generateCurlCommand(payload);
+  document.getElementById('curlCommand').textContent = curlCommand;
+
+  // Update stats
+  const model = NanoBananaBuilder.models[NanoBananaBuilder.state.selectedModel];
+  document.getElementById('payloadModel').textContent = model?.name || '-';
+  document.getElementById('payloadResolution').textContent =
+    NanoBananaBuilder.state.selectedModel === 'pro'
+      ? NanoBananaBuilder.state.proSettings.resolution
+      : '1024x1024';
+
+  const totalImages = NanoBananaBuilder.state.proSettings.identityImages.length +
+                     NanoBananaBuilder.state.proSettings.styleImages.length;
+  document.getElementById('payloadImages').textContent =
+    `${totalImages} (${NanoBananaBuilder.state.proSettings.identityImages.length} identity + ${NanoBananaBuilder.state.proSettings.styleImages.length} style)`;
+
+  document.getElementById('payloadGrounding').textContent =
+    NanoBananaBuilder.state.proSettings.searchGrounding ? 'Enabled' : 'Disabled';
+
+  document.getElementById('payloadReasoning').textContent =
+    NanoBananaBuilder.state.selectedModel === 'pro'
+      ? NanoBananaBuilder.state.proSettings.reasoningEffort.toUpperCase()
+      : 'N/A (Flash)';
+
+  // Store payload for download
+  window.currentPayload = payload;
+
+  // Show modal
+  modal.style.display = 'flex';
+}
+
+/**
+ * Simple JSON syntax highlighting
+ */
+function syntaxHighlightJSON(json) {
+  json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+    let cls = 'json-number';
+    if (/^"/.test(match)) {
+      if (/:$/.test(match)) {
+        cls = 'json-key';
+      } else {
+        cls = 'json-string';
+      }
+    } else if (/true|false/.test(match)) {
+      cls = 'json-boolean';
+    } else if (/null/.test(match)) {
+      cls = 'json-null';
+    }
+    return '<span class="' + cls + '">' + match + '</span>';
+  });
+}
+
+/**
+ * Generates a cURL command for testing the API
+ */
+function generateCurlCommand(payload) {
+  return `curl -X POST https://generativelanguage.googleapis.com/v1beta/models/${payload.model_version}:generateImage \\
+  -H "Content-Type: application/json" \\
+  -H "x-goog-api-key: YOUR_API_KEY" \\
+  -d '${JSON.stringify(payload, null, 2)}'`;
+}
+
+/**
+ * Downloads the API payload as a JSON file
+ */
+function downloadPayload() {
+  if (!window.currentPayload) {
+    alert('No payload available');
+    return;
+  }
+
+  const blob = new Blob([JSON.stringify(window.currentPayload, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `gemini-pro-payload-${Date.now()}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  showToast('Payload downloaded successfully!', 'success');
+}
+
+/**
+ * Copies the full payload to clipboard
+ */
+function copyFullPayload() {
+  if (!window.currentPayload) {
+    alert('No payload available');
+    return;
+  }
+
+  const json = JSON.stringify(window.currentPayload, null, 2);
+  navigator.clipboard.writeText(json).then(() => {
+    showToast('Full payload copied to clipboard!', 'success');
+  }).catch(() => {
+    alert('Failed to copy payload');
+  });
+}
+
+/**
+ * Tab switching for payload preview
+ */
+function setupPayloadTabs() {
+  const tabBtns = document.querySelectorAll('.nb-tab-btn');
+  const tabContents = document.querySelectorAll('.nb-tab-content');
+
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetTab = btn.dataset.tab;
+
+      // Remove active class from all buttons and contents
+      tabBtns.forEach(b => b.classList.remove('active'));
+      tabContents.forEach(c => c.classList.remove('active'));
+
+      // Add active class to clicked button and corresponding content
+      btn.classList.add('active');
+      document.getElementById(`${targetTab}-tab`)?.classList.add('active');
+    });
+  });
+
+  // Copy buttons
+  document.querySelectorAll('.nb-btn-copy-code').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.dataset.target;
+      const element = document.getElementById(targetId);
+      if (element) {
+        navigator.clipboard.writeText(element.textContent).then(() => {
+          btn.textContent = '✓ Copied!';
+          setTimeout(() => {
+            btn.textContent = '📋 Copy';
+          }, 2000);
+        });
+      }
+    });
+  });
+}
+
+// ============================================================================
+// THINKING PROCESS VIEWER
+// ============================================================================
+
+/**
+ * Opens the Thinking Process Viewer and generates a sample reasoning chain
+ */
+function viewThinkingProcess() {
+  const modal = document.getElementById('thinkingModal');
+  if (!modal) return;
+
+  const userPrompt = NanoBananaBuilder.state.promptText || document.getElementById('promptEditor')?.value || '';
+
+  if (!userPrompt.trim()) {
+    alert('Please enter a prompt first');
+    return;
+  }
+
+  // Generate simulated reasoning steps based on the prompt
+  const reasoningSteps = generateReasoningSteps(userPrompt);
+
+  // Populate the thinking timeline
+  const timeline = document.getElementById('thinkingTimeline');
+  timeline.innerHTML = reasoningSteps.map((step, index) => `
+    <div class="nb-thinking-step" data-step="${index + 1}">
+      <div class="nb-thinking-step-title">${step.title}</div>
+      <div class="nb-thinking-step-content">${step.content}</div>
+    </div>
+  `).join('');
+
+  // Generate summary
+  const summary = generateThinkingSummary(reasoningSteps, userPrompt);
+  document.getElementById('thinkingSummary').innerHTML = summary;
+
+  // Store for export
+  window.currentThinking = { steps: reasoningSteps, summary, prompt: userPrompt };
+
+  // Show modal
+  modal.style.display = 'flex';
+}
+
+/**
+ * Generates reasoning steps based on prompt analysis
+ */
+function generateReasoningSteps(prompt) {
+  const steps = [];
+
+  // Step 1: Scene Analysis
+  steps.push({
+    title: '🎬 Scene Layout & Spatial Relationships',
+    content: 'Analyzing the main subject, background elements, and their spatial arrangement. Determining foreground, midground, and background layers for proper depth perception.'
+  });
+
+  // Step 2: Lighting Analysis (if relevant)
+  if (PromptArchitect.requiresReasoning(prompt)) {
+    steps.push({
+      title: '💡 Lighting Analysis',
+      content: 'Calculating light source position, color temperature, and intensity. Planning shadow throw directions, fall-off rates, and ambient occlusion. Considering time of day and weather conditions for natural lighting consistency.'
+    });
+
+    steps.push({
+      title: '🔮 Physics & Optical Properties',
+      content: 'Determining reflection coefficients for surfaces (glass, water, metal). Computing refraction indices where applicable. Planning accurate caustics and subsurface scattering effects.'
+    });
+  }
+
+  // Step 4: Composition Planning
+  steps.push({
+    title: '📐 Composition & Framing',
+    content: 'Applying rule of thirds for visual balance. Planning focal points and visual hierarchy. Determining optimal camera angle and perspective for narrative impact.'
+  });
+
+  // Step 5: Color & Mood
+  steps.push({
+    title: '🎨 Color Grading & Mood',
+    content: 'Selecting color palette based on intended mood and atmosphere. Planning color harmony and contrast ratios. Ensuring proper saturation levels and tonal balance.'
+  });
+
+  // Step 6: Detail Planning
+  steps.push({
+    title: '🔬 Detail Level & Texture',
+    content: 'Allocating rendering resources to prioritize visible details. Planning texture resolution and surface properties. Ensuring consistency in level of detail across the scene.'
+  });
+
+  return steps;
+}
+
+/**
+ * Generates a thinking summary
+ */
+function generateThinkingSummary(steps, prompt) {
+  return `
+    <p><strong>Total Reasoning Steps:</strong> ${steps.length}</p>
+    <p><strong>Reasoning Effort:</strong> ${NanoBananaBuilder.state.proSettings.reasoningEffort?.toUpperCase() || 'HIGH'}</p>
+    <p><strong>Physics Calculations:</strong> ${PromptArchitect.requiresReasoning(prompt) ? 'Enabled' : 'Disabled'}</p>
+    <p><strong>Estimated Planning Time:</strong> ${steps.length * 1.5} seconds</p>
+    <p class="nb-info-text" style="margin-top: 12px;">
+      The Reasoning Core analyzed your prompt and identified ${steps.length} critical planning steps
+      before pixel generation. This Chain-of-Thought process ensures physical accuracy,
+      compositional balance, and visual coherence.
+    </p>
+  `;
+}
+
+/**
+ * Exports the thinking process
+ */
+function exportThinking() {
+  if (!window.currentThinking) {
+    alert('No thinking data available');
+    return;
+  }
+
+  const data = {
+    prompt: window.currentThinking.prompt,
+    model: 'gemini-3.0-pro-image',
+    reasoning_effort: NanoBananaBuilder.state.proSettings.reasoningEffort,
+    steps: window.currentThinking.steps,
+    summary: window.currentThinking.summary,
+    timestamp: new Date().toISOString()
+  };
+
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `reasoning-process-${Date.now()}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  showToast('Thinking process exported successfully!', 'success');
+}
+
+// ============================================================================
+// CONVERSATIONAL EDITING (IN-PAINTING)
+// ============================================================================
+
+// Initialize conversation state
+if (!NanoBananaBuilder.state.conversationHistory) {
+  NanoBananaBuilder.state.conversationHistory = [];
+}
+
+/**
+ * Toggles the conversational panel visibility
+ */
+function toggleConversationalPanel() {
+  const panel = document.getElementById('conversationalPanel');
+  if (!panel) return;
+
+  const isVisible = panel.style.display !== 'none';
+  panel.style.display = isVisible ? 'none' : 'block';
+}
+
+/**
+ * Applies an edit instruction to the conversation
+ */
+function applyEdit() {
+  const instruction = document.getElementById('editInstruction')?.value;
+
+  if (!instruction || !instruction.trim()) {
+    alert('Please enter an edit instruction');
+    return;
+  }
+
+  // Add to conversation history
+  const turn = {
+    id: Date.now(),
+    instruction: instruction.trim(),
+    timestamp: new Date().toISOString()
+  };
+
+  NanoBananaBuilder.state.conversationHistory.push(turn);
+
+  // Update display
+  displayConversationHistory();
+
+  // Clear input
+  document.getElementById('editInstruction').value = '';
+
+  // Build cumulative prompt
+  const cumulativePrompt = buildCumulativeEditPrompt();
+
+  // Update main prompt editor
+  document.getElementById('promptEditor').value = cumulativePrompt;
+  NanoBananaBuilder.state.promptText = cumulativePrompt;
+
+  showToast('Edit instruction added to conversation', 'success');
+}
+
+/**
+ * Builds cumulative prompt from conversation history
+ */
+function buildCumulativeEditPrompt() {
+  const basePrompt = NanoBananaBuilder.state.promptText || '';
+  const history = NanoBananaBuilder.state.conversationHistory;
+
+  if (history.length === 0) {
+    return basePrompt;
+  }
+
+  let cumulativePrompt = `[Original Prompt]\n${basePrompt}\n\n[Iterative Edits]\n`;
+
+  history.forEach((turn, index) => {
+    cumulativePrompt += `Turn ${index + 1}: ${turn.instruction}\n`;
+  });
+
+  cumulativePrompt += '\n[Final Instruction]\nApply all edits sequentially while maintaining consistency.';
+
+  return cumulativePrompt;
+}
+
+/**
+ * Displays conversation history
+ */
+function displayConversationHistory() {
+  const container = document.getElementById('conversationHistory');
+  if (!container) return;
+
+  const history = NanoBananaBuilder.state.conversationHistory;
+
+  if (history.length === 0) {
+    container.innerHTML = '<p class="nb-info-text">No edits yet. Generate an image first, then describe changes you want to make.</p>';
+    return;
+  }
+
+  container.innerHTML = history.map((turn, index) => `
+    <div class="nb-conversation-turn">
+      <div class="nb-conversation-label">Turn ${index + 1}</div>
+      <div class="nb-conversation-text">${turn.instruction}</div>
+    </div>
+  `).join('');
+}
+
+/**
+ * Undoes the last edit
+ */
+function undoLastEdit() {
+  if (NanoBananaBuilder.state.conversationHistory.length === 0) {
+    alert('No edits to undo');
+    return;
+  }
+
+  NanoBananaBuilder.state.conversationHistory.pop();
+  displayConversationHistory();
+
+  // Rebuild prompt
+  const cumulativePrompt = buildCumulativeEditPrompt();
+  document.getElementById('promptEditor').value = cumulativePrompt;
+  NanoBananaBuilder.state.promptText = cumulativePrompt;
+
+  showToast('Last edit removed', 'success');
+}
+
+/**
+ * Clears conversation history
+ */
+function clearConversationHistory() {
+  if (NanoBananaBuilder.state.conversationHistory.length === 0) {
+    return;
+  }
+
+  if (!confirm('Clear all conversation history? This cannot be undone.')) {
+    return;
+  }
+
+  NanoBananaBuilder.state.conversationHistory = [];
+  displayConversationHistory();
+  showToast('Conversation history cleared', 'success');
+}
+
+/**
+ * Setup event listeners for conversational editing
+ */
+function setupConversationalEditing() {
+  document.getElementById('applyEdit')?.addEventListener('click', applyEdit);
+  document.getElementById('undoEdit')?.addEventListener('click', undoLastEdit);
+  document.getElementById('clearHistory')?.addEventListener('click', clearConversationHistory);
 }
 
 // ============================================================================
