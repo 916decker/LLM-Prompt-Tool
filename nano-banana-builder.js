@@ -3069,6 +3069,7 @@ function initializeApp() {
   setupResources();
   setupQuickWins(); // NEW: Setup Quick Wins
   setupModals();
+  setupToasts(); // NEW: Setup toast notifications
   setupPayloadTabs(); // NEW: Setup API payload tabs
   setupConversationalEditing(); // NEW: Setup conversational editing
   setupEventListeners();
@@ -5336,6 +5337,11 @@ function applyEdit() {
     return;
   }
 
+  // Initialize conversation history if needed
+  if (!NanoBananaBuilder.state.conversationHistory) {
+    NanoBananaBuilder.state.conversationHistory = [];
+  }
+
   // Add to conversation history
   const turn = {
     id: Date.now(),
@@ -5368,7 +5374,7 @@ function buildCumulativeEditPrompt() {
   const basePrompt = NanoBananaBuilder.state.promptText || '';
   const history = NanoBananaBuilder.state.conversationHistory;
 
-  if (history.length === 0) {
+  if (!history || history.length === 0) {
     return basePrompt;
   }
 
@@ -5392,7 +5398,7 @@ function displayConversationHistory() {
 
   const history = NanoBananaBuilder.state.conversationHistory;
 
-  if (history.length === 0) {
+  if (!history || history.length === 0) {
     container.innerHTML = '<p class="nb-info-text">No edits yet. Generate an image first, then describe changes you want to make.</p>';
     return;
   }
@@ -5409,7 +5415,7 @@ function displayConversationHistory() {
  * Undoes the last edit
  */
 function undoLastEdit() {
-  if (NanoBananaBuilder.state.conversationHistory.length === 0) {
+  if (!NanoBananaBuilder.state.conversationHistory || NanoBananaBuilder.state.conversationHistory.length === 0) {
     alert('No edits to undo');
     return;
   }
@@ -5429,7 +5435,7 @@ function undoLastEdit() {
  * Clears conversation history
  */
 function clearConversationHistory() {
-  if (NanoBananaBuilder.state.conversationHistory.length === 0) {
+  if (!NanoBananaBuilder.state.conversationHistory || NanoBananaBuilder.state.conversationHistory.length === 0) {
     return;
   }
 
@@ -5481,5 +5487,43 @@ function setupEventListeners() {
 // ============================================================================
 // UTILITY FUNCTIONS
 // ============================================================================
+
+/**
+ * Shows a toast notification
+ * @param {string} message - The message to display
+ * @param {string} type - 'success' or 'error'
+ * @param {number} duration - Duration in ms (default 3000)
+ */
+function showToast(message, type = 'success', duration = 3000) {
+  const toastId = type === 'error' ? 'errorToast' : 'successToast';
+  const messageId = type === 'error' ? 'errorToastMessage' : 'successToastMessage';
+
+  const toast = document.getElementById(toastId);
+  const messageElement = document.getElementById(messageId);
+
+  if (!toast || !messageElement) {
+    console.warn('Toast elements not found');
+    return;
+  }
+
+  messageElement.textContent = message;
+  toast.style.display = 'flex';
+
+  // Auto-hide after duration
+  setTimeout(() => {
+    toast.style.display = 'none';
+  }, duration);
+}
+
+/**
+ * Setup toast close buttons
+ */
+function setupToasts() {
+  document.querySelectorAll('.nb-toast-close').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.closest('.nb-toast').style.display = 'none';
+    });
+  });
+}
 
 console.log('🍌 Nano Banana Prompt Builder - Ultimate Edition Loaded Successfully! 🍌');
