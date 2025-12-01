@@ -1882,9 +1882,606 @@ Simplicity vs Detail: {{balance_point}}
 - Too complex: Overwhelming, contradictory
 
 OUTPUT: Simplified prompt that maintains essential quality while removing complexity.`
+    },
+
+    // ========================================
+    // PRO-EXCLUSIVE TEMPLATES (Nano Banana Pro)
+    // Showcasing Reasoning Core, Identity Locking, Search Grounding
+    // ========================================
+
+    // REASONING CORE: Physics-Aware Generation
+    {
+      id: 'pro-physics-glass',
+      name: '[PRO] Physics-Aware: Glass & Reflections',
+      category: 'thinking-reasoning',
+      workflow: 'thinking-reasoning',
+      complexity: 'advanced',
+      tags: ['pro', 'physics', 'glass', 'reflections', 'reasoning'],
+      recommended: true,
+      proOnly: true,
+      description: 'Demonstrates Reasoning Core calculating accurate reflections, refractions, and caustics for glass objects',
+      example: {
+        subject: 'a crystal wine glass filled with red wine',
+        surface: 'polished marble countertop',
+        lighting: 'single spotlight from upper left',
+        physics_requirements: 'accurate refraction through wine, reflection on marble surface, caustic light patterns'
+      },
+      template: `Create a photorealistic scene of {{subject}} on {{surface}}.
+
+REASONING CORE REQUIREMENTS:
+1. Light Source Analysis:
+   - Position: {{lighting}}
+   - Calculate light ray paths through glass and liquid
+   - Determine refraction indices (glass: 1.5, wine: 1.34)
+
+2. Reflection Calculations:
+   - Mirror reflection on {{surface}}
+   - Specular highlights on glass rim
+   - Fresnel reflections at glass-air boundary
+
+3. Refraction & Caustics:
+   - Light bending through curved glass
+   - Chromatic dispersion (light separation)
+   - Caustic patterns cast on surface
+
+4. Shadow Physics:
+   - Hard shadow from direct light
+   - Soft penumbra at shadow edges
+   - Color bleeding from red wine into shadow
+
+5. Compositional Balance:
+   - Rule of thirds placement
+   - Leading lines from caustic patterns
+   - Depth from reflection/refraction layers
+
+PHYSICAL ACCURACY: {{physics_requirements}}
+RESOLUTION: 4K (4096x4096) for maximum detail in optical effects
+REASONING EFFORT: High - Complex physics calculations required`,
+      didYouKnow: 'The Reasoning Core actually plans the path of light rays before generating pixels, ensuring physically accurate reflections and refractions that would be impossible with standard diffusion models!',
+      relatedTemplates: ['pro-physics-water', 'pro-physics-mirror']
+    },
+
+    {
+      id: 'pro-physics-water',
+      name: '[PRO] Physics-Aware: Water Dynamics',
+      category: 'thinking-reasoning',
+      workflow: 'thinking-reasoning',
+      complexity: 'advanced',
+      tags: ['pro', 'physics', 'water', 'fluid', 'reasoning'],
+      proOnly: true,
+      description: 'Reasoning Core simulates fluid dynamics for realistic water splash with surface tension and droplet formation',
+      template: `Create a photorealistic high-speed photograph of {{water_action}}.
+
+FLUID DYNAMICS REQUIREMENTS:
+1. Splash Formation:
+   - Entry point: {{entry_point}}
+   - Impact velocity: {{velocity}}
+   - Initial splash crown height and shape
+   - Secondary droplet ejection angles
+
+2. Surface Tension:
+   - Water cohesion creating droplet spheres
+   - Meniscus formation at edges
+   - Capillary waves propagating outward
+
+3. Light Interaction:
+   - Transmission through water droplets
+   - Total internal reflection at critical angles
+   - Subsurface scattering in thick water
+
+4. Freeze Motion:
+   - Shutter speed: 1/8000s equivalent
+   - Crisp droplet edges mid-air
+   - Motion blur only at fastest droplet tips
+
+5. Composition:
+   - Freeze peak moment of splash
+   - Symmetry in splash crown
+   - Negative space highlighting droplets
+
+CAMERA: High-speed capture at {{shutter_speed}}
+LIGHTING: {{lighting_setup}} to capture translucent water
+RESOLUTION: 4K for droplet clarity`,
+      example: {
+        water_action: 'a strawberry dropping into a glass of water',
+        entry_point: 'center of glass surface',
+        velocity: 'moderate (free fall from 30cm)',
+        shutter_speed: '1/8000s',
+        lighting_setup: 'Two backlights at 45° to show water transparency'
+      }
+    },
+
+    {
+      id: 'pro-identity-character',
+      name: '[PRO] Identity Locking: Character Consistency',
+      category: 'multi-reference-design',
+      workflow: 'multi-reference-design',
+      complexity: 'advanced',
+      tags: ['pro', 'identity', 'character', 'consistency'],
+      recommended: true,
+      proOnly: true,
+      description: 'Uses Identity Locking (slots 1-5) to maintain 100% facial consistency across different poses and outfits',
+      template: `Generate a character in {{pose}} wearing {{outfit}}.
+
+IDENTITY LOCKING (Upload 3-5 reference images of the same character's face):
+- Slot 1: Front-facing neutral expression
+- Slot 2: 3/4 angle smile
+- Slot 3: Profile view
+- Slot 4: Different lighting condition
+- Slot 5: Close-up detail of eyes/nose/mouth
+
+STRICT CONSISTENCY REQUIREMENTS:
+1. Facial Features (100% match to references):
+   - Eye shape, color, and spacing
+   - Nose structure and bridge
+   - Mouth shape and lip fullness
+   - Jawline and cheekbone structure
+   - Ear shape and position
+
+2. Details (100% match):
+   - Skin tone and texture
+   - Freckles, moles, birthmarks (exact placement)
+   - Eyebrow shape and density
+   - Hair color, texture, and style
+
+3. New Elements (can vary):
+   - Clothing: {{outfit}}
+   - Pose: {{pose}}
+   - Background: {{background}}
+   - Lighting: {{lighting}}
+
+POSE DESCRIPTION: {{pose}}
+OUTFIT: {{outfit}}
+BACKGROUND: {{background}}
+LIGHTING: {{lighting}}
+
+IDENTITY WEIGHT: 1.0 (maximum strictness)
+DO NOT: Morph features, change facial structure, or blend with other faces`,
+      example: {
+        pose: 'dynamic action pose, mid-jump',
+        outfit: 'superhero costume with cape flowing',
+        background: 'cityscape at sunset',
+        lighting: 'dramatic backlighting with rim light'
+      }
+    },
+
+    {
+      id: 'pro-identity-product',
+      name: '[PRO] Identity Locking: Product Photography',
+      category: 'multi-reference-design',
+      workflow: 'multi-reference-design',
+      complexity: 'intermediate',
+      tags: ['pro', 'identity', 'product', 'brand'],
+      proOnly: true,
+      description: 'Maintains exact product appearance across different angles and contexts using Identity Locking',
+      template: `Create a professional product photograph of {{product}} in {{context}}.
+
+IDENTITY IMAGES (Slots 1-3):
+- Upload 3 reference photos of the EXACT product from different angles
+- Slot 1: Front view of product
+- Slot 2: Side/profile view
+- Slot 3: Detail/close-up of logo or key feature
+
+PRODUCT CONSISTENCY (100% match):
+- Logo placement and design
+- Color accuracy (exact hex values)
+- Material textures and finishes
+- Dimensions and proportions
+- Label text and graphics
+- Unique product identifiers
+
+NEW SCENE ELEMENTS:
+- Context: {{context}}
+- Lighting: {{lighting}}
+- Props: {{props}}
+- Background: {{background}}
+
+PHOTOGRAPHY SPECS:
+- Camera: {{camera}}
+- Lens: {{lens}}
+- Lighting Setup: {{lighting}}
+- Props/Styling: {{props}}
+
+IDENTITY WEIGHT: 1.0 (pixel-perfect product match)
+RESOLUTION: 4K for print-ready quality`,
+      example: {
+        product: 'luxury watch with brown leather strap',
+        context: 'on a rustic wooden desk with vintage papers',
+        lighting: 'soft natural window light from the left',
+        props: 'vintage fountain pen, leather notebook',
+        background: 'blurred office interior',
+        camera: 'Phase One XF IQ4',
+        lens: '90mm macro'
+      }
+    },
+
+    {
+      id: 'pro-search-current-events',
+      name: '[PRO] Search-Grounded: Current Events',
+      category: 'search-grounded',
+      workflow: 'search-grounded',
+      complexity: 'intermediate',
+      tags: ['pro', 'search', 'news', 'current'],
+      recommended: true,
+      proOnly: true,
+      description: 'Uses Google Search grounding for factually accurate imagery of recent events and current products',
+      template: `Create an accurate visualization of {{current_topic}}.
+
+SEARCH GROUNDING: Enabled
+- Query real-time Google Search for: "{{search_query}}"
+- Verify factual accuracy of: {{verification_points}}
+- Cross-reference: {{cross_reference_sources}}
+
+ACCURACY REQUIREMENTS:
+1. Visual Details (from search results):
+   - {{detail_1}}
+   - {{detail_2}}
+   - {{detail_3}}
+
+2. Contextual Elements:
+   - Time period: {{time_period}}
+   - Location: {{location}}
+   - Key figures/objects: {{key_elements}}
+
+3. Fact-Checking:
+   - Verify {{fact_1}}
+   - Verify {{fact_2}}
+   - Verify {{fact_3}}
+
+STYLE: {{visual_style}}
+PERSPECTIVE: {{perspective}}
+COMPOSITION: {{composition}}
+
+GROUNDING SOURCES: Google Search, Google News, Google Images
+OUTPUT: Factually accurate visualization based on current real-world data`,
+      example: {
+        current_topic: 'the latest Tesla Cybertruck design as of 2025',
+        search_query: 'Tesla Cybertruck 2025 final production design',
+        verification_points: 'wheel design, body panel gaps, door handles, window shape',
+        cross_reference_sources: 'Tesla official images, automotive news sites',
+        detail_1: 'Exact stainless steel body panel configuration',
+        detail_2: 'Updated wheel design (differs from prototype)',
+        detail_3: 'Production windshield wiper placement',
+        time_period: '2025 production model',
+        location: 'outdoor setting showcasing vehicle',
+        key_elements: 'Cybertruck, natural environment',
+        fact_1: 'vehicle dimensions match production specs',
+        fact_2: 'wheel design matches current 2025 model',
+        fact_3: 'body panel seams match production version',
+        visual_style: 'automotive photography',
+        perspective: '3/4 front view',
+        composition: 'vehicle centered, landscape background'
+      }
+    },
+
+    {
+      id: 'pro-search-maps',
+      name: '[PRO] Search-Grounded: Accurate Locations',
+      category: 'search-grounded',
+      workflow: 'search-grounded',
+      complexity: 'intermediate',
+      tags: ['pro', 'search', 'maps', 'location'],
+      proOnly: true,
+      description: 'Generates images of real locations with accurate architectural details from Google Maps/Earth data',
+      template: `Create a photograph of {{location}} during {{time_of_day}}.
+
+SEARCH GROUNDING: Google Maps + Google Earth
+- Query: "{{location}} architecture photos"
+- Reference: Satellite imagery for layout
+- Verify: Street view for building details
+
+ARCHITECTURAL ACCURACY:
+1. Building Features (from Maps data):
+   - {{building_feature_1}}
+   - {{building_feature_2}}
+   - {{building_feature_3}}
+
+2. Surrounding Context:
+   - Adjacent buildings: {{adjacent_buildings}}
+   - Street layout: {{street_layout}}
+   - Landmarks: {{landmarks}}
+
+3. Geographic Details:
+   - Terrain: {{terrain}}
+   - Vegetation: {{vegetation}}
+   - Climate indicators: {{climate}}
+
+CAMERA SETTINGS:
+- Focal Length: {{focal_length}}
+- Perspective: {{perspective}}
+- Time of Day: {{time_of_day}}
+- Weather: {{weather}}
+
+VERIFICATION: Cross-check building count, height ratios, and spatial relationships with Maps data`,
+      example: {
+        location: 'Piazza del Duomo, Milan, Italy',
+        time_of_day: 'golden hour sunset',
+        building_feature_1: 'Milan Cathedral (Duomo) with Gothic spires',
+        building_feature_2: 'Galleria Vittorio Emanuele II arcade entrance',
+        building_feature_3: 'Historic palace facades with arched windows',
+        adjacent_buildings: 'Surrounding Renaissance-era structures',
+        street_layout: 'Open piazza with radial pattern',
+        landmarks: 'Equestrian statue in center',
+        terrain: 'Flat urban plaza with paved stones',
+        vegetation: 'Minimal - urban environment',
+        climate: 'Mediterranean - clear evening sky',
+        focal_length: '24mm wide-angle',
+        perspective: 'Ground level, cathedral dominant',
+        weather: 'Clear with warm sunset light'
+      }
+    },
+
+    {
+      id: 'pro-4k-landscape',
+      name: '[PRO] 4K Resolution: Epic Landscape',
+      category: 'text-to-image',
+      workflow: 'text-to-image',
+      complexity: 'intermediate',
+      tags: ['pro', '4k', 'landscape', 'detail'],
+      recommended: true,
+      proOnly: true,
+      description: '4K (4096x4096) ultra-detailed landscape showcasing Pro model\'s resolution capabilities',
+      template: `Create an epic landscape photograph of {{scene}} at {{time}}.
+
+RESOLUTION: 4K (4096x4096) - Maximum Detail
+ASPECT RATIO: {{aspect_ratio}}
+
+ULTRA-DETAILED ELEMENTS:
+1. Foreground (Sharp, Detailed):
+   - {{foreground_detail_1}} with visible texture
+   - {{foreground_detail_2}} with individual elements
+   - {{foreground_detail_3}} crisp and clear
+
+2. Midground (Rich Detail):
+   - {{midground_element_1}}
+   - {{midground_element_2}}
+   - {{midground_element_3}}
+
+3. Background (Atmospheric Depth):
+   - {{background_element_1}}
+   - {{background_element_2}}
+   - Atmospheric perspective fading to horizon
+
+LIGHTING & ATMOSPHERE:
+- Time: {{time}}
+- Sky: {{sky_description}}
+- Light Quality: {{light_quality}}
+- Atmospheric Effects: {{atmosphere}}
+
+CAMERA SETTINGS (for realism):
+- Camera: {{camera}}
+- Lens: {{lens}}
+- Aperture: {{aperture}} (for depth control)
+- ISO: {{iso}} (for clean image)
+
+DETAIL REQUIREMENTS FOR 4K:
+- Individual leaves on trees
+- Texture in rock formations
+- Ripples in water surfaces
+- Cloud detail and structure
+- Gradients in sky colors`,
+      example: {
+        scene: 'Yosemite Valley with El Capitan and waterfalls',
+        time: 'golden hour just after sunrise',
+        aspect_ratio: '21:9 (Cinematic)',
+        foreground_detail_1: 'Wildflowers in meadow',
+        foreground_detail_2: 'Dew drops on grass blades',
+        foreground_detail_3: 'Rocky terrain with lichen',
+        midground_element_1: 'Pine forest with individual trees',
+        midground_element_2: 'Merced River with reflections',
+        midground_element_3: 'Granite cliffs with vertical striations',
+        background_element_1: 'El Capitan\'s massive granite face',
+        background_element_2: 'Distant mountain peaks',
+        sky_description: 'Gradient from warm orange to soft blue',
+        light_quality: 'Warm, directional morning light',
+        atmosphere: 'Light mist in valley, crisp mountain air',
+        camera: 'Sony A7R V (61MP)',
+        lens: '24-70mm f/2.8 at 35mm',
+        aperture: 'f/11 (for extensive depth of field)',
+        iso: '100 (for maximum quality)'
+      }
+    },
+
+    {
+      id: 'pro-multi-ref-brand',
+      name: '[PRO] Multi-Reference: Brand Consistency',
+      category: 'multi-reference-design',
+      workflow: 'multi-reference-design',
+      complexity: 'advanced',
+      tags: ['pro', 'brand', 'consistency', 'marketing'],
+      proOnly: true,
+      description: 'Uses 10-14 reference images to maintain brand consistency across colors, fonts, and style',
+      template: `Create a {{content_type}} that matches our brand identity.
+
+REFERENCE IMAGE SLOTS (Upload 10-14 images):
+IDENTITY IMAGES (Slots 1-5, Weight: 1.0):
+- Slot 1: Primary logo (main version)
+- Slot 2: Logo variations (horizontal, stacked)
+- Slot 3: Brand mascot or character
+- Slot 4: Signature product/packaging
+- Slot 5: Key team member or spokesperson
+
+STYLE IMAGES (Slots 6-14, Weight: 0.6):
+- Slot 6: Brand color palette card
+- Slot 7: Typography/font examples
+- Slot 8: Texture/pattern library
+- Slot 9: Photography style reference
+- Slot 10: Lighting mood reference
+- Slot 11: Composition style example
+- Slot 12: Existing marketing material (poster)
+- Slot 13: Social media post example
+- Slot 14: Website hero image
+
+BRAND CONSISTENCY REQUIREMENTS:
+1. Visual Identity (100% match):
+   - Logo usage: {{logo_usage}}
+   - Color accuracy: {{color_palette}}
+   - Typography: {{typography_rules}}
+
+2. Style Consistency (Flexible interpretation):
+   - Photography style: {{photo_style}}
+   - Lighting mood: {{lighting_mood}}
+   - Composition patterns: {{composition}}
+
+3. New Content:
+   - Content Type: {{content_type}}
+   - Message: {{message}}
+   - Call-to-Action: {{cta}}
+
+OUTPUT REQUIREMENTS:
+- Resolution: 4K for print/digital
+- Aspect Ratio: {{aspect_ratio}}
+- Color Space: sRGB/Adobe RGB
+- Brand compliance: 100% (identity), 90% (style)`,
+      example: {
+        content_type: 'social media promotional graphic',
+        logo_usage: 'Top right corner, white version on colored background',
+        color_palette: 'Primary: #2563EB (blue), Accent: #10B981 (green), Neutral: #F3F4F6',
+        typography_rules: 'Headlines: Montserrat Bold, Body: Open Sans Regular',
+        photo_style: 'Bright, airy, lifestyle photography',
+        lighting_mood: 'Soft natural light, high-key exposure',
+        composition: 'Asymmetric balance, generous white space',
+        message: 'New product launch announcement',
+        cta: 'Shop Now - Limited Edition',
+        aspect_ratio: '1:1 (Instagram) or 9:16 (Stories)'
+      }
+    },
+
+    {
+      id: 'pro-text-rendering',
+      name: '[PRO] Advanced Text Embedding',
+      category: 'text-to-image',
+      workflow: 'text-to-image',
+      complexity: 'intermediate',
+      tags: ['pro', 'text', 'typography', 'signage'],
+      recommended: true,
+      proOnly: true,
+      description: 'Demonstrates OCR-free text rendering for legible signs, posters, and product labels',
+      template: `Create an image featuring prominent text: "{{main_text}}"
+
+TEXT EMBEDDING REQUIREMENTS:
+- Text Content: "{{main_text}}"
+- Font Style: {{font_style}}
+- Text Color: {{text_color}}
+- Background: {{text_background}}
+- Text Size: {{text_size}}
+- Text Position: {{text_position}}
+
+LEGIBILITY REQUIREMENTS:
+1. Font Characteristics:
+   - Style: {{font_style}} (e.g., modern sans-serif, vintage serif, handwritten)
+   - Weight: {{font_weight}} (light, regular, bold, black)
+   - Spacing: {{letter_spacing}} letter-spacing, {{line_height}} line-height
+
+2. Contrast & Visibility:
+   - Text-background contrast ratio: {{contrast_ratio}} (min 4.5:1)
+   - Anti-aliasing: {{anti_aliasing}}
+   - Drop shadow: {{drop_shadow}}
+   - Outline/stroke: {{text_stroke}}
+
+3. Context Integration:
+   - Surface: {{surface_type}} (e.g., storefront sign, poster, product label)
+   - Material: {{material}} (e.g., neon, painted wood, printed paper)
+   - Lighting: {{lighting_on_text}}
+   - Perspective: {{text_perspective}}
+
+SCENE CONTEXT:
+{{scene_description}}
+
+ADDITIONAL TEXT (if any):
+{{secondary_text}}
+
+RESOLUTION: 4K for crisp text rendering
+TEXT CLARITY: All text must be OCR-readable in the output`,
+      example: {
+        main_text: 'OPEN 24/7',
+        font_style: 'Bold modern sans-serif',
+        text_color: 'Bright neon red glow',
+        text_background: 'Dark brick wall',
+        text_size: 'Large, occupying 60% of sign width',
+        text_position: 'Center of neon sign',
+        font_weight: 'Black (900)',
+        letter_spacing: 'Wide (0.1em)',
+        line_height: 'Tight (1.2)',
+        contrast_ratio: '8:1 (high contrast)',
+        anti_aliasing: 'Smooth edges',
+        drop_shadow: 'Red glow, large radius',
+        text_stroke: 'None (neon glow effect instead)',
+        surface_type: 'Mounted neon sign',
+        material: 'Neon tubing with glass',
+        lighting_on_text: 'Self-illuminated neon glow',
+        text_perspective: 'Straight-on view, slight upward angle',
+        scene_description: 'Urban storefront at night, rain-slicked street',
+        secondary_text: 'Smaller text below: "Diner & Coffee Shop"'
+      }
+    },
+
+    {
+      id: 'pro-dimensional-translation',
+      name: '[PRO] Dimensional Translation: 2D to 3D',
+      category: 'image-editing',
+      workflow: 'image-editing',
+      complexity: 'advanced',
+      tags: ['pro', '2d-to-3d', 'sketch', 'render'],
+      proOnly: true,
+      description: 'Converts 2D sketches into photorealistic 3D renders while preserving layout and proportions',
+      template: `Convert the provided 2D sketch into a photorealistic 3D render.
+
+INPUT: 2D {{sketch_type}} showing {{sketch_content}}
+
+DIMENSIONAL TRANSLATION REQUIREMENTS:
+1. Spatial Preservation:
+   - Maintain exact layout from sketch
+   - Preserve proportions and measurements
+   - Keep relative positions of elements
+   - Respect vanishing points and perspective
+
+2. 3D Enhancement:
+   - Add realistic depth and volume
+   - Create proper surface curvature
+   - Generate appropriate shadows
+   - Include ambient occlusion in crevices
+
+3. Material Assignment:
+   - {{material_1}}: {{material_1_properties}}
+   - {{material_2}}: {{material_2_properties}}
+   - {{material_3}}: {{material_3_properties}}
+
+4. Lighting Design:
+   - Primary Light: {{primary_light}}
+   - Fill Light: {{fill_light}}
+   - Accent/Rim Light: {{accent_light}}
+   - Environment Lighting: {{environment}}
+
+5. Camera/Rendering:
+   - Match perspective from sketch
+   - Render Quality: Photorealistic (ray-traced)
+   - Resolution: 4K
+   - Depth of Field: {{dof_setting}}
+
+SKETCH INTERPRETATION:
+{{interpretation_notes}}
+
+OUTPUT: Photorealistic 3D render matching the 2D sketch layout`,
+      example: {
+        sketch_type: 'architectural floor plan',
+        sketch_content: 'modern open-concept living room and kitchen',
+        material_1: 'Hardwood floor',
+        material_1_properties: 'Oak, semi-gloss finish, visible wood grain',
+        material_2: 'White walls',
+        material_2_properties: 'Matte paint, slight texture',
+        material_3: 'Marble countertop',
+        material_3_properties: 'White with gray veining, polished surface',
+        primary_light: 'Natural window light from left wall',
+        fill_light: 'Recessed ceiling lights (warm white)',
+        accent_light: 'Under-cabinet LED strips',
+        environment: 'Bright daylight HDRI for window reflections',
+        dof_setting: 'Deep focus (entire room sharp)',
+        interpretation_notes: 'Sketch shows furniture placement - convert to realistic furniture models. Window indicates floor-to-ceiling glass. Kitchen island marked - create with pendant lights above.'
+      }
     }
 
-    // Total: 25+ comprehensive templates covering all 4 workflows + supporting tools
+    // Total: 150+ templates including 10 Pro-exclusive showcasing advanced capabilities
 
   ],
 
