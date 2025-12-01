@@ -175,11 +175,31 @@
               </div>
             </div>
 
+            <div class="nb-settings-grid">
+              <div class="nb-setting-group">
+                <label class="nb-label" for="reasoningEffort">Reasoning Core Effort</label>
+                <select id="reasoningEffort" class="nb-select">
+                  <option value="low">Low (Fast, basic physics)</option>
+                  <option value="medium">Medium (Balanced)</option>
+                  <option value="high" selected>High (Deep reasoning, complex scenes)</option>
+                </select>
+                <span class="nb-setting-hint">Controls Chain-of-Thought planning depth</span>
+              </div>
+
+              <div class="nb-setting-group">
+                <label class="nb-checkbox-label">
+                  <input type="checkbox" id="turboMode">
+                  <span>Turbo Mode (4s generation)</span>
+                  <span class="nb-setting-hint">Fast generation with lower reasoning effort</span>
+                </label>
+              </div>
+            </div>
+
             <div class="nb-setting-group">
               <label class="nb-checkbox-label">
                 <input type="checkbox" id="includeThoughts" checked>
                 <span>Show Thinking/Reasoning Process</span>
-                <span class="nb-setting-hint">View how the model plans the image before generating</span>
+                <span class="nb-setting-hint">View the model's Chain-of-Thought planning before pixel generation</span>
               </label>
             </div>
 
@@ -187,15 +207,35 @@
               <label class="nb-checkbox-label">
                 <input type="checkbox" id="searchGrounding">
                 <span>Enable Google Search Grounding</span>
-                <span class="nb-setting-hint">Use real-time search for factual accuracy (current events, products, etc.)</span>
+                <span class="nb-setting-hint">Use real-time Google Search for factual accuracy (current events, stock prices, maps, weather, etc.)</span>
               </label>
             </div>
 
+            <!-- Identity Locking: Weighted Reference Images -->
             <div class="nb-setting-group">
+              <label class="nb-label">🎯 Identity Images (Slots 1-5, Weight: 1.0)</label>
+              <p class="nb-setting-hint">Upload faces, products, or logos that must stay 100% consistent. High-priority slots for strict structural adherence.</p>
+              <button id="addIdentityImage" class="nb-btn-secondary" type="button" onclick="addReferenceImageWithRole('identity')">+ Add Identity Image</button>
+              <div id="identityImagesList" class="nb-reference-list">
+                <p class="nb-info-text">No identity images added. Upload faces or products for consistency.</p>
+              </div>
+            </div>
+
+            <div class="nb-setting-group">
+              <label class="nb-label">🎨 Style Images (Slots 6-14, Weight: 0.6)</label>
+              <p class="nb-setting-hint">Upload reference images for lighting, color palette, or artistic vibe. Lower-priority slots allow flexibility for artistic interpretation.</p>
+              <button id="addStyleImage" class="nb-btn-secondary" type="button" onclick="addReferenceImageWithRole('style')">+ Add Style Image</button>
+              <div id="styleImagesList" class="nb-reference-list">
+                <p class="nb-info-text">No style images added. Upload reference images for vibe/lighting.</p>
+              </div>
+            </div>
+
+            <!-- Legacy: Combined view (hidden by default) -->
+            <div class="nb-setting-group" style="display: none;">
               <label class="nb-label">Reference Images (Max 14)</label>
               <button id="addReferenceImage" class="nb-btn-secondary" type="button">+ Add Reference Image</button>
               <div id="referenceImagesList" class="nb-reference-list">
-                <p class="nb-info-text">No reference images added. Add images for style transfer, character consistency, or brand guidelines.</p>
+                <p class="nb-info-text">No reference images added.</p>
               </div>
             </div>
           </div>

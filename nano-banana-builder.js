@@ -48,10 +48,16 @@ const NanoBananaBuilder = {
     // NEW: Pro Model Settings
     proSettings: {
       resolution: '2048x2048', // '1024x1024', '2048x2048', '4096x4096'
-      aspectRatio: '1:1', // '1:1', '16:9', '9:16', '3:4', '4:3', '3:2', '2:3', '21:9'
-      includeThoughts: true, // Show reasoning process
-      searchGrounding: false, // Enable Google Search
-      referenceImages: [] // Up to 14 reference images
+      aspectRatio: '1:1', // '1:1', '16:9', '9:16', '4:5', '21:9'
+      reasoningEffort: 'high', // 'low', 'medium', 'high' - Controls Reasoning Core activation
+      includeThoughts: true, // Show reasoning process (Chain-of-Thought)
+      searchGrounding: false, // Enable Google Search grounding
+      turboMode: false, // Fast generation (4s) vs standard (10-15s)
+      // Identity Locking: Weighted reference image system
+      identityImages: [], // Slots 1-5: High-priority (weight: 1.0) for face/product consistency
+      styleImages: [],    // Slots 6-14: Lower-priority (weight: 0.6) for vibe/lighting
+      // Legacy support
+      referenceImages: [] // All images combined (deprecated, use identityImages + styleImages)
     }
   },
 
@@ -71,28 +77,42 @@ const NanoBananaBuilder = {
       limitations: ['Limited to 1024x1024', 'Basic text rendering', 'Up to 3 reference images']
     },
     'pro': {
-      id: 'gemini-3-pro-image-preview',
-      name: 'Gemini 3 Pro Image',
+      id: 'gemini-3.0-pro-image',
+      name: 'Gemini 3.0 Pro Image',
+      officialName: 'Gemini 3.0 Pro Image',
       codename: 'Nano Banana Pro',
-      description: 'Professional, high-fidelity with reasoning',
+      description: 'Multimodal Diffusion with Reasoning Core',
+      architecture: 'Multimodal Diffusion with Reasoning Core',
+      releaseDate: 'November 2025',
       maxResolution: '4096x4096',
+      nativeResolution: '2048x2048',
       maxReferenceImages: 14,
+      identitySlots: 5, // High-priority slots for face/product identity (1-5)
+      styleSlots: 9,    // Lower-priority slots for style/vibe (6-14)
       features: [
-        'Thinking/Reasoning process',
+        'Reasoning Core (LLM-based planning layer)',
         '4K resolution (4096x4096)',
-        'Up to 14 reference images',
+        'Up to 14 reference images with weighted slots',
         'Google Search grounding',
-        'Advanced text rendering',
-        'Identity consistency',
+        'Advanced text rendering (OCR-free)',
+        'Identity Locking (face/product consistency)',
+        'Dimensional Translation (2D to 3D)',
+        'SynthID watermarking',
         'Professional quality'
       ],
-      newFeatures: [
-        'Visible reasoning chain ("thinking" before drawing)',
-        'Real-time Google Search for accuracy',
-        '4K native resolution',
-        'Multi-reference consistency (up to 14 images)',
-        'Professional-grade text in images'
-      ]
+      capabilities: {
+        reasoningCore: 'Chain-of-Thought planning before pixel generation',
+        searchGrounding: 'Live Google Search data integration',
+        identityLocking: 'Freeze character features across 14 reference images',
+        textEmbedding: 'Legible text rendering without OCR',
+        dimensionalTranslation: 'Convert 2D sketches to 3D renders'
+      },
+      aspectRatios: ['1:1', '16:9', '9:16', '21:9', '4:5'],
+      latency: {
+        standard: '10-15 seconds',
+        turbo: '4 seconds'
+      },
+      cost: '$0.24 per 4K image (Standard Tier)'
     }
   },
 
@@ -191,14 +211,28 @@ const NanoBananaBuilder = {
         </div>
 
         <div class="nb-highlight" style="background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%); border-left: 4px solid #F59E0B;">
-          <strong>🚀 Gemini 3 Pro Image (Nano Banana Pro) - NEW!</strong>
-          <p>Professional-grade with reasoning capabilities. Launched November 2025.</p>
+          <strong>🚀 Gemini 3.0 Pro Image (Nano Banana Pro) - NEW!</strong>
+          <p><em>Multimodal Diffusion with Reasoning Core</em> - Professional-grade with reasoning capabilities. Launched November 2025.</p>
           <ul>
-            <li><strong>4K Resolution:</strong> Up to 4096x4096</li>
-            <li><strong>Thinking Process:</strong> Model reasons before drawing</li>
-            <li><strong>14 Reference Images:</strong> Brand consistency, character sheets</li>
-            <li><strong>Search Grounding:</strong> Real-time Google Search for accuracy</li>
-            <li><strong>Advanced Text:</strong> Professional-grade text in images</li>
+            <li><strong>Reasoning Core:</strong> Chain-of-Thought planning before pixel generation</li>
+            <li><strong>4K Resolution:</strong> Native 2K upscaled to 4096x4096</li>
+            <li><strong>Identity Locking:</strong> Weighted slots (1-5 for faces, 6-14 for style)</li>
+            <li><strong>Search Grounding:</strong> Real-time Google Search for factual accuracy</li>
+            <li><strong>Advanced Text Embedding:</strong> OCR-free legible text rendering</li>
+            <li><strong>SynthID Watermarking:</strong> Invisible AI-generated content markers</li>
+            <li><strong>Dimensional Translation:</strong> Convert 2D sketches to 3D renders</li>
+          </ul>
+        </div>
+
+        <div class="nb-highlight" style="background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%); border-left: 4px solid #10B981;">
+          <strong>🎯 Prompt Architect™ System (Pro Only)</strong>
+          <p>This tool includes an advanced "middleware" that automatically enhances your prompts for Nano Banana Pro:</p>
+          <ul>
+            <li><strong>Auto-Reasoning Detection:</strong> Detects when your prompt implies physics/lighting and activates the Reasoning Core</li>
+            <li><strong>Search Grounding Trigger:</strong> Automatically enables Google Search for prompts with "current", "map", "chart", etc.</li>
+            <li><strong>Identity Protection:</strong> Adds negative constraints to prevent face morphing when using identity images</li>
+            <li><strong>Master Prompt Construction:</strong> Wraps your prompt in a "Photorealistic Image Architect" persona for high fidelity</li>
+            <li><strong>Weighted Slot Management:</strong> Automatically prioritizes identity images (weight: 1.0) over style images (weight: 0.6)</li>
           </ul>
         </div>
 
@@ -235,13 +269,16 @@ const NanoBananaBuilder = {
 
         <p><strong>✨ What makes this builder special:</strong></p>
         <ul>
-          <li>Support for both Flash and Pro models</li>
-          <li>Pro-specific settings (4K resolution, aspect ratios, search grounding)</li>
-          <li>Real-time validation and scoring</li>
-          <li>100+ photography-specific templates</li>
-          <li>Reference image manager (up to 14 for Pro)</li>
-          <li>10+ advanced prompt techniques</li>
-          <li>Meta-evaluation and self-critique</li>
+          <li><strong>Prompt Architect™:</strong> Auto-enhances prompts with technical precision for Pro model</li>
+          <li><strong>Identity Locking:</strong> Weighted reference image system (slots 1-5: identity, 6-14: style)</li>
+          <li><strong>Dual Model Support:</strong> Flash (fast) and Pro (high-fidelity with reasoning)</li>
+          <li><strong>Reasoning Core Control:</strong> High/medium/low effort settings, turbo mode</li>
+          <li><strong>Search Grounding:</strong> Auto-detects when real-time data is needed</li>
+          <li><strong>4K Resolution:</strong> Up to 4096x4096 with 8 aspect ratios (Pro)</li>
+          <li><strong>Real-time Validation:</strong> Instant feedback and quality scoring</li>
+          <li><strong>150+ Templates:</strong> Photography, art, product, character, and technical</li>
+          <li><strong>Advanced Techniques:</strong> 10+ prompt engineering methods</li>
+          <li><strong>API Payload Preview:</strong> See exactly what's sent to the model</li>
         </ul>
       `
     },
@@ -2572,6 +2609,20 @@ function setupModelSelector() {
     NanoBananaBuilder.state.proSettings.aspectRatio = e.target.value;
   });
 
+  document.getElementById('reasoningEffort')?.addEventListener('change', (e) => {
+    NanoBananaBuilder.state.proSettings.reasoningEffort = e.target.value;
+  });
+
+  document.getElementById('turboMode')?.addEventListener('change', (e) => {
+    NanoBananaBuilder.state.proSettings.turboMode = e.target.checked;
+    // If turbo mode is enabled, automatically set reasoning to low
+    if (e.target.checked) {
+      NanoBananaBuilder.state.proSettings.reasoningEffort = 'low';
+      const reasoningSelect = document.getElementById('reasoningEffort');
+      if (reasoningSelect) reasoningSelect.value = 'low';
+    }
+  });
+
   document.getElementById('includeThoughts')?.addEventListener('change', (e) => {
     NanoBananaBuilder.state.proSettings.includeThoughts = e.target.checked;
   });
@@ -2687,7 +2738,8 @@ function displayReferenceImages() {
   `).join('');
 }
 
-function removeReferenceImage(index) {
+// Legacy function kept for backward compatibility
+function removeReferenceImageByIndex(index) {
   NanoBananaBuilder.state.proSettings.referenceImages.splice(index, 1);
   displayReferenceImages();
 }
@@ -3952,6 +4004,377 @@ window.useBatchVariant = function(index) {
   document.getElementById('batchModal').style.display = 'none';
   alert('✓ Variant applied!');
 };
+
+// ============================================================================
+// PROMPT ARCHITECT (Master Payload Construction for Nano Banana Pro)
+// ============================================================================
+
+/**
+ * The Prompt Architect module implements the "middleware" architecture
+ * that translates human intent into optimized payloads for Gemini 3.0 Pro Image.
+ *
+ * This is the "Secret Sauce" - it rewrites user prompts with technical precision.
+ */
+
+const PromptArchitect = {
+  /**
+   * Detects if the prompt requires physics/reasoning
+   */
+  requiresReasoning(prompt) {
+    const reasoningKeywords = [
+      'reflection', 'shadow', 'splash', 'refraction', 'glass',
+      'mirror', 'water', 'physics', 'accurate', 'realistic',
+      'transparent', 'lighting', 'bounce light', 'caustics',
+      'depth of field', 'bokeh', 'lens', 'camera'
+    ];
+
+    const lowerPrompt = prompt.toLowerCase();
+    return reasoningKeywords.some(keyword => lowerPrompt.includes(keyword));
+  },
+
+  /**
+   * Detects if the prompt requires real-time Google Search grounding
+   */
+  requiresSearchGrounding(prompt) {
+    const groundingKeywords = [
+      'current', 'latest', 'today', 'recent', 'news',
+      'stock', 'chart', 'map', 'weather', 'trend',
+      '2025', '2024', 'this year', 'now'
+    ];
+
+    const lowerPrompt = prompt.toLowerCase();
+    return groundingKeywords.some(keyword => lowerPrompt.includes(keyword));
+  },
+
+  /**
+   * Constructs the "System Preamble" - the architectural wrapper
+   * that forces the model into high-fidelity professional mode
+   */
+  buildSystemPreamble(options = {}) {
+    const {
+      includeIdentity = false,
+      includePhysics = false,
+      includeSearchGrounding = false
+    } = options;
+
+    let preamble = 'Role: Photorealistic Image Architect.\n';
+    preamble += 'Task: Generate a high-fidelity image based on the following instructions.\n';
+
+    if (includeIdentity) {
+      preamble += 'Constraint: Maintain 100% facial consistency with \'identity_reference\' images. Do not morph, distort, or alter the core features.\n';
+    }
+
+    if (includePhysics) {
+      preamble += 'Physics: Calculate accurate lighting fall-off, reflections, refractions, and shadows. Plan the composition step-by-step before generating pixels.\n';
+    }
+
+    if (includeSearchGrounding) {
+      preamble += 'Grounding: Use real-time Google Search data to ensure factual accuracy for current events, products, or locations.\n';
+    }
+
+    return preamble;
+  },
+
+  /**
+   * The "Thinking Injection" - adds explicit reasoning instructions
+   */
+  addThinkingInstructions(prompt) {
+    const thinkingPrompt = `
+INSTRUCTION: Plan the composition step-by-step before generating pixels:
+1. Analyze the scene layout and spatial relationships
+2. Calculate the lighting angle and color temperature
+3. Determine shadow throw directions and intensity
+4. Plan reflection and refraction properties (if applicable)
+5. Consider depth of field and focal points
+6. Then generate the image with these constraints
+
+USER REQUEST: ${prompt}`;
+
+    return thinkingPrompt.trim();
+  },
+
+  /**
+   * Adds negative constraints to prevent common issues
+   */
+  buildNegativePrompt(includeIdentityProtection = false) {
+    let negative = 'Negative constraints: blurry, distorted, low quality, oversaturated, bad composition, unrealistic lighting';
+
+    if (includeIdentityProtection) {
+      negative += ', plastic skin, morphing features, distorted face, wrong face, multiple faces, face swap';
+    }
+
+    return negative;
+  },
+
+  /**
+   * Master function that constructs the complete optimized payload
+   */
+  constructMasterPrompt(userPrompt, options = {}) {
+    const {
+      modelType = 'flash',
+      hasIdentityImages = false,
+      hasStyleImages = false,
+      forceReasoning = false,
+      forceGrounding = false
+    } = options;
+
+    // Only use advanced features for Pro model
+    if (modelType !== 'pro') {
+      return userPrompt;
+    }
+
+    // Auto-detect requirements
+    const needsReasoning = forceReasoning || this.requiresReasoning(userPrompt);
+    const needsGrounding = forceGrounding || this.requiresSearchGrounding(userPrompt);
+
+    // Build the system preamble
+    const preamble = this.buildSystemPreamble({
+      includeIdentity: hasIdentityImages,
+      includePhysics: needsReasoning,
+      includeSearchGrounding: needsGrounding
+    });
+
+    // Inject thinking instructions if reasoning is needed
+    let enhancedPrompt = userPrompt;
+    if (needsReasoning) {
+      enhancedPrompt = this.addThinkingInstructions(userPrompt);
+    }
+
+    // Add negative constraints
+    const negativePrompt = this.buildNegativePrompt(hasIdentityImages);
+
+    // Assemble the final payload
+    const masterPrompt = `${preamble}\n\n${enhancedPrompt}\n\n${negativePrompt}`;
+
+    return masterPrompt;
+  },
+
+  /**
+   * Formats reference images with weighted slots (Identity vs Style)
+   */
+  formatReferenceImages(identityImages = [], styleImages = []) {
+    const formattedImages = [];
+
+    // Slots 1-5: High-priority Identity (weight: 1.0)
+    identityImages.slice(0, 5).forEach((img, index) => {
+      formattedImages.push({
+        slot: index + 1,
+        data: img.data,
+        role: 'identity_reference',
+        weight: 1.0,
+        name: img.name || `Identity ${index + 1}`
+      });
+    });
+
+    // Slots 6-14: Lower-priority Style (weight: 0.6)
+    styleImages.slice(0, 9).forEach((img, index) => {
+      formattedImages.push({
+        slot: identityImages.length + index + 1,
+        data: img.data,
+        role: 'style_reference',
+        weight: 0.6,
+        name: img.name || `Style ${index + 1}`
+      });
+    });
+
+    return formattedImages;
+  },
+
+  /**
+   * Builds the complete API payload for Gemini 3.0 Pro Image
+   */
+  buildAPIPayload(userPrompt, state) {
+    const modelConfig = NanoBananaBuilder.models[state.selectedModel];
+
+    if (!modelConfig) {
+      return null;
+    }
+
+    const hasIdentityImages = state.proSettings.identityImages.length > 0;
+    const hasStyleImages = state.proSettings.styleImages.length > 0;
+
+    // Construct the master prompt
+    const masterPrompt = this.constructMasterPrompt(userPrompt, {
+      modelType: state.selectedModel,
+      hasIdentityImages,
+      hasStyleImages,
+      forceReasoning: state.proSettings.reasoningEffort === 'high',
+      forceGrounding: state.proSettings.searchGrounding
+    });
+
+    // Format reference images with weighted slots
+    const formattedImages = this.formatReferenceImages(
+      state.proSettings.identityImages,
+      state.proSettings.styleImages
+    );
+
+    // Build the final API payload
+    const payload = {
+      model_version: modelConfig.id,
+      prompt: {
+        text: masterPrompt,
+        safety_settings: 'block_only_high',
+        generation_config: {
+          reasoning_effort: state.proSettings.reasoningEffort || 'high',
+          resolution: state.proSettings.resolution || '2048x2048',
+          aspect_ratio: state.proSettings.aspectRatio || '1:1',
+          turbo_mode: state.proSettings.turboMode || false,
+          include_thoughts: state.proSettings.includeThoughts !== false,
+          search_grounding: state.proSettings.searchGrounding || false
+        }
+      },
+      reference_images: formattedImages
+    };
+
+    return payload;
+  }
+};
+
+// ============================================================================
+// REFERENCE IMAGE MANAGEMENT (Identity Locking)
+// ============================================================================
+
+/**
+ * Adds a reference image with role classification (Identity or Style)
+ */
+function addReferenceImageWithRole(role = 'identity') {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+
+  input.onchange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Check limits
+    const identityCount = NanoBananaBuilder.state.proSettings.identityImages.length;
+    const styleCount = NanoBananaBuilder.state.proSettings.styleImages.length;
+    const totalCount = identityCount + styleCount;
+
+    if (role === 'identity' && identityCount >= 5) {
+      alert('Maximum 5 identity images allowed (slots 1-5 for face/product consistency)');
+      return;
+    }
+
+    if (role === 'style' && styleCount >= 9) {
+      alert('Maximum 9 style images allowed (slots 6-14 for vibe/lighting)');
+      return;
+    }
+
+    if (totalCount >= 14) {
+      alert('Maximum 14 total reference images allowed');
+      return;
+    }
+
+    // Read the file
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const imageData = {
+        id: Date.now(),
+        name: file.name,
+        size: Math.round(file.size / 1024) + ' KB',
+        data: event.target.result,
+        role: role,
+        weight: role === 'identity' ? 1.0 : 0.6
+      };
+
+      // Add to appropriate array
+      if (role === 'identity') {
+        NanoBananaBuilder.state.proSettings.identityImages.push(imageData);
+      } else {
+        NanoBananaBuilder.state.proSettings.styleImages.push(imageData);
+      }
+
+      // Also add to legacy array for backward compatibility
+      NanoBananaBuilder.state.proSettings.referenceImages.push(imageData);
+
+      displayReferenceImages();
+    };
+    reader.readAsDataURL(file);
+  };
+
+  input.click();
+}
+
+/**
+ * Displays reference images grouped by role
+ */
+function displayReferenceImages() {
+  const identityList = document.getElementById('identityImagesList');
+  const styleList = document.getElementById('styleImagesList');
+  const legacyList = document.getElementById('referenceImagesList');
+
+  const identityImages = NanoBananaBuilder.state.proSettings.identityImages;
+  const styleImages = NanoBananaBuilder.state.proSettings.styleImages;
+
+  // Display identity images (slots 1-5)
+  if (identityList) {
+    if (identityImages.length === 0) {
+      identityList.innerHTML = '<p class="nb-info-text">No identity images added. Upload faces or products for consistency.</p>';
+    } else {
+      identityList.innerHTML = identityImages.map((img, index) => `
+        <div class="nb-reference-item" data-image-id="${img.id}">
+          <img src="${img.data}" alt="${img.name}">
+          <div class="nb-reference-info">
+            <div class="nb-reference-name">Slot ${index + 1}: ${img.name}</div>
+            <div class="nb-reference-meta">
+              <span class="nb-reference-size">${img.size}</span>
+              <span class="nb-reference-weight">Weight: ${img.weight}</span>
+            </div>
+          </div>
+          <button class="nb-btn-icon" onclick="removeReferenceImage('${img.id}', 'identity')" title="Remove">✕</button>
+        </div>
+      `).join('');
+    }
+  }
+
+  // Display style images (slots 6-14)
+  if (styleList) {
+    if (styleImages.length === 0) {
+      styleList.innerHTML = '<p class="nb-info-text">No style images added. Upload reference images for vibe/lighting.</p>';
+    } else {
+      styleList.innerHTML = styleImages.map((img, index) => `
+        <div class="nb-reference-item" data-image-id="${img.id}">
+          <img src="${img.data}" alt="${img.name}">
+          <div class="nb-reference-info">
+            <div class="nb-reference-name">Slot ${identityImages.length + index + 1}: ${img.name}</div>
+            <div class="nb-reference-meta">
+              <span class="nb-reference-size">${img.size}</span>
+              <span class="nb-reference-weight">Weight: ${img.weight}</span>
+            </div>
+          </div>
+          <button class="nb-btn-icon" onclick="removeReferenceImage('${img.id}', 'style')" title="Remove">✕</button>
+        </div>
+      `).join('');
+    }
+  }
+
+  // Legacy list (all images combined)
+  if (legacyList && identityImages.length === 0 && styleImages.length === 0) {
+    legacyList.innerHTML = '<p class="nb-info-text">No reference images added.</p>';
+  }
+}
+
+/**
+ * Removes a reference image by ID and role
+ */
+function removeReferenceImage(imageId, role) {
+  const id = parseInt(imageId);
+
+  if (role === 'identity') {
+    NanoBananaBuilder.state.proSettings.identityImages =
+      NanoBananaBuilder.state.proSettings.identityImages.filter(img => img.id !== id);
+  } else if (role === 'style') {
+    NanoBananaBuilder.state.proSettings.styleImages =
+      NanoBananaBuilder.state.proSettings.styleImages.filter(img => img.id !== id);
+  }
+
+  // Also remove from legacy array
+  NanoBananaBuilder.state.proSettings.referenceImages =
+    NanoBananaBuilder.state.proSettings.referenceImages.filter(img => img.id !== id);
+
+  displayReferenceImages();
+}
 
 // ============================================================================
 // EVENT LISTENERS

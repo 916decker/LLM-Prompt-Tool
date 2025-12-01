@@ -1976,8 +1976,44 @@ button:focus-visible,
   height: 60px;
   object-fit: cover;
   border-radius: 4px;
+  border: 2px solid var(--nb-border);
 }
 
+/* New reference info layout for Identity/Style separation */
+.nb-reference-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nb-reference-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--nb-text-primary);
+}
+
+.nb-reference-meta {
+  display: flex;
+  gap: var(--nb-spacing-sm);
+  align-items: center;
+}
+
+.nb-reference-size {
+  font-size: 0.75rem;
+  color: var(--nb-text-secondary);
+}
+
+.nb-reference-weight {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--nb-primary);
+  background: var(--nb-bg-secondary);
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+/* Legacy reference info (backward compatibility) */
 .nb-reference-item-info {
   flex: 1;
 }
@@ -1993,7 +2029,9 @@ button:focus-visible,
   color: var(--nb-text-secondary);
 }
 
-.nb-reference-item-remove {
+/* Remove buttons */
+.nb-reference-item-remove,
+.nb-btn-icon {
   background: var(--nb-error);
   color: white;
   border: none;
@@ -2002,8 +2040,11 @@ button:focus-visible,
   cursor: pointer;
   font-size: 0.75rem;
   font-weight: 600;
+  transition: var(--nb-transition);
 }
 
-.nb-reference-item-remove:hover {
+.nb-reference-item-remove:hover,
+.nb-btn-icon:hover {
   background: #DC2626;
+  transform: scale(1.05);
 }
