@@ -1793,3 +1793,217 @@ button:focus-visible,
     width: 100%;
   }
 }
+
+/* ============================================================================
+   MODEL SELECTOR & PRO SETTINGS
+   ============================================================================ */
+
+.nb-model-panel {
+  background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+  border: 2px solid #3B82F6;
+}
+
+.nb-model-selector {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--nb-spacing-md);
+  margin-top: var(--nb-spacing-md);
+}
+
+.nb-model-option {
+  background: var(--nb-bg-primary);
+  border: 2px solid var(--nb-border);
+  border-radius: var(--nb-radius-md);
+  padding: var(--nb-spacing-md);
+  cursor: pointer;
+  transition: var(--nb-transition);
+  position: relative;
+}
+
+.nb-model-option:hover {
+  border-color: var(--nb-primary);
+  box-shadow: 0 4px 12px var(--nb-shadow);
+}
+
+.nb-model-option.active {
+  border-color: var(--nb-primary);
+  background: #F0F9FF;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.nb-model-header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--nb-spacing-sm);
+  margin-bottom: var(--nb-spacing-sm);
+}
+
+.nb-model-icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.nb-model-header h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--nb-text-primary);
+  margin: 0 0 4px 0;
+}
+
+.nb-model-codename {
+  font-size: 0.75rem;
+  color: var(--nb-text-secondary);
+  font-weight: 500;
+  display: block;
+}
+
+.nb-model-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 3px;
+  margin-left: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.nb-model-desc {
+  font-size: 0.85rem;
+  color: var(--nb-text-secondary);
+  margin-bottom: var(--nb-spacing-sm);
+}
+
+.nb-model-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.nb-feature-tag {
+  font-size: 0.7rem;
+  padding: 4px 8px;
+  background: #E5E7EB;
+  color: #374151;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.nb-feature-tag-pro {
+  font-size: 0.7rem;
+  padding: 4px 8px;
+  background: linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%);
+  color: #1E40AF;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+/* Pro Settings Panel */
+.nb-pro-settings {
+  margin-top: var(--nb-spacing-lg);
+  padding: var(--nb-spacing-md);
+  background: var(--nb-bg-primary);
+  border: 1px solid #BFDBFE;
+  border-radius: var(--nb-radius-md);
+}
+
+.nb-pro-settings h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--nb-text-primary);
+  margin-bottom: var(--nb-spacing-md);
+}
+
+.nb-settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--nb-spacing-md);
+  margin-bottom: var(--nb-spacing-md);
+}
+
+.nb-setting-group {
+  margin-bottom: var(--nb-spacing-md);
+}
+
+.nb-checkbox-label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.nb-checkbox-label input[type="checkbox"] {
+  width: auto;
+  margin-right: 8px;
+}
+
+.nb-checkbox-label > span:first-of-type {
+  font-weight: 600;
+  color: var(--nb-text-primary);
+  display: flex;
+  align-items: center;
+}
+
+.nb-setting-hint {
+  font-size: 0.75rem;
+  color: var(--nb-text-secondary);
+  margin-left: 24px;
+}
+
+.nb-reference-list {
+  margin-top: var(--nb-spacing-sm);
+  padding: var(--nb-spacing-sm);
+  background: var(--nb-bg-secondary);
+  border-radius: var(--nb-radius-sm);
+  min-height: 60px;
+}
+
+.nb-reference-item {
+  display: flex;
+  align-items: center;
+  gap: var(--nb-spacing-sm);
+  padding: var(--nb-spacing-sm);
+  background: var(--nb-bg-primary);
+  border: 1px solid var(--nb-border);
+  border-radius: var(--nb-radius-sm);
+  margin-bottom: var(--nb-spacing-sm);
+}
+
+.nb-reference-item img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.nb-reference-item-info {
+  flex: 1;
+}
+
+.nb-reference-item-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--nb-text-primary);
+}
+
+.nb-reference-item-size {
+  font-size: 0.75rem;
+  color: var(--nb-text-secondary);
+}
+
+.nb-reference-item-remove {
+  background: var(--nb-error);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.nb-reference-item-remove:hover {
+  background: #DC2626;
+}

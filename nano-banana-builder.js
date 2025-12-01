@@ -176,18 +176,48 @@ const NanoBananaBuilder = {
 
   onboardingLessons: {
     intro: {
-      title: '🍌 Welcome to Gemini 2.5 Flash Image',
+      title: '🍌 Welcome to Gemini Image Models',
       content: `
-        <h3>What is Gemini 2.5 Flash Image (Nano Banana)?</h3>
-        <p><strong>Gemini 2.5 Flash Image</strong> (codename "Nano Banana") is Google DeepMind's advanced AI model for image generation and manipulation with 4 distinct workflows.</p>
+        <h3>Two Powerful Models Available</h3>
+
+        <div class="nb-highlight" style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); border-left: 4px solid #3B82F6;">
+          <strong>⚡ Gemini 2.5 Flash Image (Nano Banana)</strong>
+          <p>Fast, efficient image generation. Perfect for quick iterations and prototyping.</p>
+          <ul>
+            <li>Resolution: Up to 1024x1024</li>
+            <li>Up to 3 reference images</li>
+            <li>Fast generation speed</li>
+          </ul>
+        </div>
+
+        <div class="nb-highlight" style="background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%); border-left: 4px solid #F59E0B;">
+          <strong>🚀 Gemini 3 Pro Image (Nano Banana Pro) - NEW!</strong>
+          <p>Professional-grade with reasoning capabilities. Launched November 2025.</p>
+          <ul>
+            <li><strong>4K Resolution:</strong> Up to 4096x4096</li>
+            <li><strong>Thinking Process:</strong> Model reasons before drawing</li>
+            <li><strong>14 Reference Images:</strong> Brand consistency, character sheets</li>
+            <li><strong>Search Grounding:</strong> Real-time Google Search for accuracy</li>
+            <li><strong>Advanced Text:</strong> Professional-grade text in images</li>
+          </ul>
+        </div>
 
         <div class="nb-highlight">
-          <strong>🎯 Four Powerful Workflows:</strong>
+          <strong>🎯 Core Workflows (Available in Both Models):</strong>
           <ul>
             <li><strong>Text → Image</strong> - Generate images from detailed text descriptions</li>
             <li><strong>Image Editing</strong> - Remove/add/replace objects in existing images</li>
             <li><strong>Multi-Image Fusion</strong> - Blend images, style transfer, character consistency</li>
             <li><strong>Conversational Refinement</strong> - Iterative multi-turn editing</li>
+          </ul>
+        </div>
+
+        <div class="nb-highlight">
+          <strong>🧠 Pro-Exclusive Workflows:</strong>
+          <ul>
+            <li><strong>Thinking/Reasoning</strong> - Physics-aware, logically consistent scenes</li>
+            <li><strong>Multi-Reference Design</strong> - Up to 14 refs for brand/character consistency</li>
+            <li><strong>Search-Grounded</strong> - Real-time search for factual accuracy</li>
           </ul>
         </div>
 
@@ -201,17 +231,17 @@ const NanoBananaBuilder = {
         </div>
 
         <h3>Why Use This Builder?</h3>
-        <p>Crafting effective prompts for image generation is both an art and a science. This tool combines proven prompt engineering techniques with Gemini 2.5 Flash Image's specific capabilities.</p>
+        <p>Crafting effective prompts for image generation is both an art and a science. This tool combines proven prompt engineering techniques with both Gemini models' capabilities.</p>
 
         <p><strong>✨ What makes this builder special:</strong></p>
         <ul>
+          <li>Support for both Flash and Pro models</li>
+          <li>Pro-specific settings (4K resolution, aspect ratios, search grounding)</li>
           <li>Real-time validation and scoring</li>
           <li>100+ photography-specific templates</li>
-          <li>Equipment Wizard for camera/lens selection</li>
-          <li>Subject consistency tracking</li>
+          <li>Reference image manager (up to 14 for Pro)</li>
           <li>10+ advanced prompt techniques</li>
           <li>Meta-evaluation and self-critique</li>
-          <li>Automatic optimization to 10/10 quality</li>
         </ul>
       `
     },
@@ -2395,6 +2425,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function initializeApp() {
   setupNavigation();
+  setupModelSelector(); // NEW: Setup model selection (Flash vs Pro)
   setupWorkflowSelector(); // NEW: Setup workflow selection
   setupOnboarding();
   setupBuilder();
@@ -2516,6 +2547,149 @@ function selectTemplateFromLibrary(templateId) {
     showView('builder');
     applyTemplate(template);
   }
+}
+
+// ============================================================================
+// MODEL SELECTOR (FLASH VS PRO)
+// ============================================================================
+
+function setupModelSelector() {
+  const modelOptions = document.querySelectorAll('.nb-model-option');
+
+  modelOptions.forEach(option => {
+    option.addEventListener('click', () => {
+      const modelType = option.dataset.model;
+      selectModel(modelType);
+    });
+  });
+
+  // Pro settings event listeners
+  document.getElementById('proResolution')?.addEventListener('change', (e) => {
+    NanoBananaBuilder.state.proSettings.resolution = e.target.value;
+  });
+
+  document.getElementById('proAspectRatio')?.addEventListener('change', (e) => {
+    NanoBananaBuilder.state.proSettings.aspectRatio = e.target.value;
+  });
+
+  document.getElementById('includeThoughts')?.addEventListener('change', (e) => {
+    NanoBananaBuilder.state.proSettings.includeThoughts = e.target.checked;
+  });
+
+  document.getElementById('searchGrounding')?.addEventListener('change', (e) => {
+    NanoBananaBuilder.state.proSettings.searchGrounding = e.target.checked;
+  });
+
+  document.getElementById('addReferenceImage')?.addEventListener('click', addReferenceImage);
+}
+
+function selectModel(modelType) {
+  NanoBananaBuilder.state.selectedModel = modelType;
+
+  // Update UI
+  document.querySelectorAll('.nb-model-option').forEach(option => {
+    option.classList.remove('active');
+  });
+
+  document.querySelector(`[data-model="${modelType}"]`)?.classList.add('active');
+
+  // Show/hide Pro settings
+  const proSettings = document.getElementById('proSettings');
+  if (proSettings) {
+    proSettings.style.display = modelType === 'pro' ? 'block' : 'none';
+  }
+
+  // Update workflow grid to show/hide Pro-only workflows
+  updateWorkflowsForModel(modelType);
+
+  // Show notification
+  const modelName = NanoBananaBuilder.models[modelType].name;
+  console.log(`Model selected: ${modelName}`);
+}
+
+function updateWorkflowsForModel(modelType) {
+  const workflowCards = document.querySelectorAll('.nb-workflow-card');
+
+  workflowCards.forEach(card => {
+    const workflowId = card.dataset.workflow;
+    const workflow = NanoBananaBuilder.workflows[workflowId];
+
+    if (workflow) {
+      // Check if workflow is supported by selected model
+      const isSupported = workflow.supportedModels && workflow.supportedModels.includes(modelType);
+
+      if (workflow.proOnly && modelType !== 'pro') {
+        card.style.display = 'none';
+      } else {
+        card.style.display = 'block';
+      }
+    }
+  });
+}
+
+function addReferenceImage() {
+  // Create file input
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.multiple = false;
+
+  input.onchange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Check limit
+    if (NanoBananaBuilder.state.proSettings.referenceImages.length >= 14) {
+      alert('Maximum 14 reference images allowed');
+      return;
+    }
+
+    // Read file
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const imageData = {
+        id: Date.now(),
+        name: file.name,
+        size: Math.round(file.size / 1024) + ' KB',
+        data: event.target.result
+      };
+
+      NanoBananaBuilder.state.proSettings.referenceImages.push(imageData);
+      displayReferenceImages();
+    };
+
+    reader.readAsDataURL(file);
+  };
+
+  input.click();
+}
+
+function displayReferenceImages() {
+  const container = document.getElementById('referenceImagesList');
+  if (!container) return;
+
+  const images = NanoBananaBuilder.state.proSettings.referenceImages;
+
+  if (images.length === 0) {
+    container.innerHTML = '<p class="nb-info-text">No reference images added. Add images for style transfer, character consistency, or brand guidelines.</p>';
+    return;
+  }
+
+  container.innerHTML = images.map((img, index) => `
+    <div class="nb-reference-item">
+      <img src="${img.data}" alt="${img.name}">
+      <div class="nb-reference-item-info">
+        <div class="nb-reference-item-name">${img.name}</div>
+        <div class="nb-reference-item-size">${img.size}</div>
+      </div>
+      <button class="nb-reference-item-remove" onclick="removeReferenceImage(${index})">Remove</button>
+    </div>
+  `).join('');
+}
+
+function removeReferenceImage(index) {
+  NanoBananaBuilder.state.proSettings.referenceImages.splice(index, 1);
+  displayReferenceImages();
 }
 
 // ============================================================================
